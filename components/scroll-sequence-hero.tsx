@@ -1,0 +1,647 @@
+﻿"use client";
+
+import { type CSSProperties, useEffect, useRef, useState } from "react";
+import type {
+  HeroAction,
+  HeroBeat,
+  HeroSequenceManifest,
+  HeroSequenceVariantManifest,
+} from "../lib/site-content";
+
+type ScrollSequenceFinalCard = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  primaryAction: HeroAction;
+  secondaryAction: HeroAction;
+};
+
+type ScrollSequenceHeroProps = {
+  badge: string;
+  note: string;
+  beats: HeroBeat[];
+  manifest: HeroSequenceManifest;
+  finalCard?: ScrollSequenceFinalCard;
+  className?: string;
+};
+
+type SequenceStatus = "loading" | "ready" | "error";
+
+type SequenceCache = {
+  images: Array<HTMLImageElement | null>;
+  requested: boolean[];
+  total: number;
+  loadedCount: number;
+  failedCount: number;
+  cancelled: boolean;
+};
+
+const DESKTOP_SCROLL_VH = 340;
+const MOBILE_SCROLL_VH = 220;
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function frameSourceFromPattern(pathPattern: string, index: number) {
+  return pathPattern.replace("%04d", String(index).padStart(4, "0"));
+}
+
+function drawCoverFrame(
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  targetWidth: number,
+  targetHeight: number,
+) {
+  const imageWidth = image.naturalWidth || image.width;
+  const imageHeight = image.naturalHeight || image.height;
+
+  if (!imageWidth || !imageHeight) {
+    return;
+  }
+
+  const scale = Math.max(targetWidth / imageWidth, targetHeight / imageHeight);
+  const drawWidth = imageWidth * scale;
+  const drawHeight = imageHeight * scale;
+  const offsetX = (targetWidth - drawWidth) / 2;
+  const offsetY = (targetHeight - drawHeight) / 2;
+
+  ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+}
+
+function beatStyle(progress: number, beat: HeroBeat): CSSProperties {
+  const range = Math.max(0.001, beat.end - beat.start);
+  const localProgress = clamp((progress - beat.start) / range, 0, 1);
+  const opacity = Math.sin(localProgress * Math.PI);
+  const translateY = (1 - localProgress) * beat.depth;
+  const scale = 0.985 + localProgress * 0.015;
+
+  return {
+    opacity,
+    transform: `translate3d(0, ${translateY}px, 0) scale(${scale})`,
+  };
+}
+
+function revealWindow(progress: number, start: number, end: number) {
+  const range = Math.max(0.001, end - start);
+  return clamp((progress - start) / range, 0, 1);
+}
+
+function variantByViewport(
+  manifest: HeroSequenceManifest,
+  isDesktop: boolean,
+): HeroSequenceVariantManifest {
+  return isDesktop ? manifest.desktop : manifest.mobile;
+}
+
+export default function ScrollSequenceHero({
+  badge,
+  note,
+  beats,
+  manifest,
+  finalCard,
+  className,
+}: ScrollSequenceHeroProps) {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const canvasShellRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const progressRef = useRef(0);
+  const currentFrameRef = useRef(-1);
+  const rafRef = useRef<number | null>(null);
+  const resizeFrameRef = useRef<number | null>(null);
+  const cleanupTimersRef = useRef<number[]>([]);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const scrollBoundRef = useRef(false);
+  const cacheRef = useRef<SequenceCache>({
+    images: [],
+    requested: [],
+    total: 0,
+    loadedCount: 0,
+    failedCount: 0,
+    cancelled: false,
+  });
+
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [status, setStatus] = useState<SequenceStatus>("loading");
+  const [frameLabel, setFrameLabel] = useState("000");
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const activeVariant = variantByViewport(manifest, isDesktop);
+  const scrollHeightVh = isDesktop ? DESKTOP_SCROLL_VH : MOBILE_SCROLL_VH;
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const syncPreferences = () => {
+      setIsDesktop(desktopQuery.matches);
+      setPrefersReducedMotion(reducedMotionQuery.matches);
+    };
+
+    syncPreferences();
+
+    const handleDesktopChange = () => syncPreferences();
+    const handleReducedMotionChange = () => syncPreferences();
+
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", handleDesktopChange);
+      reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
+    } else {
+      desktopQuery.addListener(handleDesktopChange);
+      reducedMotionQuery.addListener(handleReducedMotionChange);
+    }
+
+    return () => {
+      if (typeof desktopQuery.removeEventListener === "function") {
+        desktopQuery.removeEventListener("change", handleDesktopChange);
+        reducedMotionQuery.removeEventListener("change", handleReducedMotionChange);
+      } else {
+        desktopQuery.removeListener(handleDesktopChange);
+        reducedMotionQuery.removeListener(handleReducedMotionChange);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const canvasShell = canvasShellRef.current;
+    const canvas = canvasRef.current;
+
+    if (!section || !canvasShell || !canvas) {
+      return;
+    }
+
+    const context = canvas.getContext("2d");
+    if (!context) {
+      return;
+    }
+
+    const cache: SequenceCache = {
+      images: new Array(activeVariant.frameCount).fill(null),
+      requested: new Array(activeVariant.frameCount).fill(false),
+      total: activeVariant.frameCount,
+      loadedCount: 0,
+      failedCount: 0,
+      cancelled: false,
+    };
+
+    cacheRef.current = cache;
+    currentFrameRef.current = -1;
+    progressRef.current = 0;
+    setStatus("loading");
+    setFrameLabel("000");
+    setScrollProgress(0);
+
+    const syncCanvasSize = () => {
+      if (!canvasRef.current || !canvasShellRef.current) {
+        return;
+      }
+
+      const rect = canvasShellRef.current.getBoundingClientRect();
+      const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
+      const nextWidth = Math.max(1, Math.round(rect.width * pixelRatio));
+      const nextHeight = Math.max(1, Math.round(rect.height * pixelRatio));
+
+      if (canvas.width === nextWidth && canvas.height === nextHeight) {
+        return;
+      }
+
+      canvas.width = nextWidth;
+      canvas.height = nextHeight;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      renderCurrentFrame(true);
+    };
+
+    const renderImage = (image: HTMLImageElement, index: number, force: boolean) => {
+      if (!force && currentFrameRef.current === index) {
+        return;
+      }
+
+      currentFrameRef.current = index;
+      setFrameLabel(String(index + 1).padStart(3, "0"));
+      const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      drawCoverFrame(context, image, canvas.width / pixelRatio, canvas.height / pixelRatio);
+    };
+
+    const renderFrameAtIndex = (index: number, force = false) => {
+      const snapshot = cacheRef.current;
+      const safeIndex = clamp(index, 0, Math.max(0, snapshot.total - 1));
+      const image = snapshot.images[safeIndex];
+
+      if (image) {
+        renderImage(image, safeIndex, force);
+        return;
+      }
+
+      for (let fallbackIndex = safeIndex - 1; fallbackIndex >= 0; fallbackIndex -= 1) {
+        const fallbackImage = snapshot.images[fallbackIndex];
+        if (fallbackImage) {
+          renderImage(fallbackImage, fallbackIndex, force);
+          return;
+        }
+      }
+    };
+
+    function renderCurrentFrame(force = false) {
+      const total = cacheRef.current.total;
+      if (total === 0) {
+        return;
+      }
+
+      const targetIndex = clamp(
+        Math.round(progressRef.current * (total - 1)),
+        0,
+        total - 1,
+      );
+      renderFrameAtIndex(targetIndex, force);
+    }
+
+    const loadFrame = (index: number, eager = false) => {
+      if (
+        index < 0 ||
+        index >= cache.total ||
+        cache.cancelled ||
+        cache.requested[index]
+      ) {
+        return;
+      }
+
+      cache.requested[index] = true;
+
+      const image = new Image();
+      if (eager) {
+        image.fetchPriority = "high";
+      }
+      image.decoding = "async";
+
+      image.onload = () => {
+        if (cache.cancelled) {
+          return;
+        }
+
+        cache.images[index] = image;
+        cache.loadedCount += 1;
+
+        if (index === 0 || index === currentFrameRef.current || cache.loadedCount === 1) {
+          renderFrameAtIndex(
+            index === 0 ? 0 : currentFrameRef.current >= 0 ? currentFrameRef.current : 0,
+            true,
+          );
+        }
+
+        if (cache.loadedCount > 0) {
+          setStatus("ready");
+        }
+      };
+
+      image.onerror = () => {
+        if (cache.cancelled) {
+          return;
+        }
+
+        cache.failedCount += 1;
+        if (cache.failedCount >= cache.total && cache.loadedCount === 0) {
+          setStatus("error");
+        }
+      };
+
+      image.src = frameSourceFromPattern(activeVariant.pathPattern, index + 1);
+    };
+
+    const progressivePreload = () => {
+      const eagerCount = Math.min(4, activeVariant.frameCount);
+      for (let index = 0; index < eagerCount; index += 1) {
+        loadFrame(index, index === 0);
+      }
+
+      let nextIndex = eagerCount;
+
+      const step = () => {
+        if (cache.cancelled) {
+          return;
+        }
+
+        const batchSize = isDesktop ? 10 : 6;
+        const end = Math.min(activeVariant.frameCount, nextIndex + batchSize);
+
+        for (; nextIndex < end; nextIndex += 1) {
+          loadFrame(nextIndex);
+        }
+
+        if (nextIndex < activeVariant.frameCount) {
+          const timer = window.setTimeout(step, 26);
+          cleanupTimersRef.current.push(timer);
+        }
+      };
+
+      const timer = window.setTimeout(step, 26);
+      cleanupTimersRef.current.push(timer);
+    };
+
+    const updateProgress = () => {
+      if (!sectionRef.current) {
+        return;
+      }
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrollable = Math.max(1, sectionRef.current.offsetHeight - window.innerHeight);
+      const nextProgress = clamp(-rect.top / scrollable, 0, 1);
+
+      progressRef.current = nextProgress;
+      setScrollProgress(nextProgress);
+      renderCurrentFrame(false);
+    };
+
+    const scheduleUpdate = () => {
+      if (rafRef.current != null) {
+        return;
+      }
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = null;
+        updateProgress();
+      });
+    };
+
+    const bindScroll = () => {
+      if (scrollBoundRef.current || prefersReducedMotion) {
+        return;
+      }
+
+      scrollBoundRef.current = true;
+      window.addEventListener("scroll", scheduleUpdate, { passive: true });
+      window.addEventListener("resize", scheduleUpdate);
+      scheduleUpdate();
+    };
+
+    const unbindScroll = () => {
+      if (!scrollBoundRef.current) {
+        return;
+      }
+
+      scrollBoundRef.current = false;
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+
+    observerRef.current?.disconnect();
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          bindScroll();
+        } else {
+          unbindScroll();
+        }
+      },
+      { rootMargin: "40% 0px 40% 0px", threshold: 0.01 },
+    );
+    observerRef.current.observe(section);
+
+    resizeObserverRef.current?.disconnect();
+    resizeObserverRef.current = new ResizeObserver(() => {
+      if (resizeFrameRef.current != null) {
+        window.cancelAnimationFrame(resizeFrameRef.current);
+      }
+
+      resizeFrameRef.current = window.requestAnimationFrame(() => {
+        resizeFrameRef.current = null;
+        syncCanvasSize();
+        renderCurrentFrame(true);
+      });
+    });
+    resizeObserverRef.current.observe(canvasShell);
+
+    syncCanvasSize();
+    updateProgress();
+
+    if (prefersReducedMotion) {
+      loadFrame(0, true);
+      unbindScroll();
+    } else {
+      progressivePreload();
+    }
+
+    return () => {
+      cache.cancelled = true;
+      cleanupTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      cleanupTimersRef.current = [];
+
+      if (rafRef.current != null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
+      if (resizeFrameRef.current != null) {
+        window.cancelAnimationFrame(resizeFrameRef.current);
+        resizeFrameRef.current = null;
+      }
+
+      observerRef.current?.disconnect();
+      resizeObserverRef.current?.disconnect();
+      unbindScroll();
+    };
+  }, [activeVariant, isDesktop, prefersReducedMotion]);
+
+  const frameCountLabel = String(activeVariant.frameCount).padStart(3, "0");
+  const stageClassName = [
+    "relative min-w-0",
+    isDesktop ? "left-1/2 w-screen -translate-x-1/2" : "",
+    className ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const sequenceStyle = {
+    minHeight: `${scrollHeightVh}vh`,
+  } as CSSProperties;
+
+  const canvasShellStyle = (
+    isDesktop
+      ? {
+          minHeight: "100dvh",
+          height: "100dvh",
+        }
+      : {
+          aspectRatio: `${activeVariant.width} / ${activeVariant.height}`,
+        }
+  ) as CSSProperties;
+
+  const beatPositions = isDesktop
+    ? [
+        "pointer-events-none hidden",
+        "absolute right-[max(2rem,5vw)] top-[24dvh] max-w-[22rem] text-right xl:max-w-[26rem]",
+        "absolute right-[max(2rem,5vw)] bottom-[14dvh] max-w-[22rem] text-right xl:max-w-[26rem]",
+      ]
+    : [
+        "absolute left-4 top-4 max-w-[17rem] md:left-6 md:top-6 md:max-w-[19rem]",
+        "absolute right-4 top-[24%] max-w-[16rem] md:right-6 md:max-w-[18rem]",
+        "absolute inset-x-4 bottom-4 md:bottom-6 md:left-6 md:right-auto md:max-w-[21rem]",
+      ];
+
+  const surfaceClassName = isDesktop
+    ? "relative min-h-[100dvh] overflow-hidden bg-[linear-gradient(180deg,#f5f7fa_0%,#e5eaef_100%)] shadow-[0_40px_120px_-64px_rgba(15,23,42,0.45)]"
+    : "relative overflow-hidden rounded-[2.75rem] border border-[var(--line)] bg-[var(--accent-deep)] shadow-[0_34px_96px_-52px_rgba(15,23,42,0.54)]";
+
+  const canvasClassName = isDesktop
+    ? "block h-full w-full md:min-h-[100dvh]"
+    : "block h-full w-full";
+
+  const overlayClassName = isDesktop
+    ? "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(255,255,255,0.06),transparent_24%),radial-gradient(circle_at_16%_22%,rgba(255,255,255,0.34),transparent_28%),linear-gradient(90deg,rgba(7,13,22,0.54)_0%,rgba(7,13,22,0.2)_30%,rgba(7,13,22,0.08)_54%,rgba(7,13,22,0.44)_100%),linear-gradient(180deg,rgba(9,15,24,0.16)_0%,rgba(9,15,24,0.08)_22%,rgba(9,15,24,0.1)_58%,rgba(9,15,24,0.62)_100%)]"
+    : "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.18),transparent_26%),linear-gradient(180deg,rgba(8,14,22,0.04),rgba(8,14,22,0.46))]";
+
+  const beatCardClassName = isDesktop
+    ? "pointer-events-none rounded-[1.85rem] border border-white/10 bg-[rgba(9,15,24,0.24)] p-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_64px_-42px_rgba(0,0,0,0.75)] backdrop-blur-[18px] md:p-6"
+    : "pointer-events-none rounded-[1.7rem] border border-white/12 bg-[rgba(8,14,22,0.54)] p-4 text-white shadow-[0_20px_56px_-36px_rgba(0,0,0,0.48)] backdrop-blur-md md:p-5";
+
+  const beatEyebrowClassName = isDesktop
+    ? "text-[0.72rem] uppercase tracking-[0.3em] text-white/58"
+    : "text-[0.68rem] uppercase tracking-[0.24em] text-white/56";
+
+  const beatTitleClassName = isDesktop
+    ? "mt-3 max-w-[12ch] text-[clamp(1.85rem,2.6vw,3.75rem)] leading-[0.92] tracking-[-0.055em] text-white"
+    : "mt-3 text-lg leading-tight tracking-[-0.04em] text-white md:text-[1.35rem]";
+
+  const beatBodyClassName = isDesktop
+    ? "mt-3 max-w-[32ch] text-[0.98rem] leading-7 text-white/78"
+    : "mt-2 text-sm leading-6 text-white/74";
+
+  const noteCardClassName = isDesktop
+    ? "max-w-[28rem] rounded-[1.7rem] border border-white/10 bg-[rgba(9,15,24,0.22)] px-5 py-4 text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_56px_-38px_rgba(0,0,0,0.72)] backdrop-blur-[18px]"
+    : "max-w-[26rem] rounded-[1.45rem] border border-white/12 bg-white/10 px-4 py-3 text-white/76 backdrop-blur-md";
+
+  const statusClassName = isDesktop
+    ? "rounded-full border border-white/10 bg-[rgba(9,15,24,0.18)] px-4 py-2 text-[0.68rem] uppercase tracking-[0.28em] text-white/68 backdrop-blur-[14px]"
+    : "rounded-full border border-white/12 bg-white/10 px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/64 backdrop-blur";
+
+  const finalCardReveal = revealWindow(scrollProgress, 0.88, 0.98);
+  const finalCardStyle = {
+    opacity: finalCardReveal,
+    transform: `translate3d(${(1 - finalCardReveal) * -58}px, ${(1 - finalCardReveal) * 26}px, 0) scale(${0.972 + finalCardReveal * 0.028})`,
+    pointerEvents: finalCardReveal > 0.94 ? "auto" : "none",
+  } as CSSProperties;
+
+  return (
+    <div ref={sectionRef} className={stageClassName} style={sequenceStyle}>
+      <div className="sticky top-0 flex min-h-[100dvh] items-center">
+        <div className="w-full">
+          <div className={surfaceClassName}>
+            <div ref={canvasShellRef} className="relative w-full" style={canvasShellStyle}>
+              <canvas ref={canvasRef} className={canvasClassName} aria-hidden="true" />
+
+              <div className={overlayClassName} />
+
+              <div className="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between gap-3 md:inset-x-8 md:top-7 xl:inset-x-[max(2rem,4vw)]">
+                <span className="rounded-full border border-white/12 bg-[rgba(9,15,24,0.18)] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/72 backdrop-blur-[12px]">
+                  {badge}
+                </span>
+                <span className="rounded-full border border-white/12 bg-[rgba(9,15,24,0.18)] px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.22em] text-white/74 backdrop-blur-[12px]">
+                  {frameLabel}/{frameCountLabel}
+                </span>
+              </div>
+
+              {isDesktop && finalCard ? (
+                <article
+                  className="absolute left-[max(2rem,5vw)] bottom-[10dvh] z-20 max-w-[34rem] rounded-[2.25rem] p-7 text-white backdrop-blur-[22px] xl:max-w-[36rem] xl:p-8"
+                  style={{
+                    ...finalCardStyle,
+                    border: "1px solid rgba(255,255,255,0.14)",
+                    background:
+                      "linear-gradient(180deg, rgba(11,18,25,0.34) 0%, rgba(11,18,25,0.72) 100%)",
+                    boxShadow:
+                      "inset 0 1px 0 rgba(255,255,255,0.14), 0 28px 90px -42px rgba(0,0,0,0.82)",
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-white/72">
+                      {finalCard.eyebrow}
+                    </span>
+                    <span
+                      className="rounded-full px-3 py-1 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-white/64"
+                      style={{
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        background: "rgba(255,255,255,0.06)",
+                      }}
+                    >
+                      24 fps - scrub
+                    </span>
+                  </div>
+
+                  <div className="mt-6 space-y-4">
+                    <h2 className="max-w-[13ch] text-[2.8rem] leading-[0.95] tracking-[-0.055em] text-white text-balance xl:text-[3.6rem]">
+                      {finalCard.title}
+                    </h2>
+                    <p className="max-w-[36ch] text-[0.98rem] leading-7 text-white/76 xl:text-[1.02rem]">
+                      {finalCard.body}
+                    </p>
+                  </div>
+
+                  <div className="mt-7 flex flex-wrap items-center gap-3">
+                    <a
+                      href={finalCard.secondaryAction.href}
+                      className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-300 ease-out hover:bg-white/92 active:translate-y-px active:scale-[0.99]"
+                      style={{ color: "var(--accent-deep)" }}
+                    >
+                      {finalCard.secondaryAction.label}
+                    </a>
+                    <a
+                      href={finalCard.primaryAction.href}
+                      className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium text-white transition duration-300 ease-out hover:bg-white/10 active:translate-y-px active:scale-[0.99]"
+                      style={{
+                        border: "1px solid rgba(255,255,255,0.22)",
+                        background: "rgba(255,255,255,0.04)",
+                      }}
+                    >
+                      {finalCard.primaryAction.label}
+                    </a>
+                  </div>
+                </article>
+              ) : null}
+
+              {beats.map((beat, index) => (
+                <div
+                  key={beat.id}
+                  className={`${beatPositions[index] ?? beatPositions[0]} ${beatCardClassName}`}
+                  style={beatStyle(scrollProgress, beat)}
+                >
+                  <p className={beatEyebrowClassName}>
+                    {beat.eyebrow}
+                  </p>
+                  <h2 className={beatTitleClassName}>
+                    {beat.title}
+                  </h2>
+                  <p className={beatBodyClassName}>{beat.body}</p>
+                </div>
+              ))}
+
+              <div className="pointer-events-none absolute inset-x-4 bottom-4 flex flex-col gap-3 md:inset-x-8 md:bottom-7 md:flex-row md:items-end md:justify-between xl:inset-x-[max(2rem,4vw)]">
+                <div className={statusClassName}>
+                  {prefersReducedMotion
+                    ? "Fallback estatico"
+                    : status === "loading"
+                      ? "Preloading"
+                      : status === "ready"
+                        ? "Sequencia pronta"
+                        : "Falha na sequencia"}
+                </div>
+
+                <div className={`${noteCardClassName} ${isDesktop ? "lg:hidden" : ""}`}>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-white/50">
+                    Scroll scrub
+                  </p>
+                  <p className="mt-2 text-sm leading-7">{note}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+

@@ -1,6 +1,7 @@
-﻿import { readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import Image from "next/image";
+import ActionChapter from "../components/action-chapter";
 import DesireChapter from "../components/desire-chapter";
 import HeaderVisibilityController from "../components/header-visibility-controller";
 import { HeroQuoteForm } from "../components/hero-quote-form";
@@ -67,6 +68,7 @@ export default async function HomePage() {
     manifestParagraph,
     proofStack,
     proofCarousel,
+    actionCta,
     hero,
     about,
     services,
@@ -188,142 +190,16 @@ export default async function HomePage() {
           proofStack={proofStack}
           proofCarousel={proofCarousel}
         />
-
-        <section id="contato" className="section-shell scroll-mt-28">
-          <div className="site-shell">
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
-              <div className="space-y-6">
-                <span className="section-kicker">{contact.eyebrow}</span>
-                <div className="space-y-5">
-                  <h2 className="section-heading max-w-[10ch] text-balance">{contact.title}</h2>
-                  <p className="section-copy">{contact.subtitle}</p>
-                </div>
-
-                <div className="glass-panel grid gap-6 p-6 sm:p-8">
-                  <div className="grid gap-2">
-                    <h3 className="text-sm uppercase tracking-[0.2em] text-[var(--ink-soft)]">
-                      Onde nos encontrar
-                    </h3>
-                    <address className="not-italic text-sm leading-7 text-[var(--ink-muted)]">
-                      {contact.addressLines.map((line) => (
-                        <div key={line}>{line}</div>
-                      ))}
-                    </address>
-                  </div>
-
-                  <div className="grid gap-3 text-sm text-[var(--ink-muted)]">
-                    <a href={mailHref} className="outline-button w-fit">
-                      {contact.email}
-                    </a>
-                    <a href={telHref} className="outline-button w-fit">
-                      {contact.phone}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <form action="#" method="post" className="glass-panel grid gap-5 p-6 sm:p-8">
-                <div className="space-y-3">
-                  <span className="section-kicker">{contact.form.title}</span>
-                  <p className="text-sm leading-7 text-[var(--ink-muted)]">
-                    {contact.form.subtitle}
-                  </p>
-                </div>
-
-                {(["name", "email"] as const).map((fieldName) => {
-                  const field = contact.form.fields[fieldName];
-
-                  return (
-                    <label key={fieldName} className="field-shell" htmlFor={`contact-${fieldName}`}>
-                      <span className="field-label">{field.label}</span>
-                      <input
-                        id={`contact-${fieldName}`}
-                        type={field.type ?? (fieldName === "email" ? "email" : "text")}
-                        name={field.name ?? fieldName}
-                        autoComplete={field.autoComplete}
-                        inputMode={field.inputMode}
-                        className="field-control"
-                        placeholder={field.placeholder}
-                      />
-                      <span className="field-helper">{field.helperText}</span>
-                    </label>
-                  );
-                })}
-
-                <label className="field-shell" htmlFor="contact-message">
-                  <span className="field-label">{contact.form.fields.message.label}</span>
-                  <textarea
-                    id="contact-message"
-                    name={contact.form.fields.message.name ?? "message"}
-                    rows={5}
-                    className="field-control resize-none"
-                    placeholder={contact.form.fields.message.placeholder}
-                  />
-                  <span className="field-helper">{contact.form.fields.message.helperText}</span>
-                </label>
-
-                <button type="submit" className="solid-button w-full">
-                  {contact.form.buttonLabel}
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
       </main>
 
-      <footer className="border-t border-[var(--line)] bg-white/70">
-        <div className="site-shell grid gap-10 py-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div className="space-y-5">
-            <Image
-              src="/plasmaster-logo.png"
-              alt="Plasmaster"
-              width={190}
-              height={40}
-              className="h-auto w-[172px]"
-            />
-            <p className="max-w-[56ch] text-sm leading-7 text-[var(--ink-muted)]">
-              {footer.tagline}
-            </p>
-            <p className="text-xs uppercase tracking-[0.18em] text-[var(--ink-soft)]">
-              {footer.socialLinks.join(" - ")}
-            </p>
-          </div>
-
-          <div className="grid gap-8 sm:grid-cols-2">
-            <div className="space-y-3">
-              <h3 className="text-sm uppercase tracking-[0.2em] text-[var(--ink-soft)]">
-                Links Ãºteis
-              </h3>
-              <div className="grid gap-2 text-sm text-[var(--ink-muted)]">
-                {navItems.map((item) => (
-                  <a key={item.href} href={item.href} className="w-fit hover:text-[var(--ink)]">
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="text-sm uppercase tracking-[0.2em] text-[var(--ink-soft)]">
-                Contato direto
-              </h3>
-              <div className="grid gap-2 text-sm text-[var(--ink-muted)]">
-                <a href={mailHref} className="w-fit hover:text-[var(--ink)]">
-                  {contact.email}
-                </a>
-                <a href={telHref} className="w-fit hover:text-[var(--ink)]">
-                  {contact.phone}
-                </a>
-                <span>Joinville / SC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="site-shell border-t border-[var(--line)] py-5 text-xs text-[var(--ink-soft)]">
-          {footer.copyright}
-        </div>
-      </footer>
+      <ActionChapter
+        navItems={navItems}
+        actionCta={actionCta}
+        contact={contact}
+        footer={footer}
+        mailHref={mailHref}
+        telHref={telHref}
+      />
     </>
   );
 }

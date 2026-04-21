@@ -73,6 +73,28 @@ textarea {
   outline-offset: 2px;
 }
 
+.site-header {
+  transform: translate3d(0, -110%, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 340ms ease,
+    opacity 220ms ease;
+  will-change: transform, opacity;
+}
+
+html[data-header-visible="true"] .site-header {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}
+
 @layer components {
   .site-shell {
     @apply mx-auto w-full max-w-[1400px] px-5 sm:px-6 lg:px-8;

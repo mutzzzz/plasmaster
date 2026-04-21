@@ -1,6 +1,7 @@
 ﻿import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import Image from "next/image";
+import DesireChapter from "../components/desire-chapter";
 import HeaderVisibilityController from "../components/header-visibility-controller";
 import { HeroQuoteForm } from "../components/hero-quote-form";
 import InterestChapter from "../components/interest-chapter";
@@ -63,6 +64,9 @@ export default async function HomePage() {
     navItems,
     marqueeItems,
     interestIntro,
+    manifestParagraph,
+    proofStack,
+    proofCarousel,
     hero,
     about,
     services,
@@ -175,6 +179,14 @@ export default async function HomePage() {
           about={about}
           services={services}
           differentials={differentials}
+        />
+
+        <DesireChapter
+          principles={about.principles}
+          differentials={differentials}
+          manifestParagraph={manifestParagraph}
+          proofStack={proofStack}
+          proofCarousel={proofCarousel}
         />
 
         <section id="contato" className="section-shell scroll-mt-28">

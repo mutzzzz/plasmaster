@@ -57,6 +57,24 @@ export type SiteContent = {
     titleTrail: string;
     description: string;
   };
+  manifestParagraph: string;
+  proofStack: Array<{
+    title: string;
+    description: string;
+    image: {
+      src: string;
+      alt: string;
+    };
+  }>;
+  proofCarousel: Array<{
+    title: string;
+    note: string;
+    description: string;
+    image: {
+      src: string;
+      alt: string;
+    };
+  }>;
   hero: {
     intro: {
       eyebrow: string;
@@ -123,6 +141,15 @@ export type SiteContent = {
       description: string;
     }>;
   };
+  actionCta: {
+    eyebrow: string;
+    titleLead: string;
+    titleTrail: string;
+    description: string;
+    primaryAction: HeroAction;
+    secondaryAction: HeroAction;
+    signals: HeroMetric[];
+  };
   contact: {
     eyebrow: string;
     title: string;
@@ -170,6 +197,69 @@ export const siteContent: SiteContent = {
     description:
       "A Plasmaster organiza tecnologia de produção, repetitividade de ciclo e escala operacional para atender operações que não podem depender de improviso quando o lote entra em linha.",
   },
+  manifestParagraph:
+    "Atender com responsabilidade, qualidade e pontualidade significa estruturar a produção para que prazo, repetitividade, leitura técnica e confiança industrial avancem juntos do conceito ao lote em escala.",
+  proofStack: [
+    {
+      title: "Qualidade",
+      description:
+        "Processos rigorosos do início ao fim sustentam precisão dimensional, acabamento estável e conformidade com a especificação definida pelo cliente.",
+      image: {
+        src: "/site-images/service-outsourcing-detail.png",
+        alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
+      },
+    },
+    {
+      title: "Suporte",
+      description:
+        "Equipe dedicada, com leitura técnica próxima do projeto, para acompanhar demanda, ajuste de processo e continuidade operacional sem ruído de comunicação.",
+      image: {
+        src: "/site-images/hero-quote-side-industrial.png",
+        alt: "Operador caminhando entre injetoras e bandejas de componentes em PVC rígido.",
+      },
+    },
+    {
+      title: "Tecnologia",
+      description:
+        "Equipamentos modernos e processos atualizados transformam exigência industrial em produto real com consistência de ciclo e previsibilidade de lote.",
+      image: {
+        src: "/site-images/service-full-service-workflow.png",
+        alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
+      },
+    },
+  ],
+  proofCarousel: [
+    {
+      title: "Leitura técnica em linha",
+      note: "Base industrial em Joinville",
+      description:
+        "A operação parte de uma base fabril preparada para decisões técnicas próximas do processo e da produção.",
+      image: {
+        src: "/site-images/about-industrial-floor.png",
+        alt: "Técnico medindo componentes em PVC rígido ao lado de uma injetora industrial.",
+      },
+    },
+    {
+      title: "Controle de ciclo",
+      note: "Repetitividade para cada lote",
+      description:
+        "A disciplina de processo acompanha material, molde e repetição para manter estabilidade entre o primeiro teste e a produção em escala.",
+      image: {
+        src: "/site-images/service-outsourcing-detail.png",
+        alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
+      },
+    },
+    {
+      title: "Projeto ao lote",
+      note: "Full service com continuidade",
+      description:
+        "Desenvolvimento, prototipagem e fabricação avançam com apoio técnico e integração de parceiros quando o projeto exige correção ou manutenção de molde.",
+      image: {
+        src: "/site-images/service-full-service-workflow.png",
+        alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
+      },
+    },
+  ],
   hero: {
     intro: {
       eyebrow: "Injeção de termoplásticos",
@@ -344,10 +434,31 @@ export const siteContent: SiteContent = {
       },
     ],
   },
+  actionCta: {
+    eyebrow: "Contato comercial",
+    titleLead: "Quando o seu projeto pede",
+    titleTrail: "continuidade real.",
+    description:
+      "O próximo passo começa com leitura técnica, prazo claro e um canal direto com a operação em Joinville para alinhar volume, material, ferramental e ritmo de produção.",
+    primaryAction: {
+      label: "Enviar briefing do projeto",
+      href: "#contato-form",
+    },
+    secondaryAction: {
+      label: "Falar com a Plasmaster",
+      href: "mailto:adm@plasmaster.ind.br",
+    },
+    signals: [
+      { label: "Base industrial", value: "Joinville, SC" },
+      { label: "Canal direto", value: "(47) 3440-0683" },
+      { label: "Especialidade", value: "PVC rígido" },
+    ],
+  },
   contact: {
-    eyebrow: "Contato",
-    title: "Solicite um orçamento hoje.",
-    subtitle: "Nossa equipe está pronta para atender o seu projeto.",
+    eyebrow: "Descreva sua demanda",
+    title: "Abra a conversa com o contexto técnico certo.",
+    subtitle:
+      "Compartilhe volume, material, etapa do projeto e restrições de prazo para orientar o retorno comercial.",
     addressLines: [
       "Rodovia SC 108 nº 18201, Galpão 9",
       "CEP 89215-210 — Morro do Meio, Joinville/SC",
@@ -355,9 +466,9 @@ export const siteContent: SiteContent = {
     email: "adm@plasmaster.ind.br",
     phone: "(47) 3440-0683",
     form: {
-      title: "Solicite um orçamento",
+      title: "Envie os dados principais",
       subtitle:
-        "Compartilhe os dados essenciais do seu projeto para iniciar o atendimento.",
+        "Sem automação vazia: o objetivo aqui é dar contexto suficiente para o próximo passo comercial.",
       buttonLabel: "Enviar mensagem",
       fields: {
         name: {

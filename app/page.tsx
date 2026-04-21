@@ -3,6 +3,7 @@ import { join } from "node:path";
 import Image from "next/image";
 import HeaderVisibilityController from "../components/header-visibility-controller";
 import { HeroQuoteForm } from "../components/hero-quote-form";
+import SiteHeader from "../components/site-header";
 import ScrollSequenceHero from "../components/scroll-sequence-hero";
 import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
 
@@ -78,51 +79,9 @@ export default async function HomePage() {
   return (
     <>
       <HeaderVisibilityController />
-      <header
-        className="site-header fixed inset-x-0 top-0 z-40 backdrop-blur-xl"
-        style={{
-          background: "rgba(248, 250, 252, 0.82)",
-          borderBottom: "1px solid var(--line)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.85), 0 1px 0 rgba(19,32,44,0.04)",
-        }}
-      >
-        <div className="site-shell flex min-h-[4.5rem] flex-wrap items-center justify-between gap-4 py-3">
-          <a href="#home" className="flex items-center gap-3">
-            <Image
-              src="/plasmaster-logo.png"
-              alt="Plasmaster"
-              width={190}
-              height={40}
-              priority
-              className="h-auto w-[168px] sm:w-[184px]"
-            />
-            <span
-              className="hidden pl-3 text-[0.68rem] font-medium uppercase tracking-[0.26em] sm:inline-block"
-              style={{ borderLeft: "1px solid var(--line)", color: "var(--ink-soft)" }}
-            >
-              Joinville desde 2005
-            </span>
-          </a>
+      <SiteHeader items={navItems} />
 
-          <nav
-            className="flex flex-wrap items-center justify-end gap-1 text-sm"
-            style={{ color: "var(--ink-muted)" }}
-          >
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-full px-4 py-2 font-medium transition duration-300 ease-out hover:bg-white hover:shadow-[0_8px_24px_-16px_rgba(19,32,44,0.24)]"
-                style={{ color: "inherit" }}
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
-
-      <main className="relative">
+      <main className="relative w-full max-w-full overflow-x-hidden">
         <section id="home" className="scroll-mt-28 pt-5 sm:pt-6 lg:pt-4">
           <div className="site-shell lg:hidden">
             <article className="glass-panel relative overflow-hidden p-6 sm:p-8">

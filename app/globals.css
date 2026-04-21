@@ -108,6 +108,20 @@ html[data-header-visible="true"] .site-header {
   pointer-events: auto;
 }
 
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-header {
     transition: none;
@@ -115,6 +129,15 @@ html[data-header-visible="true"] .site-header {
 
   body::after {
     display: none;
+  }
+
+  .marquee-track {
+    animation: none;
+    width: 100%;
+    min-width: 100%;
+    flex-wrap: wrap;
+    transform: none;
+    white-space: normal;
   }
 }
 

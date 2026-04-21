@@ -50,6 +50,13 @@ export type HeroSequenceManifest = {
 
 export type SiteContent = {
   navItems: NavItem[];
+  marqueeItems: string[];
+  interestIntro: {
+    eyebrow: string;
+    titleLead: string;
+    titleTrail: string;
+    description: string;
+  };
   hero: {
     intro: {
       eyebrow: string;
@@ -79,6 +86,7 @@ export type SiteContent = {
     eyebrow: string;
     title: string;
     description: string;
+    highlights: HeroMetric[];
     capacity: {
       eyebrow: string;
       title: string;
@@ -100,6 +108,7 @@ export type SiteContent = {
     description: string;
     items: Array<{
       id: string;
+      eyebrow: string;
       title: string;
       description: string;
       cta: HeroAction;
@@ -146,6 +155,21 @@ export const siteContent: SiteContent = {
     { href: "#servicos", label: "Serviços" },
     { href: "#contato", label: "Contato" },
   ],
+  marqueeItems: [
+    "Desde 2005",
+    "Joinville, SC",
+    "PVC rígido",
+    "+2.800 h/mês",
+    "6 injetoras",
+    "3 moinhos",
+  ],
+  interestIntro: {
+    eyebrow: "Qualidade, capacidade e continuidade",
+    titleLead: "Precisão industrial para peças que exigem",
+    titleTrail: "processo sob controle.",
+    description:
+      "A Plasmaster organiza tecnologia de produção, repetitividade de ciclo e escala operacional para atender operações que não podem depender de improviso quando o lote entra em linha.",
+  },
   hero: {
     intro: {
       eyebrow: "Injeção de termoplásticos",
@@ -162,7 +186,7 @@ export const siteContent: SiteContent = {
       },
       metrics: [
         { label: "Desde", value: "2005" },
-        { label: "Capacidade", value: "+2.800h/mês" },
+        { label: "Capacidade", value: "+2.800 h/mês" },
         { label: "Máquinas", value: "6 injetoras" },
         { label: "Moinhos", value: "3 unidades" },
       ],
@@ -205,7 +229,7 @@ export const siteContent: SiteContent = {
       ],
     },
     form: {
-      title: "Solicite seu Orçamento",
+      title: "Solicite seu orçamento",
       subtitle: "Fale com nosso time agora mesmo.",
       buttonLabel: "Enviar solicitação",
       fields: {
@@ -232,23 +256,28 @@ export const siteContent: SiteContent = {
     },
   },
   about: {
-    eyebrow: "Qualidade e dedicação",
-    title: "Precisão em cada detalhe. Qualidade em cada peça.",
+    eyebrow: "Processo industrial",
+    title: "Quando a repetitividade importa, o processo precisa responder antes do acabamento.",
     description:
-      "Combinamos tecnologia de produção de última geração com técnicas consolidadas de moldagem para entregar peças em termoplástico com alta repetitividade dimensional, acabamento impecável e conformidade total com as especificações do cliente.",
+      "Combinamos tecnologia de produção de última geração com técnicas consolidadas de moldagem para entregar peças em termoplástico com alta consistência dimensional, acabamento estável e conformidade com a especificação definida pelo cliente.",
+    highlights: [
+      { label: "Base industrial", value: "Joinville, SC" },
+      { label: "Especialidade", value: "PVC rígido" },
+      { label: "Capacidade", value: "+2.800 h/mês" },
+    ],
     capacity: {
       eyebrow: "Capacidade técnica",
-      title: "Estrutura dimensionada para a solução certa em cada projeto.",
+      title: "Estrutura montada para volume, material e complexidade sem desviar do processo.",
       description:
-        "Com equipamentos modernos e uma equipe especializada, dimensionamos nossa estrutura para oferecer a solução certa para cada projeto — independentemente do volume, material ou complexidade da peça.",
+        "Com equipamentos modernos e equipe especializada, a operação é dimensionada para acomodar diferentes demandas de projeto sem perder leitura técnica, continuidade de produção e previsibilidade de lote.",
       metrics: [
-        { label: "Horas produtivas", value: "+2.800h/mês" },
+        { label: "Horas produtivas", value: "+2.800 h/mês" },
         { label: "Máquinas injetoras", value: "6" },
         { label: "Moinhos", value: "3" },
       ],
       cta: {
         label: "Saiba mais sobre nossa estrutura",
-        href: "#servicos",
+        href: "#contato",
       },
     },
     principles: {
@@ -270,31 +299,33 @@ export const siteContent: SiteContent = {
   },
   services: {
     eyebrow: "Serviços",
-    title: "Soluções para operações que exigem consistência industrial.",
+    title: "Duas frentes de atendimento, a mesma disciplina de processo.",
     description:
-      "Estruturamos cada frente de atendimento para acompanhar o seu projeto do primeiro lote à produção em escala, com controle de processo e continuidade operacional.",
+      "Terceirização e full service se organizam sob a mesma lógica: leitura técnica, repetitividade de ciclo e continuidade operacional do primeiro teste até a produção em escala.",
     items: [
       {
         id: "01",
-        title: "Terceirização de Injeção de Termoplásticos",
+        eyebrow: "Terceirização industrial",
+        title: "Terceirização de injeção de termoplásticos",
         description:
-          "Somos especialistas na injeção de peças termoplásticas para os mais variados segmentos industriais, com sólida experiência em PVC rígido. Nossos processos são tecnicamente rigorosos e orientados à repetitividade de ciclos, garantindo que cada lote atenda com exatidão às especificações definidas pelo cliente — do primeiro protótipo à produção em escala.",
+          "Especializada na injeção de peças termoplásticas para diferentes segmentos industriais, a Plasmaster opera com sólida experiência em PVC rígido e processos rigorosos orientados à repetitividade de ciclos para que cada lote atenda com exatidão às especificações definidas pelo cliente.",
         cta: { label: "Entre em contato", href: "#contato" },
       },
       {
         id: "02",
-        title: "Full Service em Injeção de Termoplásticos",
+        eyebrow: "Projeto ao lote",
+        title: "Full service em injeção de termoplásticos",
         description:
-          "Oferecemos uma solução completa, do conceito ao produto final: projeto, desenvolvimento, prototipagem e fabricação — tudo sob um único parceiro. Por meio de parcerias estratégicas com ferramentarias, também realizamos correções e manutenções de moldes, garantindo continuidade e eficiência à sua linha de produção.",
+          "A operação cobre conceito, desenvolvimento, prototipagem e fabricação sob um único parceiro, com apoio de ferramentarias para correções e manutenções de moldes que preservam continuidade e eficiência na sua linha de produção.",
         cta: { label: "Entre em contato", href: "#contato" },
       },
     ],
   },
   differentials: {
-    eyebrow: "Por que a Plasmaster?",
-    title: "Qualidade não é diferencial. É compromisso de processo.",
+    eyebrow: "Por que a Plasmaster",
+    title: "Qualidade não entra no fim. Ela aparece em cada decisão do processo.",
     description:
-      "Da seleção criteriosa da matéria-prima ao acabamento final, cada decisão é tomada para garantir que o produto entregue supere as suas expectativas.",
+      "Da seleção criteriosa da matéria-prima ao acabamento final, cada decisão operacional é tomada para sustentar consistência técnica, previsibilidade de lote e confiança industrial.",
     items: [
       {
         title: "Qualidade",
@@ -304,12 +335,12 @@ export const siteContent: SiteContent = {
       {
         title: "Suporte",
         description:
-          "Uma equipe dedicada, onde cada profissional é peça fundamental para o sucesso do seu projeto.",
+          "Equipe dedicada, onde cada profissional sustenta leitura técnica e acompanhamento direto do projeto.",
       },
       {
         title: "Tecnologia",
         description:
-          "Equipamentos modernos e processos inovadores que transformam ideias em produtos reais.",
+          "Equipamentos modernos e processos atualizados para transformar demanda industrial em produto real com continuidade.",
       },
     ],
   },

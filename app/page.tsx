@@ -18,6 +18,27 @@ const heroQuoteSideImage = {
   label: "Linha em operação",
 };
 
+const FALLBACK_HERO_MANIFEST: HeroSequenceManifest = {
+  desktop: {
+    frameCount: 1,
+    fps: 24,
+    width: 1440,
+    height: 900,
+    posterFrame: heroQuoteSideImage.src,
+    pathPattern: heroQuoteSideImage.src,
+    sourceVideo: heroQuoteSideImage.src,
+  },
+  mobile: {
+    frameCount: 1,
+    fps: 24,
+    width: 900,
+    height: 1200,
+    posterFrame: heroQuoteSideImage.src,
+    pathPattern: heroQuoteSideImage.src,
+    sourceVideo: heroQuoteSideImage.src,
+  },
+};
+
 async function readHeroManifest(): Promise<HeroSequenceManifest> {
   const manifestPath = join(
     process.cwd(),
@@ -32,12 +53,21 @@ async function readHeroManifest(): Promise<HeroSequenceManifest> {
   try {
     rawManifest = await readFile(manifestPath, "utf8");
   } catch {
-    throw new Error(
-      "Frames manifest not found at public/frames/assembly/manifest.json. Run `node scripts/extract-scroll-frames.mjs` before starting the app.",
+    console.warn(
+      "Hero sequence manifest missing at public/frames/assembly/manifest.json. Using static fallback frame.",
     );
+    return FALLBACK_HERO_MANIFEST;
   }
 
-  const parsedManifest = JSON.parse(rawManifest) as Partial<HeroSequenceManifest>;
+  let parsedManifest: Partial<HeroSequenceManifest>;
+  try {
+    parsedManifest = JSON.parse(rawManifest) as Partial<HeroSequenceManifest>;
+  } catch {
+    console.warn(
+      "Hero sequence manifest is invalid JSON at public/frames/assembly/manifest.json. Using static fallback frame.",
+    );
+    return FALLBACK_HERO_MANIFEST;
+  }
 
   for (const variant of ["desktop", "mobile"] as const) {
     const entry = parsedManifest[variant];
@@ -50,9 +80,10 @@ async function readHeroManifest(): Promise<HeroSequenceManifest> {
       typeof entry.posterFrame !== "string" ||
       typeof entry.pathPattern !== "string"
     ) {
-      throw new Error(
-        `Invalid hero sequence manifest. Missing ${variant} frame metadata in public/frames/assembly/manifest.json.`,
+      console.warn(
+        `Hero sequence manifest is missing ${variant} metadata in public/frames/assembly/manifest.json. Using static fallback frame.`,
       );
+      return FALLBACK_HERO_MANIFEST;
     }
   }
 

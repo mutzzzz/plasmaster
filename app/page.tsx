@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import Image from "next/image";
+import { imageBlurData } from "../lib/image-blur-data";
 import ActionChapter from "../components/action-chapter";
 import DesireChapter from "../components/desire-chapter";
 import HeaderVisibilityController from "../components/header-visibility-controller";
@@ -14,7 +15,7 @@ import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
 const telHref = "tel:+554734400683";
 const mailHref = "mailto:adm@plasmaster.ind.br";
 const heroQuoteSideImage = {
-  src: "/site-images/hero-quote-side-industrial.png",
+  src: "/site-images/hero-quote-side-industrial.webp",
   alt: "Operador caminhando entre injetoras e bandejas de componentes em PVC rígido.",
   label: "Linha em operação",
 };
@@ -163,6 +164,8 @@ export default async function HomePage() {
                   fill
                   sizes="(min-width: 1024px) 56vw, 100vw"
                   className="object-cover"
+                  placeholder="blur"
+                  blurDataURL={imageBlurData[heroQuoteSideImage.src]?.blurDataURL}
                 />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(19,32,44,0.02)_0%,rgba(19,32,44,0.08)_48%,rgba(19,32,44,0.28)_100%)]" />
                 <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-[rgba(255,255,255,0.84)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-deep)] shadow-[0_10px_30px_-18px_rgba(19,32,44,0.4)]">

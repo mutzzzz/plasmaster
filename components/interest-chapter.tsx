@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { SiteContent } from "../lib/site-content";
+import { imageBlurData } from "../lib/image-blur-data";
 
 type InterestChapterProps = {
   intro: SiteContent["interestIntro"];
@@ -10,22 +11,22 @@ type InterestChapterProps = {
 };
 
 const inlineImage = {
-  src: "/site-images/about-inline-badge-industrial.png",
+  src: "/site-images/about-inline-badge-industrial.webp",
   alt: "Linha industrial da Plasmaster com operação técnica em andamento.",
 };
 
 const capacityImage = {
-  src: "/site-images/about-industrial-floor.png",
+  src: "/site-images/about-industrial-floor.webp",
   alt: "Técnico medindo componentes em PVC rígido ao lado de uma injetora industrial.",
 };
 
 const serviceImages = {
   "01": {
-    src: "/site-images/service-outsourcing-detail.png",
+    src: "/site-images/service-outsourcing-detail.webp",
     alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
   },
   "02": {
-    src: "/site-images/service-full-service-workflow.png",
+    src: "/site-images/service-full-service-workflow.webp",
     alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
   },
 } as const;
@@ -63,7 +64,6 @@ export default function InterestChapter({
                   key={`lead-${word}-${index}`}
                   data-interest-word
                   className="inline-block pr-[0.22em]"
-                  style={{ willChange: "opacity, transform" }}
                 >
                   {word}
                 </span>
@@ -76,6 +76,8 @@ export default function InterestChapter({
                     fill
                     sizes="160px"
                     className="object-cover"
+                    placeholder="blur"
+                    blurDataURL={imageBlurData[inlineImage.src]?.blurDataURL}
                   />
                 </span>
               </span>{" "}
@@ -84,7 +86,6 @@ export default function InterestChapter({
                   key={`trail-${word}-${index}`}
                   data-interest-word
                   className="inline-block pr-[0.22em]"
-                  style={{ willChange: "opacity, transform" }}
                 >
                   {word}
                 </span>
@@ -165,6 +166,8 @@ export default function InterestChapter({
                     height={864}
                     sizes="(min-width: 1024px) 34vw, 100vw"
                     className="block aspect-[4/3] h-full w-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105"
+                    placeholder="blur"
+                    blurDataURL={imageBlurData[capacityImage.src]?.blurDataURL}
                   />
                 </div>
               </div>
@@ -228,6 +231,8 @@ export default function InterestChapter({
                         height={864}
                         sizes="(min-width: 1024px) 26vw, 100vw"
                         className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        placeholder="blur"
+                        blurDataURL={imageBlurData[visual.src]?.blurDataURL}
                       />
                     </div>
                   </div>

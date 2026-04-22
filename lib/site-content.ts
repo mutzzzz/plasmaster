@@ -205,7 +205,7 @@ export const siteContent: SiteContent = {
       description:
         "Processos rigorosos do início ao fim sustentam precisão dimensional, acabamento estável e conformidade com a especificação definida pelo cliente.",
       image: {
-        src: "/site-images/proof-quality-molding-detail.png",
+        src: "/site-images/proof-quality-molding-detail.webp",
         alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
       },
     },
@@ -214,7 +214,7 @@ export const siteContent: SiteContent = {
       description:
         "Equipe dedicada, com leitura técnica próxima do projeto, para acompanhar demanda, ajuste de processo e continuidade operacional sem ruído de comunicação.",
       image: {
-        src: "/site-images/proof-support-operator-line.png",
+        src: "/site-images/proof-support-operator-line.webp",
         alt: "Operador caminhando entre injetoras e bandejas de componentes em PVC rígido.",
       },
     },
@@ -223,7 +223,7 @@ export const siteContent: SiteContent = {
       description:
         "Equipamentos modernos e processos atualizados transformam exigência industrial em produto real com consistência de ciclo e previsibilidade de lote.",
       image: {
-        src: "/site-images/proof-technology-workbench.png",
+        src: "/site-images/proof-technology-workbench.webp",
         alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
       },
     },
@@ -235,7 +235,7 @@ export const siteContent: SiteContent = {
       description:
         "A operação parte de uma base fabril preparada para decisões técnicas próximas do processo e da produção.",
       image: {
-        src: "/site-images/carousel-technical-inspection.png",
+        src: "/site-images/carousel-technical-inspection.webp",
         alt: "Técnico medindo componentes em PVC rígido ao lado de uma injetora industrial.",
       },
     },
@@ -245,7 +245,7 @@ export const siteContent: SiteContent = {
       description:
         "A disciplina de processo acompanha material, molde e repetição para manter estabilidade entre o primeiro teste e a produção em escala.",
       image: {
-        src: "/site-images/carousel-cycle-control.png",
+        src: "/site-images/carousel-cycle-control.webp",
         alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
       },
     },
@@ -255,7 +255,7 @@ export const siteContent: SiteContent = {
       description:
         "Desenvolvimento, prototipagem e fabricação avançam com apoio técnico e integração de parceiros quando o projeto exige correção ou manutenção de molde.",
       image: {
-        src: "/site-images/carousel-project-to-lot.png",
+        src: "/site-images/carousel-project-to-lot.webp",
         alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
       },
     },

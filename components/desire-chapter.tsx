@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { SiteContent } from "../lib/site-content";
+import { imageBlurData } from "../lib/image-blur-data";
 
 type DesireChapterProps = {
   principles: SiteContent["about"]["principles"];
@@ -78,6 +79,8 @@ export default function DesireChapter({
                         height={864}
                         sizes="(min-width: 1024px) 34vw, 100vw"
                         className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        placeholder="blur"
+                        blurDataURL={imageBlurData[slide.image.src]?.blurDataURL}
                       />
                     </div>
                   </div>
@@ -145,6 +148,8 @@ export default function DesireChapter({
                           height={864}
                           sizes="(min-width: 1024px) 44vw, 100vw"
                           className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          placeholder="blur"
+                          blurDataURL={imageBlurData[item.image.src]?.blurDataURL}
                         />
                       </div>
                     </div>

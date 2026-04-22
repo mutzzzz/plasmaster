@@ -55,6 +55,7 @@ body::before {
     linear-gradient(90deg, rgba(255, 255, 255, 0.36) 1px, transparent 1px);
   background-size: 140px 140px;
   opacity: 0.24;
+  will-change: transform;
 }
 
 body::after {

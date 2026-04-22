@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
 
-const MEDIA_BROWSER_CACHE_CONTROL = "public, max-age=0";
+const MEDIA_BROWSER_CACHE_CONTROL = "public, max-age=3600, stale-while-revalidate=86400";
 const MEDIA_EDGE_CACHE_CONTROL =
   "public, s-maxage=31536000, stale-while-revalidate=86400";
 
 const nextConfig: NextConfig = {
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       {

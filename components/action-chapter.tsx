@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { SiteContent } from "../lib/site-content";
+import { imageBlurData } from "../lib/image-blur-data";
 
 type ActionChapterProps = {
   navItems: SiteContent["navItems"];
@@ -59,7 +60,6 @@ export default function ActionChapter({
                       key={`lead-${word}-${index}`}
                       data-action-word
                       className="inline-block pr-[0.2em]"
-                      style={{ willChange: "opacity, transform" }}
                     >
                       {word}
                     </span>
@@ -70,7 +70,6 @@ export default function ActionChapter({
                         key={`trail-${word}-${index}`}
                         data-action-word
                         className="inline-block pr-[0.2em]"
-                        style={{ willChange: "opacity, transform" }}
                       >
                         {word}
                       </span>
@@ -142,12 +141,14 @@ export default function ActionChapter({
                 <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white/84">
                   <div data-action-parallax data-parallax-strength="12" className="h-full w-full">
                     <Image
-                      src="/site-images/contact-form-industrial-line.png"
+                      src="/site-images/contact-form-industrial-line.webp"
                       alt="Operador caminhando entre injetoras e bandejas de componentes em PVC rígido."
                       width={1152}
                       height={864}
                       sizes="(min-width: 1024px) 38vw, 100vw"
                       className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                      placeholder="blur"
+                      blurDataURL={imageBlurData["/site-images/contact-form-industrial-line.webp"]?.blurDataURL}
                     />
                   </div>
                 </div>

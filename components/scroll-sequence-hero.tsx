@@ -18,14 +18,11 @@ type ScrollSequenceFinalCard = {
 
 type ScrollSequenceHeroProps = {
   badge: string;
-  note: string;
   beats: HeroBeat[];
   manifest: HeroSequenceManifest;
   finalCard?: ScrollSequenceFinalCard;
   className?: string;
 };
-
-type SequenceStatus = "loading" | "ready" | "error";
 
 type SequenceCache = {
   images: Array<HTMLImageElement | null>;
@@ -36,8 +33,8 @@ type SequenceCache = {
   cancelled: boolean;
 };
 
-const DESKTOP_SCROLL_VH = 340;
-const MOBILE_SCROLL_VH = 220;
+const DESKTOP_SCROLL_VH = 460;
+const MOBILE_SCROLL_VH = 320;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -96,7 +93,6 @@ function variantByViewport(
 
 export default function ScrollSequenceHero({
   badge,
-  note,
   beats,
   manifest,
   finalCard,
@@ -124,8 +120,6 @@ export default function ScrollSequenceHero({
 
   const [isDesktop, setIsDesktop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [status, setStatus] = useState<SequenceStatus>("loading");
-  const [frameLabel, setFrameLabel] = useState("000");
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const activeVariant = variantByViewport(manifest, isDesktop);
@@ -190,8 +184,6 @@ export default function ScrollSequenceHero({
     cacheRef.current = cache;
     currentFrameRef.current = -1;
     progressRef.current = 0;
-    setStatus("loading");
-    setFrameLabel("000");
     setScrollProgress(0);
 
     const syncCanvasSize = () => {
@@ -222,7 +214,6 @@ export default function ScrollSequenceHero({
       }
 
       currentFrameRef.current = index;
-      setFrameLabel(String(index + 1).padStart(3, "0"));
       const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       drawCoverFrame(context, image, canvas.width / pixelRatio, canvas.height / pixelRatio);
@@ -294,9 +285,6 @@ export default function ScrollSequenceHero({
           );
         }
 
-        if (cache.loadedCount > 0) {
-          setStatus("ready");
-        }
       };
 
       image.onerror = () => {
@@ -305,9 +293,6 @@ export default function ScrollSequenceHero({
         }
 
         cache.failedCount += 1;
-        if (cache.failedCount >= cache.total && cache.loadedCount === 0) {
-          setStatus("error");
-        }
       };
 
       image.src = frameSourceFromPattern(activeVariant.pathPattern, index + 1);
@@ -447,7 +432,6 @@ export default function ScrollSequenceHero({
     };
   }, [activeVariant, isDesktop, prefersReducedMotion]);
 
-  const frameCountLabel = String(activeVariant.frameCount).padStart(3, "0");
   const stageClassName = [
     "relative min-w-0",
     isDesktop ? "left-1/2 w-screen -translate-x-1/2" : "",
@@ -511,14 +495,6 @@ export default function ScrollSequenceHero({
     ? "mt-3 max-w-[32ch] text-[0.98rem] leading-7 text-white/78"
     : "mt-2 text-sm leading-6 text-white/74";
 
-  const noteCardClassName = isDesktop
-    ? "max-w-[28rem] rounded-[1.7rem] border border-white/10 bg-[rgba(9,15,24,0.22)] px-5 py-4 text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_56px_-38px_rgba(0,0,0,0.72)] backdrop-blur-[18px]"
-    : "max-w-[26rem] rounded-[1.45rem] border border-white/12 bg-white/10 px-4 py-3 text-white/76 backdrop-blur-md";
-
-  const statusClassName = isDesktop
-    ? "rounded-full border border-white/10 bg-[rgba(9,15,24,0.18)] px-4 py-2 text-[0.68rem] uppercase tracking-[0.28em] text-white/68 backdrop-blur-[14px]"
-    : "rounded-full border border-white/12 bg-white/10 px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/64 backdrop-blur";
-
   const finalCardReveal = revealWindow(scrollProgress, 0.88, 0.98);
   const finalCardStyle = {
     opacity: finalCardReveal,
@@ -540,9 +516,6 @@ export default function ScrollSequenceHero({
                 <span className="rounded-full border border-white/12 bg-[rgba(9,15,24,0.18)] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/72 backdrop-blur-[12px]">
                   {badge}
                 </span>
-                <span className="rounded-full border border-white/12 bg-[rgba(9,15,24,0.18)] px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.22em] text-white/74 backdrop-blur-[12px]">
-                  {frameLabel}/{frameCountLabel}
-                </span>
               </div>
 
               {isDesktop && finalCard ? (
@@ -557,18 +530,9 @@ export default function ScrollSequenceHero({
                       "inset 0 1px 0 rgba(255,255,255,0.14), 0 28px 90px -42px rgba(0,0,0,0.82)",
                   }}
                 >
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
                     <span className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-white/72">
                       {finalCard.eyebrow}
-                    </span>
-                    <span
-                      className="rounded-full px-3 py-1 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-white/64"
-                      style={{
-                        border: "1px solid rgba(255,255,255,0.14)",
-                        background: "rgba(255,255,255,0.06)",
-                      }}
-                    >
-                      24 fps - scrub
                     </span>
                   </div>
 
@@ -619,24 +583,6 @@ export default function ScrollSequenceHero({
                 </div>
               ))}
 
-              <div className="pointer-events-none absolute inset-x-4 bottom-4 flex flex-col gap-3 md:inset-x-8 md:bottom-7 md:flex-row md:items-end md:justify-between xl:inset-x-[max(2rem,4vw)]">
-                <div className={statusClassName}>
-                  {prefersReducedMotion
-                    ? "Fallback estatico"
-                    : status === "loading"
-                      ? "Preloading"
-                      : status === "ready"
-                        ? "Sequencia pronta"
-                        : "Falha na sequencia"}
-                </div>
-
-                <div className={`${noteCardClassName} ${isDesktop ? "lg:hidden" : ""}`}>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-white/50">
-                    Scroll scrub
-                  </p>
-                  <p className="mt-2 text-sm leading-7">{note}</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -644,4 +590,3 @@ export default function ScrollSequenceHero({
     </div>
   );
 }
-

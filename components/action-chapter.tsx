@@ -1,5 +1,14 @@
+"use client";
+
+import { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteContent } from "../lib/site-content";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type ActionChapterProps = {
   navItems: SiteContent["navItems"];
@@ -18,11 +27,140 @@ export default function ActionChapter({
   mailHref,
   telHref,
 }: ActionChapterProps) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const ctaPanelRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  const titleLeadWords = useMemo(
+    () => actionCta.titleLead.split(" "),
+    [actionCta.titleLead],
+  );
+  const titleTrailWords = useMemo(
+    () => actionCta.titleTrail.split(" "),
+    [actionCta.titleTrail],
+  );
+
+  useLayoutEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      return;
+    }
+
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+    const ctx = gsap.context(() => {
+      const ctaWords = gsap.utils.toArray<HTMLElement>("[data-action-word]");
+      const revealCards = gsap.utils.toArray<HTMLElement>("[data-action-reveal]");
+      const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-action-parallax]");
+
+      gsap.set(ctaWords, { opacity: 0.2, y: 32 });
+      gsap.to(ctaWords, {
+        opacity: 1,
+        y: 0,
+        ease: "none",
+        stagger: isDesktop ? 0.028 : 0.02,
+        scrollTrigger: {
+          trigger: ctaPanelRef.current,
+          start: isDesktop ? "top 88%" : "top 92%",
+          end: isDesktop ? "top 48%" : "top 56%",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      parallaxTargets.forEach((target) => {
+        const strength = Number(target.dataset.parallaxStrength ?? "10");
+        gsap.fromTo(
+          target,
+          { yPercent: -strength },
+          {
+            yPercent: strength,
+            ease: "none",
+            scrollTrigger: {
+              trigger: target.closest("[data-action-parallax-scope]") ?? target,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+
+      revealCards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 72 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: (index % 3) * 0.08,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+
+      if (isDesktop && formRef.current) {
+        gsap.fromTo(
+          formRef.current,
+          { x: 96, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: formRef.current,
+              start: "top 88%",
+              toggleActions: "play none none reverse",
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      }
+    }, sectionRef);
+
+    const refresh = () => ScrollTrigger.refresh();
+    const t1 = window.setTimeout(refresh, 120);
+    const t2 = window.setTimeout(refresh, 600);
+    const t3 = window.setTimeout(refresh, 1500);
+    window.addEventListener("load", refresh);
+    const images = sectionRef.current?.querySelectorAll("img") ?? [];
+    const imageListeners: Array<() => void> = [];
+    images.forEach((img) => {
+      if (!img.complete) {
+        const listener = () => refresh();
+        img.addEventListener("load", listener, { once: true });
+        imageListeners.push(() => img.removeEventListener("load", listener));
+      }
+    });
+
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+      window.removeEventListener("load", refresh);
+      imageListeners.forEach((cleanup) => cleanup());
+      ctx.revert();
+    };
+  }, []);
+
   return (
     <>
-      <section id="contato" className="section-shell scroll-mt-32 pt-10 sm:pt-14 lg:pt-20">
+      <section
+        ref={sectionRef}
+        id="contato"
+        className="section-shell scroll-mt-32 pt-10 sm:pt-14 lg:pt-20"
+      >
         <div className="site-shell space-y-8 sm:space-y-10 lg:space-y-12">
-          <div className="flex justify-center">
+          <div className="flex justify-center" data-action-reveal>
             <div className="flex items-center gap-3 rounded-full border border-[rgba(255,255,255,0.82)] bg-[rgba(255,255,255,0.72)] px-4 py-2 shadow-[0_20px_60px_-38px_rgba(14,29,41,0.34)] backdrop-blur-xl">
               <span className="h-1.5 w-10 rounded-full bg-[var(--accent-strong)]" />
               <span className="text-[0.72rem] uppercase tracking-[0.24em] text-[var(--ink-soft)]">
@@ -31,16 +169,44 @@ export default function ActionChapter({
             </div>
           </div>
 
-          <article className="relative overflow-hidden rounded-[2.6rem] border border-[rgba(255,255,255,0.16)] bg-[linear-gradient(135deg,rgba(12,24,34,0.98),rgba(24,52,72,0.98))] px-6 py-8 text-white shadow-[0_34px_120px_-56px_rgba(6,14,22,0.82)] sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.26),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08),transparent_24%)]" />
+          <article
+            ref={ctaPanelRef}
+            data-action-parallax-scope
+            className="relative overflow-hidden rounded-[2.6rem] border border-[rgba(255,255,255,0.16)] bg-[linear-gradient(135deg,rgba(12,24,34,0.98),rgba(24,52,72,0.98))] px-6 py-8 text-white shadow-[0_34px_120px_-56px_rgba(6,14,22,0.82)] sm:px-8 sm:py-10 lg:px-10 lg:py-12"
+          >
+            <div
+              data-action-parallax
+              data-parallax-strength="10"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.26),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08),transparent_24%)]"
+            />
             <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
               <div className="space-y-6">
                 <span className="text-[0.72rem] uppercase tracking-[0.24em] text-white/62">
                   {actionCta.eyebrow}
                 </span>
                 <h2 className="max-w-[12ch] text-[clamp(2.8rem,5vw,5.4rem)] leading-[0.92] tracking-[-0.07em] text-balance">
-                  {actionCta.titleLead}{" "}
-                  <span className="text-[rgba(255,255,255,0.72)]">{actionCta.titleTrail}</span>
+                  {titleLeadWords.map((word, index) => (
+                    <span
+                      key={`lead-${word}-${index}`}
+                      data-action-word
+                      className="inline-block pr-[0.2em]"
+                      style={{ willChange: "opacity, transform" }}
+                    >
+                      {word}
+                    </span>
+                  ))}{" "}
+                  <span className="text-[rgba(255,255,255,0.72)]">
+                    {titleTrailWords.map((word, index) => (
+                      <span
+                        key={`trail-${word}-${index}`}
+                        data-action-word
+                        className="inline-block pr-[0.2em]"
+                        style={{ willChange: "opacity, transform" }}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </span>
                 </h2>
                 <p className="max-w-[40ch] text-base leading-8 text-white/74">
                   {actionCta.description}
@@ -49,7 +215,8 @@ export default function ActionChapter({
                 <div className="flex flex-wrap gap-3">
                   <a
                     href={actionCta.primaryAction.href}
-                    className="inline-flex min-h-[3.35rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-[var(--accent-deep)] transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
+                    className="inline-flex min-h-[3.35rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
+                    style={{ color: "var(--accent-deep)" }}
                   >
                     {actionCta.primaryAction.label}
                   </a>
@@ -66,6 +233,7 @@ export default function ActionChapter({
                 {actionCta.signals.map((signal) => (
                   <div
                     key={signal.label}
+                    data-action-reveal
                     className="rounded-[1.45rem] border border-white/10 bg-white/6 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                   >
                     <p className="text-[0.68rem] uppercase tracking-[0.24em] text-white/52">
@@ -81,8 +249,16 @@ export default function ActionChapter({
           </article>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-8">
-            <article className="glass-panel relative overflow-hidden p-6 sm:p-7 lg:p-8">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.14),transparent_34%)]" />
+            <article
+              data-action-reveal
+              data-action-parallax-scope
+              className="glass-panel relative overflow-hidden p-6 sm:p-7 lg:p-8"
+            >
+              <div
+                data-action-parallax
+                data-parallax-strength="9"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.14),transparent_34%)]"
+              />
               <div className="relative space-y-7">
                 <div className="space-y-4">
                   <span className="section-kicker">{contact.eyebrow}</span>
@@ -95,14 +271,16 @@ export default function ActionChapter({
                 </div>
 
                 <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white/84">
-                  <Image
-                    src="/site-images/hero-quote-side-industrial.png"
-                    alt="Operador caminhando entre injetoras e bandejas de componentes em PVC rígido."
-                    width={1152}
-                    height={864}
-                    sizes="(min-width: 1024px) 38vw, 100vw"
-                    className="aspect-[4/3] h-auto w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-                  />
+                  <div data-action-parallax data-parallax-strength="12" className="h-full w-full">
+                    <Image
+                      src="/site-images/contact-form-industrial-line.png"
+                      alt="Operador caminhando entre injetoras e bandejas de componentes em PVC rígido."
+                      width={1152}
+                      height={864}
+                      sizes="(min-width: 1024px) 38vw, 100vw"
+                      className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                    />
+                  </div>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -138,12 +316,19 @@ export default function ActionChapter({
             </article>
 
             <form
+              ref={formRef}
               id="contato-form"
               action="#"
               method="post"
+              data-action-reveal
+              data-action-parallax-scope
               className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(255,255,255,0.9)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,249,251,0.86))] p-6 shadow-[0_28px_90px_-54px_rgba(14,29,41,0.28)] sm:p-7 lg:p-8"
             >
-              <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.12),transparent_42%)]" />
+              <div
+                data-action-parallax
+                data-parallax-strength="8"
+                className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.12),transparent_42%)]"
+              />
               <div className="relative grid gap-5">
                 <div className="space-y-3 border-b border-[var(--line)] pb-5">
                   <span className="section-kicker">{contact.form.title}</span>

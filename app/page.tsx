@@ -82,17 +82,33 @@ export default async function HomePage() {
       <HeaderVisibilityController />
       <SiteHeader items={navItems} />
 
-      <main className="relative w-full max-w-full overflow-x-hidden">
+      <main className="relative w-full max-w-full overflow-x-clip">
         <section id="home" className="scroll-mt-28 pt-5 sm:pt-6 lg:pt-4">
-          <div className="site-shell lg:hidden">
+          <div>
+            <div className="relative lg:left-1/2 lg:right-1/2 lg:-mx-[50vw] lg:w-screen">
+              <ScrollSequenceHero
+                badge={hero.sequence.badge}
+                beats={hero.sequence.beats}
+                manifest={manifest}
+                className="hero-sequence-stage"
+                finalCard={{
+                  eyebrow: hero.intro.eyebrow,
+                  title: hero.intro.title,
+                  body: hero.intro.description,
+                  primaryAction: hero.intro.primaryAction,
+                  secondaryAction: hero.intro.secondaryAction,
+                }}
+              />
+
+            </div>
+          </div>
+
+          <div className="site-shell mt-8 lg:hidden">
             <article className="glass-panel relative overflow-hidden p-6 sm:p-8">
               <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.16),transparent_46%)]" />
               <div className="relative space-y-7">
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
                   <span className="section-kicker">{hero.intro.eyebrow}</span>
-                  <span className="rounded-full border border-[var(--line)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
-                    24 fps scrub
-                  </span>
                 </div>
 
                 <div className="space-y-5">
@@ -101,7 +117,11 @@ export default async function HomePage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <a href={hero.intro.primaryAction.href} className="solid-button">
+                  <a
+                    href={hero.intro.primaryAction.href}
+                    className="solid-button !text-white"
+                    style={{ color: "#ffffff", WebkitTextFillColor: "#ffffff" }}
+                  >
                     {hero.intro.primaryAction.label}
                   </a>
                   <a href={hero.intro.secondaryAction.href} className="outline-button">
@@ -126,28 +146,8 @@ export default async function HomePage() {
             </article>
           </div>
 
-          <div className="mt-6 lg:mt-0">
-            <div className="relative lg:left-1/2 lg:right-1/2 lg:-mx-[50vw] lg:w-screen">
-              <ScrollSequenceHero
-                badge={hero.sequence.badge}
-                note={hero.sequence.note}
-                beats={hero.sequence.beats}
-                manifest={manifest}
-                className="hero-sequence-stage"
-                finalCard={{
-                  eyebrow: hero.intro.eyebrow,
-                  title: hero.intro.title,
-                  body: hero.intro.description,
-                  primaryAction: hero.intro.primaryAction,
-                  secondaryAction: hero.intro.secondaryAction,
-                }}
-              />
-
-            </div>
-          </div>
-
           <div className="site-shell mt-8 lg:mt-10">
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(28rem,30rem)] lg:gap-6">
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:gap-6">
               <article className="relative hidden min-h-[42rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[var(--surface-solid)] shadow-[0_28px_88px_-52px_rgba(19,32,44,0.32)] lg:block">
                 <Image
                   src={heroQuoteSideImage.src}
@@ -162,7 +162,6 @@ export default async function HomePage() {
                   {heroQuoteSideImage.label}
                 </div>
               </article>
-
               <HeroQuoteForm
                 title={hero.form.title}
                 subtitle={hero.form.subtitle}

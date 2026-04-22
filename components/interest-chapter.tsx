@@ -1,5 +1,14 @@
+"use client";
+
+import { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteContent } from "../lib/site-content";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type InterestChapterProps = {
   intro: SiteContent["interestIntro"];
@@ -10,7 +19,7 @@ type InterestChapterProps = {
 };
 
 const inlineImage = {
-  src: "/site-images/about-industrial-floor.png",
+  src: "/site-images/about-inline-badge-industrial.png",
   alt: "Linha industrial da Plasmaster com operação técnica em andamento.",
 };
 
@@ -37,16 +46,133 @@ export default function InterestChapter({
   services,
   differentials,
 }: InterestChapterProps) {
-  const marqueeLoop = [...marqueeItems, ...marqueeItems];
+  // Repeat items enough times so the track is always wider than the viewport,
+  // enabling a seamless infinite scroll when CSS translates by -50%.
+  const marqueeLoop = [
+    ...marqueeItems,
+    ...marqueeItems,
+    ...marqueeItems,
+    ...marqueeItems,
+  ];
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const bentoRef = useRef<HTMLDivElement | null>(null);
+
+  const titleLeadWords = useMemo(() => intro.titleLead.split(" "), [intro.titleLead]);
+  const titleTrailWords = useMemo(() => intro.titleTrail.split(" "), [intro.titleTrail]);
+
+  useLayoutEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      return;
+    }
+
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+    const ctx = gsap.context(() => {
+      const titleWords = gsap.utils.toArray<HTMLElement>("[data-interest-word]");
+      const bentoCards = gsap.utils.toArray<HTMLElement>("[data-interest-card]");
+      const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-interest-parallax]");
+
+      gsap.set(titleWords, { opacity: 0.18, y: 24 });
+      gsap.to(titleWords, {
+        opacity: 1,
+        y: 0,
+        ease: "none",
+        stagger: isDesktop ? 0.03 : 0.022,
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: isDesktop ? "top 88%" : "top 92%",
+          end: isDesktop ? "top 40%" : "top 50%",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      gsap.set(bentoCards, { y: 96, opacity: 0, scale: 0.96 });
+      bentoCards.forEach((card, index) => {
+        gsap.to(card, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: (index % 3) * 0.08,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+            invalidateOnRefresh: true,
+          },
+        });
+      });
+
+      parallaxTargets.forEach((target) => {
+        const strength = Number(target.dataset.parallaxStrength ?? "14");
+        gsap.fromTo(
+          target,
+          { yPercent: -strength },
+          {
+            yPercent: strength,
+            ease: "none",
+            scrollTrigger: {
+              trigger: target.closest("[data-interest-card]") ?? target,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+    }, sectionRef);
+
+    const refresh = () => ScrollTrigger.refresh();
+    const t1 = window.setTimeout(refresh, 120);
+    const t2 = window.setTimeout(refresh, 600);
+    const t3 = window.setTimeout(refresh, 1500);
+    window.addEventListener("load", refresh);
+    const images = sectionRef.current?.querySelectorAll("img") ?? [];
+    const imageListeners: Array<() => void> = [];
+    images.forEach((img) => {
+      if (!img.complete) {
+        const listener = () => refresh();
+        img.addEventListener("load", listener, { once: true });
+        imageListeners.push(() => img.removeEventListener("load", listener));
+      }
+    });
+
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+      window.removeEventListener("load", refresh);
+      imageListeners.forEach((cleanup) => cleanup());
+      ctx.revert();
+    };
+  }, []);
 
   return (
-    <section id="sobre" className="section-shell scroll-mt-32">
+    <section
+      ref={sectionRef}
+      id="sobre"
+      className="section-shell scroll-mt-32"
+    >
       <div className="site-shell space-y-12 sm:space-y-16 lg:space-y-20">
         <div className="space-y-8 lg:space-y-10">
-          <div className="max-w-6xl space-y-6">
+          <div ref={headerRef} className="max-w-6xl space-y-6">
             <span className="section-kicker">{intro.eyebrow}</span>
             <h2 className="max-w-6xl text-[clamp(3.2rem,6vw,6.4rem)] leading-[0.9] tracking-[-0.07em] text-[var(--ink)] text-balance">
-              {intro.titleLead}{" "}
+              {titleLeadWords.map((word, index) => (
+                <span
+                  key={`lead-${word}-${index}`}
+                  data-interest-word
+                  className="inline-block pr-[0.22em]"
+                  style={{ willChange: "opacity, transform" }}
+                >
+                  {word}
+                </span>
+              ))}
               <span className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(14,29,41,0.45)]">
                 <span className="relative block h-full w-full">
                   <Image
@@ -58,7 +184,16 @@ export default function InterestChapter({
                   />
                 </span>
               </span>{" "}
-              {intro.titleTrail}
+              {titleTrailWords.map((word, index) => (
+                <span
+                  key={`trail-${word}-${index}`}
+                  data-interest-word
+                  className="inline-block pr-[0.22em]"
+                  style={{ willChange: "opacity, transform" }}
+                >
+                  {word}
+                </span>
+              ))}
             </h2>
             <p className="section-copy max-w-[64ch]">{intro.description}</p>
           </div>
@@ -78,9 +213,16 @@ export default function InterestChapter({
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-12 lg:grid-flow-dense">
-          <article className="glass-panel group relative overflow-hidden p-7 sm:p-8 lg:col-span-7 lg:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.2),transparent_38%),linear-gradient(135deg,rgba(255,255,255,0.22),transparent_56%)]" />
+        <div ref={bentoRef} className="grid gap-6 lg:grid-cols-12 lg:grid-flow-dense">
+          <article
+            data-interest-card
+            className="glass-panel group relative overflow-hidden p-7 sm:p-8 lg:col-span-7 lg:p-10"
+          >
+            <div
+              data-interest-parallax
+              data-parallax-strength="8"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.2),transparent_38%),linear-gradient(135deg,rgba(255,255,255,0.22),transparent_56%)]"
+            />
             <div className="relative space-y-8">
               <span className="section-kicker">{about.eyebrow}</span>
 
@@ -109,18 +251,27 @@ export default function InterestChapter({
             </div>
           </article>
 
-          <article className="group relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[rgba(18,35,48,0.96)] p-6 text-white shadow-[0_30px_90px_-46px_rgba(8,16,24,0.78)] sm:p-7 lg:col-span-5 lg:p-8">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(127,183,219,0.28),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.05),transparent_30%)]" />
+          <article
+            data-interest-card
+            className="group relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[rgba(18,35,48,0.96)] p-6 text-white shadow-[0_30px_90px_-46px_rgba(8,16,24,0.78)] sm:p-7 lg:col-span-5 lg:p-8"
+          >
+            <div
+              data-interest-parallax
+              data-parallax-strength="10"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(127,183,219,0.28),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.05),transparent_30%)]"
+            />
             <div className="relative space-y-6">
               <div className="overflow-hidden rounded-[1.6rem] border border-white/12">
-                <Image
-                  src={capacityImage.src}
-                  alt={capacityImage.alt}
-                  width={1152}
-                  height={864}
-                  sizes="(min-width: 1024px) 34vw, 100vw"
-                  className="aspect-[4/3] h-auto w-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+                <div data-interest-parallax data-parallax-strength="12" className="h-full w-full">
+                  <Image
+                    src={capacityImage.src}
+                    alt={capacityImage.alt}
+                    width={1152}
+                    height={864}
+                    sizes="(min-width: 1024px) 34vw, 100vw"
+                    className="block aspect-[4/3] h-full w-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -149,7 +300,8 @@ export default function InterestChapter({
 
               <a
                 href={about.capacity.cta.href}
-                className="inline-flex min-h-[3.25rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-[var(--accent-deep)] transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
+                className="inline-flex min-h-[3.25rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
+                style={{ color: "#16374d" }}
               >
                 {about.capacity.cta.label}
               </a>
@@ -162,20 +314,27 @@ export default function InterestChapter({
             return (
               <article
                 key={service.id}
+                data-interest-card
                 id={service.id === services.items[0]?.id ? "servicos" : undefined}
                 className="glass-panel group relative overflow-hidden p-6 sm:p-7 lg:col-span-4 lg:p-8"
               >
-                <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.14),transparent_42%)]" />
+                <div
+                  data-interest-parallax
+                  data-parallax-strength="9"
+                  className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.14),transparent_42%)]"
+                />
                 <div className="relative space-y-6">
                   <div className="overflow-hidden rounded-[1.6rem] border border-[var(--line)] bg-white/85">
-                    <Image
-                      src={visual.src}
-                      alt={visual.alt}
-                      width={1152}
-                      height={864}
-                      sizes="(min-width: 1024px) 26vw, 100vw"
-                      className="aspect-[4/3] h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                    <div data-interest-parallax data-parallax-strength="12" className="h-full w-full">
+                      <Image
+                        src={visual.src}
+                        alt={visual.alt}
+                        width={1152}
+                        height={864}
+                        sizes="(min-width: 1024px) 26vw, 100vw"
+                        className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-3">
@@ -198,8 +357,15 @@ export default function InterestChapter({
             );
           })}
 
-          <article className="relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(248,251,252,0.94),rgba(255,255,255,0.8))] p-6 shadow-[0_24px_80px_-50px_rgba(19,32,44,0.28)] sm:p-7 lg:col-span-4 lg:p-8">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(127,183,219,0.16),transparent_34%)]" />
+          <article
+            data-interest-card
+            className="relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(248,251,252,0.94),rgba(255,255,255,0.8))] p-6 shadow-[0_24px_80px_-50px_rgba(19,32,44,0.28)] sm:p-7 lg:col-span-4 lg:p-8"
+          >
+            <div
+              data-interest-parallax
+              data-parallax-strength="9"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(127,183,219,0.16),transparent_34%)]"
+            />
             <div className="relative space-y-6">
               <div className="space-y-3">
                 <span className="section-kicker">{differentials.eyebrow}</span>

@@ -143,6 +143,10 @@ export default function DesireChapter({
       }
 
       if (proofCards.length > 1) {
+        const stackLeadIn = isDesktop ? 0.8 : 0.6;
+        const stackStepDuration = 1;
+        const stackScrollLength = (proofCards.length - 1) * stackStepDuration + stackLeadIn;
+
         gsap.set(proofCards, {
           zIndex: (index) => index + 1,
           yPercent: (index) => (index === 0 ? 0 : 100),
@@ -155,10 +159,10 @@ export default function DesireChapter({
 
         const stackTimeline = gsap.timeline({
           scrollTrigger: {
-            trigger: stackSectionRef.current,
+            trigger: stackPinRef.current,
             pin: stackPinRef.current,
-            start: isDesktop ? "top+=18% top" : "top+=12% top",
-            end: () => `+=${(proofCards.length - 1) * window.innerHeight}`,
+            start: "top top",
+            end: () => `+=${stackScrollLength * window.innerHeight}`,
             scrub: 1,
             invalidateOnRefresh: true,
             anticipatePin: 1,
@@ -173,9 +177,9 @@ export default function DesireChapter({
               xPercent: 0,
               rotate: 0,
               ease: "power2.out",
-              duration: 1,
+              duration: stackStepDuration,
             },
-            i - 1,
+            stackLeadIn + (i - 1) * stackStepDuration,
           );
         }
       }

@@ -157,7 +157,7 @@ export default function DesireChapter({
           scrollTrigger: {
             trigger: stackSectionRef.current,
             pin: stackPinRef.current,
-            start: "top top",
+            start: isDesktop ? "top+=18% top" : "top+=12% top",
             end: () => `+=${(proofCards.length - 1) * window.innerHeight}`,
             scrub: 1,
             invalidateOnRefresh: true,

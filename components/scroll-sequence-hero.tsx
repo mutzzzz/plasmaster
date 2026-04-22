@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type {
@@ -35,6 +35,9 @@ type SequenceCache = {
 
 const DESKTOP_SCROLL_VH = 460;
 const MOBILE_SCROLL_VH = 320;
+const DESKTOP_FRAME_PREFETCH_RADIUS = 22;
+const MOBILE_FRAME_PREFETCH_RADIUS = 14;
+const FRAME_EVICT_BUFFER = 10;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -66,7 +69,7 @@ function drawCoverFrame(
   ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
 }
 
-function beatStyle(progress: number, beat: HeroBeat): CSSProperties {
+function beatMotion(progress: number, beat: HeroBeat) {
   const range = Math.max(0.001, beat.end - beat.start);
   const localProgress = clamp((progress - beat.start) / range, 0, 1);
   const opacity = Math.sin(localProgress * Math.PI);
@@ -84,12 +87,30 @@ function revealWindow(progress: number, start: number, end: number) {
   return clamp((progress - start) / range, 0, 1);
 }
 
+function finalCardMotion(progress: number) {
+  const reveal = revealWindow(progress, 0.88, 0.98);
+  return {
+    opacity: reveal,
+    transform: `translate3d(${(1 - reveal) * -58}px, ${(1 - reveal) * 26}px, 0) scale(${0.972 + reveal * 0.028})`,
+    pointerEvents: reveal > 0.94 ? "auto" : "none",
+  } as const;
+}
+
 function variantByViewport(
   manifest: HeroSequenceManifest,
   isDesktop: boolean,
 ): HeroSequenceVariantManifest {
   return isDesktop ? manifest.desktop : manifest.mobile;
 }
+
+const initialFinalCardStyle: CSSProperties = {
+  opacity: 0,
+  transform: "translate3d(-58px, 26px, 0) scale(0.972)",
+  pointerEvents: "none",
+  border: "1px solid rgba(255,255,255,0.14)",
+  background: "linear-gradient(180deg, rgba(11,18,25,0.34) 0%, rgba(11,18,25,0.72) 100%)",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.14), 0 28px 90px -42px rgba(0,0,0,0.82)",
+};
 
 export default function ScrollSequenceHero({
   badge,
@@ -101,11 +122,13 @@ export default function ScrollSequenceHero({
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const canvasShellRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const beatRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const finalCardRef = useRef<HTMLElement | null>(null);
   const progressRef = useRef(0);
   const currentFrameRef = useRef(-1);
+  const lastWindowCenterRef = useRef(-1);
   const rafRef = useRef<number | null>(null);
   const resizeFrameRef = useRef<number | null>(null);
-  const cleanupTimersRef = useRef<number[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const scrollBoundRef = useRef(false);
@@ -120,7 +143,6 @@ export default function ScrollSequenceHero({
 
   const [isDesktop, setIsDesktop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const activeVariant = variantByViewport(manifest, isDesktop);
   const scrollHeightVh = isDesktop ? DESKTOP_SCROLL_VH : MOBILE_SCROLL_VH;
@@ -181,10 +203,37 @@ export default function ScrollSequenceHero({
       cancelled: false,
     };
 
+    const framePrefetchRadius = isDesktop
+      ? DESKTOP_FRAME_PREFETCH_RADIUS
+      : MOBILE_FRAME_PREFETCH_RADIUS;
+    const frameEvictRadius = framePrefetchRadius + FRAME_EVICT_BUFFER;
+
     cacheRef.current = cache;
     currentFrameRef.current = -1;
+    lastWindowCenterRef.current = -1;
     progressRef.current = 0;
-    setScrollProgress(0);
+
+    const applyOverlayProgress = (progress: number) => {
+      beats.forEach((beat, index) => {
+        const beatElement = beatRefs.current[index];
+        if (!beatElement) {
+          return;
+        }
+
+        const motion = beatMotion(progress, beat);
+        beatElement.style.opacity = String(motion.opacity);
+        beatElement.style.transform = motion.transform;
+      });
+
+      if (!isDesktop || !finalCard || !finalCardRef.current) {
+        return;
+      }
+
+      const motion = finalCardMotion(progress);
+      finalCardRef.current.style.opacity = String(motion.opacity);
+      finalCardRef.current.style.transform = motion.transform;
+      finalCardRef.current.style.pointerEvents = motion.pointerEvents;
+    };
 
     const syncCanvasSize = () => {
       if (!canvasRef.current || !canvasShellRef.current) {
@@ -241,7 +290,7 @@ export default function ScrollSequenceHero({
     function renderCurrentFrame(force = false) {
       const total = cacheRef.current.total;
       if (total === 0) {
-        return;
+        return -1;
       }
 
       const targetIndex = clamp(
@@ -250,6 +299,7 @@ export default function ScrollSequenceHero({
         total - 1,
       );
       renderFrameAtIndex(targetIndex, force);
+      return targetIndex;
     }
 
     const loadFrame = (index: number, eager = false) => {
@@ -284,7 +334,6 @@ export default function ScrollSequenceHero({
             true,
           );
         }
-
       };
 
       image.onerror = () => {
@@ -298,34 +347,32 @@ export default function ScrollSequenceHero({
       image.src = frameSourceFromPattern(activeVariant.pathPattern, index + 1);
     };
 
-    const progressivePreload = () => {
-      const eagerCount = Math.min(4, activeVariant.frameCount);
-      for (let index = 0; index < eagerCount; index += 1) {
-        loadFrame(index, index === 0);
+    const warmFrameWindow = (centerIndex: number, eagerCenter = false) => {
+      if (cache.cancelled || cache.total === 0) {
+        return;
       }
 
-      let nextIndex = eagerCount;
+      const safeCenter = clamp(centerIndex, 0, cache.total - 1);
+      const start = Math.max(0, safeCenter - framePrefetchRadius);
+      const end = Math.min(cache.total - 1, safeCenter + framePrefetchRadius);
 
-      const step = () => {
-        if (cache.cancelled) {
-          return;
+      for (let index = start; index <= end; index += 1) {
+        loadFrame(index, eagerCenter && index === safeCenter);
+      }
+
+      for (let index = 0; index < cache.total; index += 1) {
+        const keepFrame =
+          index === 0 ||
+          index === currentFrameRef.current ||
+          Math.abs(index - safeCenter) <= frameEvictRadius;
+
+        if (keepFrame || !cache.images[index]) {
+          continue;
         }
 
-        const batchSize = isDesktop ? 10 : 6;
-        const end = Math.min(activeVariant.frameCount, nextIndex + batchSize);
-
-        for (; nextIndex < end; nextIndex += 1) {
-          loadFrame(nextIndex);
-        }
-
-        if (nextIndex < activeVariant.frameCount) {
-          const timer = window.setTimeout(step, 26);
-          cleanupTimersRef.current.push(timer);
-        }
-      };
-
-      const timer = window.setTimeout(step, 26);
-      cleanupTimersRef.current.push(timer);
+        cache.images[index] = null;
+        cache.requested[index] = false;
+      }
     };
 
     const updateProgress = () => {
@@ -338,8 +385,13 @@ export default function ScrollSequenceHero({
       const nextProgress = clamp(-rect.top / scrollable, 0, 1);
 
       progressRef.current = nextProgress;
-      setScrollProgress(nextProgress);
-      renderCurrentFrame(false);
+      const targetIndex = renderCurrentFrame(false);
+      applyOverlayProgress(nextProgress);
+
+      if (!prefersReducedMotion && targetIndex >= 0 && targetIndex !== lastWindowCenterRef.current) {
+        lastWindowCenterRef.current = targetIndex;
+        warmFrameWindow(targetIndex, targetIndex === 0);
+      }
     };
 
     const scheduleUpdate = () => {
@@ -402,19 +454,15 @@ export default function ScrollSequenceHero({
     resizeObserverRef.current.observe(canvasShell);
 
     syncCanvasSize();
+    loadFrame(0, true);
     updateProgress();
 
     if (prefersReducedMotion) {
-      loadFrame(0, true);
       unbindScroll();
-    } else {
-      progressivePreload();
     }
 
     return () => {
       cache.cancelled = true;
-      cleanupTimersRef.current.forEach((timer) => window.clearTimeout(timer));
-      cleanupTimersRef.current = [];
 
       if (rafRef.current != null) {
         window.cancelAnimationFrame(rafRef.current);
@@ -430,7 +478,7 @@ export default function ScrollSequenceHero({
       resizeObserverRef.current?.disconnect();
       unbindScroll();
     };
-  }, [activeVariant, isDesktop, prefersReducedMotion]);
+  }, [activeVariant, beats, finalCard, isDesktop, prefersReducedMotion]);
 
   const stageClassName = [
     "relative min-w-0",
@@ -495,13 +543,6 @@ export default function ScrollSequenceHero({
     ? "mt-3 max-w-[32ch] text-[0.98rem] leading-7 text-white/78"
     : "mt-2 text-sm leading-6 text-white/74";
 
-  const finalCardReveal = revealWindow(scrollProgress, 0.88, 0.98);
-  const finalCardStyle = {
-    opacity: finalCardReveal,
-    transform: `translate3d(${(1 - finalCardReveal) * -58}px, ${(1 - finalCardReveal) * 26}px, 0) scale(${0.972 + finalCardReveal * 0.028})`,
-    pointerEvents: finalCardReveal > 0.94 ? "auto" : "none",
-  } as CSSProperties;
-
   return (
     <div ref={sectionRef} className={stageClassName} style={sequenceStyle}>
       <div className="sticky top-0 flex min-h-[100dvh] items-center">
@@ -520,15 +561,9 @@ export default function ScrollSequenceHero({
 
               {isDesktop && finalCard ? (
                 <article
+                  ref={finalCardRef}
                   className="absolute left-[max(2rem,5vw)] bottom-[10dvh] z-20 max-w-[34rem] rounded-[2.25rem] p-7 text-white backdrop-blur-[22px] xl:max-w-[36rem] xl:p-8"
-                  style={{
-                    ...finalCardStyle,
-                    border: "1px solid rgba(255,255,255,0.14)",
-                    background:
-                      "linear-gradient(180deg, rgba(11,18,25,0.34) 0%, rgba(11,18,25,0.72) 100%)",
-                    boxShadow:
-                      "inset 0 1px 0 rgba(255,255,255,0.14), 0 28px 90px -42px rgba(0,0,0,0.82)",
-                  }}
+                  style={initialFinalCardStyle}
                 >
                   <div className="flex items-center gap-4">
                     <span className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-white/72">
@@ -570,19 +605,17 @@ export default function ScrollSequenceHero({
               {beats.map((beat, index) => (
                 <div
                   key={beat.id}
+                  ref={(element) => {
+                    beatRefs.current[index] = element;
+                  }}
                   className={`${beatPositions[index] ?? beatPositions[0]} ${beatCardClassName}`}
-                  style={beatStyle(scrollProgress, beat)}
+                  style={beatMotion(0, beat)}
                 >
-                  <p className={beatEyebrowClassName}>
-                    {beat.eyebrow}
-                  </p>
-                  <h2 className={beatTitleClassName}>
-                    {beat.title}
-                  </h2>
+                  <p className={beatEyebrowClassName}>{beat.eyebrow}</p>
+                  <h2 className={beatTitleClassName}>{beat.title}</h2>
                   <p className={beatBodyClassName}>{beat.body}</p>
                 </div>
               ))}
-
             </div>
           </div>
         </div>

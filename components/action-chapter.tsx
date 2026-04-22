@@ -1,14 +1,5 @@
-"use client";
-
-import { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteContent } from "../lib/site-content";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 type ActionChapterProps = {
   navItems: SiteContent["navItems"];
@@ -27,136 +18,14 @@ export default function ActionChapter({
   mailHref,
   telHref,
 }: ActionChapterProps) {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const ctaPanelRef = useRef<HTMLElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-
-  const titleLeadWords = useMemo(
-    () => actionCta.titleLead.split(" "),
-    [actionCta.titleLead],
-  );
-  const titleTrailWords = useMemo(
-    () => actionCta.titleTrail.split(" "),
-    [actionCta.titleTrail],
-  );
-
-  useLayoutEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      return;
-    }
-
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-
-    const ctx = gsap.context(() => {
-      const ctaWords = gsap.utils.toArray<HTMLElement>("[data-action-word]");
-      const revealCards = gsap.utils.toArray<HTMLElement>("[data-action-reveal]");
-      const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-action-parallax]");
-
-      gsap.set(ctaWords, { opacity: 0.2, y: 32 });
-      gsap.to(ctaWords, {
-        opacity: 1,
-        y: 0,
-        ease: "none",
-        stagger: isDesktop ? 0.028 : 0.02,
-        scrollTrigger: {
-          trigger: ctaPanelRef.current,
-          start: isDesktop ? "top 88%" : "top 92%",
-          end: isDesktop ? "top 48%" : "top 56%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      parallaxTargets.forEach((target) => {
-        const strength = Number(target.dataset.parallaxStrength ?? "10");
-        gsap.fromTo(
-          target,
-          { yPercent: -strength },
-          {
-            yPercent: strength,
-            ease: "none",
-            scrollTrigger: {
-              trigger: target.closest("[data-action-parallax-scope]") ?? target,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
-
-      revealCards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 72 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            delay: (index % 3) * 0.08,
-            scrollTrigger: {
-              trigger: card,
-              start: "top 92%",
-              toggleActions: "play none none reverse",
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
-
-      if (isDesktop && formRef.current) {
-        gsap.fromTo(
-          formRef.current,
-          { x: 96, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 1.1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: formRef.current,
-              start: "top 88%",
-              toggleActions: "play none none reverse",
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      }
-    }, sectionRef);
-
-    const refresh = () => ScrollTrigger.refresh();
-    const t1 = window.setTimeout(refresh, 120);
-    const t2 = window.setTimeout(refresh, 600);
-    const t3 = window.setTimeout(refresh, 1500);
-    window.addEventListener("load", refresh);
-    const images = sectionRef.current?.querySelectorAll("img") ?? [];
-    const imageListeners: Array<() => void> = [];
-    images.forEach((img) => {
-      if (!img.complete) {
-        const listener = () => refresh();
-        img.addEventListener("load", listener, { once: true });
-        imageListeners.push(() => img.removeEventListener("load", listener));
-      }
-    });
-
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-      window.clearTimeout(t3);
-      window.removeEventListener("load", refresh);
-      imageListeners.forEach((cleanup) => cleanup());
-      ctx.revert();
-    };
-  }, []);
+  const titleLeadWords = actionCta.titleLead.split(" ");
+  const titleTrailWords = actionCta.titleTrail.split(" ");
 
   return (
     <>
       <section
-        ref={sectionRef}
         id="contato"
+        data-animate-action
         className="section-shell scroll-mt-32 pt-10 sm:pt-14 lg:pt-20"
       >
         <div className="site-shell space-y-8 sm:space-y-10 lg:space-y-12">
@@ -170,7 +39,7 @@ export default function ActionChapter({
           </div>
 
           <article
-            ref={ctaPanelRef}
+            data-action-cta-panel
             data-action-parallax-scope
             className="relative overflow-hidden rounded-[2.6rem] border border-[rgba(255,255,255,0.16)] bg-[linear-gradient(135deg,rgba(12,24,34,0.98),rgba(24,52,72,0.98))] px-6 py-8 text-white shadow-[0_34px_120px_-56px_rgba(6,14,22,0.82)] sm:px-8 sm:py-10 lg:px-10 lg:py-12"
           >
@@ -316,7 +185,7 @@ export default function ActionChapter({
             </article>
 
             <form
-              ref={formRef}
+              data-action-form
               id="contato-form"
               action="#"
               method="post"

@@ -1,14 +1,5 @@
-"use client";
-
-import { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteContent } from "../lib/site-content";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 type InterestChapterProps = {
   intro: SiteContent["interestIntro"];
@@ -46,121 +37,25 @@ export default function InterestChapter({
   services,
   differentials,
 }: InterestChapterProps) {
-  // Repeat items enough times so the track is always wider than the viewport,
-  // enabling a seamless infinite scroll when CSS translates by -50%.
   const marqueeLoop = [
     ...marqueeItems,
     ...marqueeItems,
     ...marqueeItems,
     ...marqueeItems,
   ];
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  const bentoRef = useRef<HTMLDivElement | null>(null);
 
-  const titleLeadWords = useMemo(() => intro.titleLead.split(" "), [intro.titleLead]);
-  const titleTrailWords = useMemo(() => intro.titleTrail.split(" "), [intro.titleTrail]);
-
-  useLayoutEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      return;
-    }
-
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-
-    const ctx = gsap.context(() => {
-      const titleWords = gsap.utils.toArray<HTMLElement>("[data-interest-word]");
-      const bentoCards = gsap.utils.toArray<HTMLElement>("[data-interest-card]");
-      const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-interest-parallax]");
-
-      gsap.set(titleWords, { opacity: 0.18, y: 24 });
-      gsap.to(titleWords, {
-        opacity: 1,
-        y: 0,
-        ease: "none",
-        stagger: isDesktop ? 0.03 : 0.022,
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: isDesktop ? "top 88%" : "top 92%",
-          end: isDesktop ? "top 40%" : "top 50%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      gsap.set(bentoCards, { y: 96, opacity: 0, scale: 0.96 });
-      bentoCards.forEach((card, index) => {
-        gsap.to(card, {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          ease: "power3.out",
-          delay: (index % 3) * 0.08,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-            invalidateOnRefresh: true,
-          },
-        });
-      });
-
-      parallaxTargets.forEach((target) => {
-        const strength = Number(target.dataset.parallaxStrength ?? "14");
-        gsap.fromTo(
-          target,
-          { yPercent: -strength },
-          {
-            yPercent: strength,
-            ease: "none",
-            scrollTrigger: {
-              trigger: target.closest("[data-interest-card]") ?? target,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
-    }, sectionRef);
-
-    const refresh = () => ScrollTrigger.refresh();
-    const t1 = window.setTimeout(refresh, 120);
-    const t2 = window.setTimeout(refresh, 600);
-    const t3 = window.setTimeout(refresh, 1500);
-    window.addEventListener("load", refresh);
-    const images = sectionRef.current?.querySelectorAll("img") ?? [];
-    const imageListeners: Array<() => void> = [];
-    images.forEach((img) => {
-      if (!img.complete) {
-        const listener = () => refresh();
-        img.addEventListener("load", listener, { once: true });
-        imageListeners.push(() => img.removeEventListener("load", listener));
-      }
-    });
-
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-      window.clearTimeout(t3);
-      window.removeEventListener("load", refresh);
-      imageListeners.forEach((cleanup) => cleanup());
-      ctx.revert();
-    };
-  }, []);
+  const titleLeadWords = intro.titleLead.split(" ");
+  const titleTrailWords = intro.titleTrail.split(" ");
 
   return (
     <section
-      ref={sectionRef}
       id="sobre"
+      data-animate-interest
       className="section-shell scroll-mt-32"
     >
       <div className="site-shell space-y-12 sm:space-y-16 lg:space-y-20">
         <div className="space-y-8 lg:space-y-10">
-          <div ref={headerRef} className="max-w-6xl space-y-6">
+          <div data-interest-header className="max-w-6xl space-y-6">
             <span className="section-kicker">{intro.eyebrow}</span>
             <h2 className="max-w-6xl text-[clamp(3.2rem,6vw,6.4rem)] leading-[0.9] tracking-[-0.07em] text-[var(--ink)] text-balance">
               {titleLeadWords.map((word, index) => (
@@ -213,7 +108,7 @@ export default function InterestChapter({
           </div>
         </div>
 
-        <div ref={bentoRef} className="grid gap-6 lg:grid-cols-12 lg:grid-flow-dense">
+        <div className="grid gap-6 lg:grid-cols-12 lg:grid-flow-dense">
           <article
             data-interest-card
             className="glass-panel group relative overflow-hidden p-7 sm:p-8 lg:col-span-7 lg:p-10"

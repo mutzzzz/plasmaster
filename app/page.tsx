@@ -5,6 +5,7 @@ import ActionChapter from "../components/action-chapter";
 import DesireChapter from "../components/desire-chapter";
 import HeaderVisibilityController from "../components/header-visibility-controller";
 import { HeroQuoteForm } from "../components/hero-quote-form";
+import HomeScrollAnimations from "../components/home-scroll-animations";
 import InterestChapter from "../components/interest-chapter";
 import SiteHeader from "../components/site-header";
 import ScrollSequenceHero from "../components/scroll-sequence-hero";
@@ -160,7 +161,6 @@ export default async function HomePage() {
                   src={heroQuoteSideImage.src}
                   alt={heroQuoteSideImage.alt}
                   fill
-                  priority
                   sizes="(min-width: 1024px) 56vw, 100vw"
                   className="object-cover"
                 />
@@ -180,6 +180,8 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        <HomeScrollAnimations />
 
         <InterestChapter
           intro={interestIntro}

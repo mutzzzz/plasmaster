@@ -3,6 +3,8 @@ import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import ffmpegStatic from 'ffmpeg-static';
+import ffprobeStatic from 'ffprobe-static';
 
 const ROOT_DIR = process.cwd();
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
@@ -32,6 +34,9 @@ const SOURCES = {
     maxWidth: MOBILE_MAX_WIDTH,
   },
 };
+
+const FFMPEG_STATIC_PATH = resolveStaticBinaryPath(ffmpegStatic);
+const FFPROBE_STATIC_PATH = resolveStaticBinaryPath(ffprobeStatic);
 
 async function main() {
   const ffmpeg = await resolveBinary('ffmpeg');
@@ -174,6 +179,20 @@ async function probeImageDimensions(ffprobe, filePath) {
 }
 
 async function resolveBinary(name) {
+  const bundledCandidates = [];
+  if (name === 'ffmpeg' && FFMPEG_STATIC_PATH) {
+    bundledCandidates.push(FFMPEG_STATIC_PATH);
+  }
+  if (name === 'ffprobe' && FFPROBE_STATIC_PATH) {
+    bundledCandidates.push(FFPROBE_STATIC_PATH);
+  }
+
+  for (const candidate of bundledCandidates) {
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
   const localCandidates = [
     path.join(ROOT_DIR, 'tools', 'ffmpeg', 'bin', `${name}.exe`),
     path.join(ROOT_DIR, 'tools', 'ffmpeg', 'bin', name),
@@ -190,8 +209,21 @@ async function resolveBinary(name) {
   }
 
   throw new Error(
-    `Required binary not found: ${name}. Install it on PATH or place it in tools\\ffmpeg\\bin\\${name}.exe`
+    `Required binary not found: ${name}. Ensure ${name}-static is installed, or add ${name} to PATH, or place it in tools\\ffmpeg\\bin\\${name}.exe`
   );
+}
+
+function resolveStaticBinaryPath(candidate) {
+  if (!candidate) {
+    return null;
+  }
+  if (typeof candidate === 'string') {
+    return candidate;
+  }
+  if (typeof candidate === 'object' && typeof candidate.path === 'string') {
+    return candidate.path;
+  }
+  return null;
 }
 
 async function canRunFromPath(name) {

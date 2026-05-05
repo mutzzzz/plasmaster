@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { SiteContent } from "../lib/site-content";
 import { imageBlurData } from "../lib/image-blur-data";
+import { ContactForm } from "./contact-form";
 
 type ActionChapterProps = {
   navItems: SiteContent["navItems"];
@@ -185,65 +186,7 @@ export default function ActionChapter({
               </div>
             </article>
 
-            <form
-              data-action-form
-              id="contato-form"
-              action="#"
-              method="post"
-              data-action-reveal
-              data-action-parallax-scope
-              className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(244,243,238,0.9)] bg-[linear-gradient(180deg,rgba(244,243,238,0.92),rgba(244,243,238,0.78))] p-6 shadow-[0_28px_90px_-54px_rgba(18,21,31,0.28)] sm:p-7 lg:p-8"
-            >
-              <div
-                data-action-parallax
-                data-parallax-strength="8"
-                className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.12),transparent_42%)]"
-              />
-              <div className="relative grid gap-5">
-                <div className="space-y-3 border-b border-[var(--line)] pb-5">
-                  <span className="section-kicker">{contact.form.title}</span>
-                  <p className="max-w-[56ch] text-sm leading-7 text-[var(--ink-muted)]">
-                    {contact.form.subtitle}
-                  </p>
-                </div>
-
-                {(["name", "email"] as const).map((fieldName) => {
-                  const field = contact.form.fields[fieldName];
-
-                  return (
-                    <label key={fieldName} className="field-shell" htmlFor={`contact-${fieldName}`}>
-                      <span className="field-label">{field.label}</span>
-                      <input
-                        id={`contact-${fieldName}`}
-                        type={field.type ?? (fieldName === "email" ? "email" : "text")}
-                        name={field.name ?? fieldName}
-                        autoComplete={field.autoComplete}
-                        inputMode={field.inputMode}
-                        className="field-control"
-                        placeholder={field.placeholder}
-                      />
-                      <span className="field-helper">{field.helperText}</span>
-                    </label>
-                  );
-                })}
-
-                <label className="field-shell" htmlFor="contact-message">
-                  <span className="field-label">{contact.form.fields.message.label}</span>
-                  <textarea
-                    id="contact-message"
-                    name={contact.form.fields.message.name ?? "message"}
-                    rows={6}
-                    className="field-control resize-none"
-                    placeholder={contact.form.fields.message.placeholder}
-                  />
-                  <span className="field-helper">{contact.form.fields.message.helperText}</span>
-                </label>
-
-                <button type="submit" className="solid-button w-full">
-                  {contact.form.buttonLabel}
-                </button>
-              </div>
-            </form>
+            <ContactForm form={contact.form} source="contato" />
           </div>
         </div>
       </section>

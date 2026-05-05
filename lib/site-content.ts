@@ -198,7 +198,7 @@ export const siteContent: SiteContent = {
     titleLead: "Soluções integradas para quem precisa",
     titleTrail: "comprar com escala e critério.",
     description:
-      "A Plasmaster organiza linhas complementares de embalagem, proteção e acondicionamento para atender indústrias e operações comerciais que precisam concentrar fornecimento, padronizar qualidade e reduzir atrito na compra técnica.",
+      "A Plasmaster é uma empresa que atua no mercado de embalagens plásticas flexíveis. Com anos de experiência e um time altamente capacitado, a Plasmaster é reconhecida por oferecer soluções de qualidade e inovação aos seus clientes.\nNossa linha de produtos inclui embalagens plásticas flexíveis para uma ampla gama de aplicações, desde alimentos e bebidas até produtos químicos e cosméticos. Todas as nossas embalagens são fabricadas com materiais de alta qualidade e tecnologia avançada, garantindo segurança, proteção e preservação dos produtos.\nAcreditamos em oferecer aos nossos clientes um serviço excepcional, desde o atendimento ao cliente até a entrega dos produtos. Nós trabalhamos de perto com nossos clientes para compreender suas necessidades e fornecer soluções personalizadas e eficientes.\nEscolha a Plasmaster para suas necessidades de embalagem plástica flexível e experimente a diferença de trabalhar com uma empresa comprometida com a qualidade e o atendimento ao cliente.",
   },
   manifestParagraph:
     "Fornecer bem não é apenas entregar produto. É conectar portfólio, qualidade homologada e atendimento consultivo para sustentar a rotina operacional com mais previsibilidade, segurança e eficiência comercial.",

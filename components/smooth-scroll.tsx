@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const EASE = 0.25;
+const EASE = 0.12;
 const WHEEL_MULTIPLIER = 1.5;
 const SETTLE_THRESHOLD = 0.30;
 

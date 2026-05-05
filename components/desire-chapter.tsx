@@ -122,7 +122,7 @@ export default function DesireChapter({
                 <article
                   key={item.title}
                   data-proof-card
-                  className="group absolute inset-0 overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,#ffffff_0%,#f4f7fa_100%)] shadow-[0_28px_88px_-48px_rgba(14,29,41,0.32)]"
+                  className="group absolute inset-0 overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,#f4f3ee_0%,rgba(244,243,238,0.82)_100%)] shadow-[0_28px_88px_-48px_rgba(18,21,31,0.32)]"
                 >
                   <div className="grid h-full gap-6 p-6 sm:p-7 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:p-8">
                     <div className="flex flex-col justify-between gap-6">

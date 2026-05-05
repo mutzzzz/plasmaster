@@ -11,23 +11,23 @@ type InterestChapterProps = {
 };
 
 const inlineImage = {
-  src: "/site-images/about-inline-badge-industrial.webp",
-  alt: "Linha industrial da Plasmaster com operação técnica em andamento.",
+  src: "/site-images/about-inline-badge-industrial.webp?v=2",
+  alt: "Macro de bobina transparente com camadas visíveis e núcleo de papelão.",
 };
 
 const capacityImage = {
-  src: "/site-images/about-industrial-floor.webp",
-  alt: "Técnico medindo componentes em PVC rígido ao lado de uma injetora industrial.",
+  src: "/site-images/about-industrial-floor.webp?v=2",
+  alt: "Assortimento de embalagens Plasmaster com bobinas, sacaria e pilhas de embalagens flexíveis.",
 };
 
 const serviceImages = {
   "01": {
-    src: "/site-images/service-outsourcing-detail.webp",
-    alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
+    src: "/site-images/service-outsourcing-detail.webp?v=2",
+    alt: "Close-up de bobina parcialmente desenrolada ao lado de embalagens flexíveis empilhadas.",
   },
   "02": {
-    src: "/site-images/service-full-service-workflow.webp",
-    alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
+    src: "/site-images/service-full-service-workflow.webp?v=2",
+    alt: "Família completa de soluções de embalagem com bobinas, sacaria e embalagens flexíveis organizadas em estúdio.",
   },
 } as const;
 
@@ -68,7 +68,7 @@ export default function InterestChapter({
                   {word}
                 </span>
               ))}
-              <span className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(14,29,41,0.45)]">
+              <span className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(18,21,31,0.45)]">
                 <span className="relative block h-full w-full">
                   <Image
                     src={inlineImage.src}
@@ -94,7 +94,7 @@ export default function InterestChapter({
             <p className="section-copy max-w-[64ch]">{intro.description}</p>
           </div>
 
-          <div className="overflow-hidden rounded-full border border-[rgba(255,255,255,0.9)] bg-[rgba(255,255,255,0.62)] p-2 shadow-[0_24px_80px_-48px_rgba(14,29,41,0.34)]">
+          <div className="overflow-hidden rounded-full border border-[rgba(244,243,238,0.9)] bg-[rgba(244,243,238,0.62)] p-2 shadow-[0_24px_80px_-48px_rgba(18,21,31,0.34)]">
             <div className="marquee-track flex w-max min-w-full items-center gap-3 whitespace-nowrap">
               {marqueeLoop.map((item, index) => (
                 <span
@@ -117,7 +117,7 @@ export default function InterestChapter({
             <div
               data-interest-parallax
               data-parallax-strength="8"
-              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.2),transparent_38%),linear-gradient(135deg,rgba(255,255,255,0.22),transparent_56%)]"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,201,167,0.2),transparent_38%),linear-gradient(135deg,rgba(244,243,238,0.22),transparent_56%)]"
             />
             <div className="relative space-y-8">
               <span className="section-kicker">{about.eyebrow}</span>
@@ -133,7 +133,7 @@ export default function InterestChapter({
                 {about.highlights.map((highlight) => (
                   <div
                     key={highlight.label}
-                    className="rounded-[1.5rem] border border-[var(--line)] bg-white/82 px-4 py-5 shadow-[0_16px_44px_-30px_rgba(14,29,41,0.18)]"
+                    className="rounded-[1.5rem] border border-[var(--line)] bg-white/82 px-4 py-5 shadow-[0_16px_44px_-30px_rgba(18,21,31,0.18)]"
                   >
                     <p className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
                       {highlight.label}
@@ -149,12 +149,12 @@ export default function InterestChapter({
 
           <article
             data-interest-card
-            className="group relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[rgba(18,35,48,0.96)] p-6 text-white shadow-[0_30px_90px_-46px_rgba(8,16,24,0.78)] sm:p-7 lg:col-span-5 lg:p-8"
+            className="group relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[rgba(18,21,31,0.96)] p-6 text-white shadow-[0_30px_90px_-46px_rgba(18,21,31,0.78)] sm:p-7 lg:col-span-5 lg:p-8"
           >
             <div
               data-interest-parallax
               data-parallax-strength="10"
-              className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(127,183,219,0.28),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.05),transparent_30%)]"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,201,167,0.28),transparent_34%),linear-gradient(180deg,rgba(245,166,35,0.08),transparent_30%)]"
             />
             <div className="relative space-y-6">
               <div className="overflow-hidden rounded-[1.6rem] border border-white/12">
@@ -199,7 +199,7 @@ export default function InterestChapter({
               <a
                 href={about.capacity.cta.href}
                 className="inline-flex min-h-[3.25rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
-                style={{ color: "#16374d" }}
+                style={{ color: "var(--ink)" }}
               >
                 {about.capacity.cta.label}
               </a>
@@ -219,7 +219,7 @@ export default function InterestChapter({
                 <div
                   data-interest-parallax
                   data-parallax-strength="9"
-                  className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.14),transparent_42%)]"
+                  className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.14),transparent_42%)]"
                 />
                 <div className="relative space-y-6">
                   <div className="overflow-hidden rounded-[1.6rem] border border-[var(--line)] bg-white/85">
@@ -259,12 +259,12 @@ export default function InterestChapter({
 
           <article
             data-interest-card
-            className="relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(248,251,252,0.94),rgba(255,255,255,0.8))] p-6 shadow-[0_24px_80px_-50px_rgba(19,32,44,0.28)] sm:p-7 lg:col-span-4 lg:p-8"
+            className="relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(244,243,238,0.94),rgba(244,243,238,0.8))] p-6 shadow-[0_24px_80px_-50px_rgba(18,21,31,0.28)] sm:p-7 lg:col-span-4 lg:p-8"
           >
             <div
               data-interest-parallax
               data-parallax-strength="9"
-              className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(127,183,219,0.16),transparent_34%)]"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,201,167,0.16),transparent_34%)]"
             />
             <div className="relative space-y-6">
               <div className="space-y-3">
@@ -281,7 +281,7 @@ export default function InterestChapter({
                 {differentials.items.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-[1.35rem] border border-[var(--line)] bg-white/88 px-4 py-4 shadow-[0_14px_40px_-30px_rgba(14,29,41,0.16)]"
+                    className="rounded-[1.35rem] border border-[var(--line)] bg-white/88 px-4 py-4 shadow-[0_14px_40px_-30px_rgba(18,21,31,0.16)]"
                   >
                     <h4 className="text-sm font-medium tracking-[0.06em] text-[var(--ink)]">
                       {item.title}

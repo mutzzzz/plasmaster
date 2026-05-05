@@ -31,7 +31,7 @@ export default function ActionChapter({
       >
         <div className="site-shell space-y-8 sm:space-y-10 lg:space-y-12">
           <div className="flex justify-center" data-action-reveal>
-            <div className="flex items-center gap-3 rounded-full border border-[rgba(255,255,255,0.82)] bg-[rgba(255,255,255,0.72)] px-4 py-2 shadow-[0_20px_60px_-38px_rgba(14,29,41,0.34)] backdrop-blur-xl">
+            <div className="flex items-center gap-3 rounded-full border border-[rgba(244,243,238,0.82)] bg-[rgba(244,243,238,0.72)] px-4 py-2 shadow-[0_20px_60px_-38px_rgba(18,21,31,0.34)] backdrop-blur-xl">
               <span className="h-1.5 w-10 rounded-full bg-[var(--accent-strong)]" />
               <span className="text-[0.72rem] uppercase tracking-[0.24em] text-[var(--ink-soft)]">
                 Continuidade comercial
@@ -42,12 +42,12 @@ export default function ActionChapter({
           <article
             data-action-cta-panel
             data-action-parallax-scope
-            className="relative overflow-hidden rounded-[2.6rem] border border-[rgba(255,255,255,0.16)] bg-[linear-gradient(135deg,rgba(12,24,34,0.98),rgba(24,52,72,0.98))] px-6 py-8 text-white shadow-[0_34px_120px_-56px_rgba(6,14,22,0.82)] sm:px-8 sm:py-10 lg:px-10 lg:py-12"
+            className="relative overflow-hidden rounded-[2.6rem] border border-[rgba(244,243,238,0.16)] bg-[linear-gradient(135deg,rgba(18,21,31,0.99),rgba(18,21,31,0.94))] px-6 py-8 text-white shadow-[0_34px_120px_-56px_rgba(18,21,31,0.82)] sm:px-8 sm:py-10 lg:px-10 lg:py-12"
           >
             <div
               data-action-parallax
               data-parallax-strength="10"
-              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.26),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08),transparent_24%)]"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,201,167,0.3),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(245,166,35,0.16),transparent_24%)]"
             />
             <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
               <div className="space-y-6">
@@ -64,7 +64,7 @@ export default function ActionChapter({
                       {word}
                     </span>
                   ))}{" "}
-                  <span className="text-[rgba(255,255,255,0.72)]">
+                  <span className="text-[rgba(244,243,238,0.72)]">
                     {titleTrailWords.map((word, index) => (
                       <span
                         key={`trail-${word}-${index}`}
@@ -84,7 +84,7 @@ export default function ActionChapter({
                   <a
                     href={actionCta.primaryAction.href}
                     className="inline-flex min-h-[3.35rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
-                    style={{ color: "var(--accent-deep)" }}
+                    style={{ color: "var(--ink)" }}
                   >
                     {actionCta.primaryAction.label}
                   </a>
@@ -102,7 +102,7 @@ export default function ActionChapter({
                   <div
                     key={signal.label}
                     data-action-reveal
-                    className="rounded-[1.45rem] border border-white/10 bg-white/6 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                    className="rounded-[1.45rem] border border-white/10 bg-white/6 px-4 py-4 shadow-[inset_0_1px_0_rgba(244,243,238,0.08)]"
                   >
                     <p className="text-[0.68rem] uppercase tracking-[0.24em] text-white/52">
                       {signal.label}
@@ -125,7 +125,7 @@ export default function ActionChapter({
               <div
                 data-action-parallax
                 data-parallax-strength="9"
-                className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,183,219,0.14),transparent_34%)]"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,201,167,0.14),transparent_34%)]"
               />
               <div className="relative space-y-7">
                 <div className="space-y-4">
@@ -141,14 +141,14 @@ export default function ActionChapter({
                 <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white/84">
                   <div data-action-parallax data-parallax-strength="12" className="h-full w-full">
                     <Image
-                      src="/site-images/contact-form-industrial-line.webp"
-                      alt="Operador caminhando entre injetoras e bandejas de componentes em PVC rígido."
+                      src="/site-images/service-full-service-workflow.webp?v=2"
+                      alt="Portfólio Plasmaster com bobinas, sacaria e embalagens flexíveis em composição de catálogo."
                       width={1152}
                       height={864}
                       sizes="(min-width: 1024px) 38vw, 100vw"
                       className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                       placeholder="blur"
-                      blurDataURL={imageBlurData["/site-images/contact-form-industrial-line.webp"]?.blurDataURL}
+                      blurDataURL={imageBlurData["/site-images/service-full-service-workflow.webp?v=2"]?.blurDataURL}
                     />
                   </div>
                 </div>
@@ -192,12 +192,12 @@ export default function ActionChapter({
               method="post"
               data-action-reveal
               data-action-parallax-scope
-              className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(255,255,255,0.9)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,249,251,0.86))] p-6 shadow-[0_28px_90px_-54px_rgba(14,29,41,0.28)] sm:p-7 lg:p-8"
+              className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(244,243,238,0.9)] bg-[linear-gradient(180deg,rgba(244,243,238,0.92),rgba(244,243,238,0.78))] p-6 shadow-[0_28px_90px_-54px_rgba(18,21,31,0.28)] sm:p-7 lg:p-8"
             >
               <div
                 data-action-parallax
                 data-parallax-strength="8"
-                className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.12),transparent_42%)]"
+                className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.12),transparent_42%)]"
               />
               <div className="relative grid gap-5">
                 <div className="space-y-3 border-b border-[var(--line)] pb-5">

@@ -7,6 +7,14 @@ const MEDIA_EDGE_CACHE_CONTROL =
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    localPatterns: [
+      {
+        pathname: "/site-images/**",
+      },
+      {
+        pathname: "/plasmaster-logo.png",
+      },
+    ],
   },
   async headers() {
     return [

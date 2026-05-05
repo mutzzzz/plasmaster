@@ -9,6 +9,7 @@ type HeroQuoteField = {
 };
 
 export type HeroQuoteFormProps = {
+  eyebrow: string;
   title: string;
   subtitle: string;
   buttonLabel: string;
@@ -28,6 +29,7 @@ function fieldId(prefix: string, key: keyof HeroQuoteFormProps["fields"]) {
 }
 
 export function HeroQuoteForm({
+  eyebrow,
   title,
   subtitle,
   buttonLabel,
@@ -43,11 +45,11 @@ export function HeroQuoteForm({
       method={method}
       className={`glass-panel relative overflow-hidden p-6 sm:p-8 ${className}`.trim()}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(127,183,219,0.12),transparent_44%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,201,167,0.12),transparent_44%)]" />
 
       <div className="relative space-y-6">
         <div className="space-y-3 border-b border-[var(--line)] pb-4">
-          <span className="section-kicker">Solicite um orçamento</span>
+          <span className="section-kicker">{eyebrow}</span>
           <div className="space-y-2">
             <h2 className="text-2xl leading-tight tracking-[-0.04em] text-[var(--ink)] sm:text-[2.05rem]">
               {title}

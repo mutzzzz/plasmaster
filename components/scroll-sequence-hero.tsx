@@ -107,9 +107,9 @@ const initialFinalCardStyle: CSSProperties = {
   opacity: 0,
   transform: "translate3d(-58px, 26px, 0) scale(0.972)",
   pointerEvents: "none",
-  border: "1px solid rgba(255,255,255,0.14)",
-  background: "linear-gradient(180deg, rgba(11,18,25,0.34) 0%, rgba(11,18,25,0.72) 100%)",
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.14), 0 28px 90px -42px rgba(0,0,0,0.82)",
+  border: "1px solid rgba(244,243,238,0.14)",
+  background: "linear-gradient(180deg, rgba(18,21,31,0.36) 0%, rgba(18,21,31,0.76) 100%)",
+  boxShadow: "inset 0 1px 0 rgba(244,243,238,0.14), 0 28px 90px -42px rgba(18,21,31,0.82)",
 };
 
 export default function ScrollSequenceHero({
@@ -516,20 +516,20 @@ export default function ScrollSequenceHero({
       ];
 
   const surfaceClassName = isDesktop
-    ? "relative min-h-[100dvh] overflow-hidden bg-[linear-gradient(180deg,#f5f7fa_0%,#e5eaef_100%)] shadow-[0_40px_120px_-64px_rgba(15,23,42,0.45)]"
-    : "relative overflow-hidden rounded-[2.75rem] border border-[var(--line)] bg-[var(--accent-deep)] shadow-[0_34px_96px_-52px_rgba(15,23,42,0.54)]";
+    ? "relative min-h-[100dvh] overflow-hidden bg-[var(--accent-deep)] shadow-[0_40px_120px_-64px_rgba(18,21,31,0.56)]"
+    : "relative overflow-hidden rounded-[2.75rem] border border-[var(--line)] bg-[var(--accent-deep)] shadow-[0_34px_96px_-52px_rgba(18,21,31,0.54)]";
 
   const canvasClassName = isDesktop
     ? "block h-full w-full md:min-h-[100dvh]"
     : "block h-full w-full";
 
   const overlayClassName = isDesktop
-    ? "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(255,255,255,0.06),transparent_24%),radial-gradient(circle_at_16%_22%,rgba(255,255,255,0.34),transparent_28%),linear-gradient(90deg,rgba(7,13,22,0.54)_0%,rgba(7,13,22,0.2)_30%,rgba(7,13,22,0.08)_54%,rgba(7,13,22,0.44)_100%),linear-gradient(180deg,rgba(9,15,24,0.16)_0%,rgba(9,15,24,0.08)_22%,rgba(9,15,24,0.1)_58%,rgba(9,15,24,0.62)_100%)]"
-    : "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.18),transparent_26%),linear-gradient(180deg,rgba(8,14,22,0.04),rgba(8,14,22,0.46))]";
+    ? "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(0,201,167,0.08),transparent_24%),radial-gradient(circle_at_16%_22%,rgba(245,166,35,0.14),transparent_28%),linear-gradient(90deg,rgba(18,21,31,0.58)_0%,rgba(18,21,31,0.22)_30%,rgba(18,21,31,0.08)_54%,rgba(18,21,31,0.48)_100%),linear-gradient(180deg,rgba(18,21,31,0.18)_0%,rgba(18,21,31,0.1)_22%,rgba(18,21,31,0.12)_58%,rgba(18,21,31,0.64)_100%)]"
+    : "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(0,201,167,0.18),transparent_26%),linear-gradient(180deg,rgba(18,21,31,0.04),rgba(18,21,31,0.48))]";
 
   const beatCardClassName = isDesktop
-    ? "pointer-events-none rounded-[1.85rem] border border-white/10 bg-[rgba(9,15,24,0.24)] p-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_64px_-42px_rgba(0,0,0,0.75)] backdrop-blur-[18px] md:p-6"
-    : "pointer-events-none rounded-[1.7rem] border border-white/12 bg-[rgba(8,14,22,0.54)] p-4 text-white shadow-[0_20px_56px_-36px_rgba(0,0,0,0.48)] backdrop-blur-md md:p-5";
+    ? "pointer-events-none rounded-[1.85rem] border border-white/10 bg-[rgba(18,21,31,0.28)] p-5 text-white shadow-[inset_0_1px_0_rgba(244,243,238,0.12),0_28px_64px_-42px_rgba(18,21,31,0.75)] backdrop-blur-[18px] md:p-6"
+    : "pointer-events-none rounded-[1.7rem] border border-white/12 bg-[rgba(18,21,31,0.56)] p-4 text-white shadow-[0_20px_56px_-36px_rgba(18,21,31,0.48)] backdrop-blur-md md:p-5";
 
   const beatEyebrowClassName = isDesktop
     ? "text-[0.72rem] uppercase tracking-[0.3em] text-white/58"
@@ -554,7 +554,7 @@ export default function ScrollSequenceHero({
               <div className={overlayClassName} />
 
               <div className="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between gap-3 md:inset-x-8 md:top-7 xl:inset-x-[max(2rem,4vw)]">
-                <span className="rounded-full border border-white/12 bg-[rgba(9,15,24,0.18)] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/72 backdrop-blur-[12px]">
+                <span className="rounded-full border border-white/12 bg-[rgba(18,21,31,0.18)] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/72 backdrop-blur-[12px]">
                   {badge}
                 </span>
               </div>
@@ -584,7 +584,7 @@ export default function ScrollSequenceHero({
                     <a
                       href={finalCard.secondaryAction.href}
                       className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-300 ease-out hover:bg-white/92 active:translate-y-px active:scale-[0.99]"
-                      style={{ color: "var(--accent-deep)" }}
+                      style={{ color: "var(--ink)" }}
                     >
                       {finalCard.secondaryAction.label}
                     </a>
@@ -592,8 +592,8 @@ export default function ScrollSequenceHero({
                       href={finalCard.primaryAction.href}
                       className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium text-white transition duration-300 ease-out hover:bg-white/10 active:translate-y-px active:scale-[0.99]"
                       style={{
-                        border: "1px solid rgba(255,255,255,0.22)",
-                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(244,243,238,0.22)",
+                        background: "rgba(244,243,238,0.04)",
                       }}
                     >
                       {finalCard.primaryAction.label}

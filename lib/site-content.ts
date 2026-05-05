@@ -50,6 +50,7 @@ export type HeroSequenceManifest = {
 
 export type SiteContent = {
   navItems: NavItem[];
+  headerCtaLabel: string;
   marqueeItems: string[];
   interestIntro: {
     eyebrow: string;
@@ -90,6 +91,7 @@ export type SiteContent = {
       beats: HeroBeat[];
     };
     form: {
+      eyebrow: string;
       title: string;
       subtitle: string;
       buttonLabel: string;
@@ -178,140 +180,141 @@ export type SiteContent = {
 export const siteContent: SiteContent = {
   navItems: [
     { href: "#home", label: "Home" },
-    { href: "#sobre", label: "Sobre" },
-    { href: "#servicos", label: "Serviços" },
+    { href: "#sobre", label: "Quem Somos" },
+    { href: "#servicos", label: "Soluções" },
     { href: "#contato", label: "Contato" },
   ],
+  headerCtaLabel: "Falar com um consultor",
   marqueeItems: [
-    "Desde 2005",
-    "Joinville, SC",
-    "PVC rígido",
-    "+2.800 h/mês",
-    "6 injetoras",
-    "3 moinhos",
+    "Portfólio integrado",
+    "Plásticos flexíveis",
+    "Proteção e logística",
+    "Embalagens rígidas",
+    "Qualidade homologada",
+    "Atendimento consultivo",
   ],
   interestIntro: {
-    eyebrow: "Qualidade, capacidade e continuidade",
-    titleLead: "Precisão industrial para peças que exigem",
-    titleTrail: "processo sob controle.",
+    eyebrow: "Portfólio robusto para a operação inteira",
+    titleLead: "Soluções integradas para quem precisa",
+    titleTrail: "comprar com escala e critério.",
     description:
-      "A Plasmaster organiza tecnologia de produção, repetitividade de ciclo e escala operacional para atender operações que não podem depender de improviso quando o lote entra em linha.",
+      "A Plasmaster organiza linhas complementares de embalagem, proteção e acondicionamento para atender indústrias e operações comerciais que precisam concentrar fornecimento, padronizar qualidade e reduzir atrito na compra técnica.",
   },
   manifestParagraph:
-    "Atender com responsabilidade, qualidade e pontualidade significa estruturar a produção para que prazo, repetitividade, leitura técnica e confiança industrial avancem juntos do conceito ao lote em escala.",
+    "Fornecer bem não é apenas entregar produto. É conectar portfólio, qualidade homologada e atendimento consultivo para sustentar a rotina operacional com mais previsibilidade, segurança e eficiência comercial.",
   proofStack: [
     {
-      title: "Qualidade",
+      title: "Portfólio integrado",
       description:
-        "Processos rigorosos do início ao fim sustentam precisão dimensional, acabamento estável e conformidade com a especificação definida pelo cliente.",
+        "Embalagem, proteção, fechamento e acondicionamento podem ser tratados em uma única relação comercial, com menos dispersão de compra e mais coerência entre as soluções escolhidas.",
       image: {
-        src: "/site-images/proof-quality-molding-detail.webp",
-        alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
+        src: "/site-images/proof-quality-molding-detail.webp?v=3",
+        alt: "Detalhe industrial usado para representar amplitude de portfólio e controle de fornecimento.",
       },
     },
     {
-      title: "Suporte",
+      title: "Qualidade homologada",
       description:
-        "Equipe dedicada, com leitura técnica próxima do projeto, para acompanhar demanda, ajuste de processo e continuidade operacional sem ruído de comunicação.",
+        "A seleção das linhas prioriza resistência, conformidade e desempenho para que o fornecimento responda a padrões técnicos mais exigentes.",
       image: {
-        src: "/site-images/proof-support-operator-line.webp",
-        alt: "Operador caminhando entre injetoras e bandejas de componentes em PVC rígido.",
+        src: "/site-images/proof-support-operator-line.webp?v=3",
+        alt: "Ambiente industrial usado para representar acompanhamento de qualidade e operação assistida.",
       },
     },
     {
-      title: "Tecnologia",
+      title: "Atendimento consultivo",
       description:
-        "Equipamentos modernos e processos atualizados transformam exigência industrial em produto real com consistência de ciclo e previsibilidade de lote.",
+        "A recomendação parte da necessidade real da operação, equilibrando aplicação, custo-benefício e continuidade de abastecimento sem empurrar solução genérica.",
       image: {
-        src: "/site-images/proof-technology-workbench.webp",
-        alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
+        src: "/site-images/proof-technology-workbench.webp?v=3",
+        alt: "Mesa técnica usada para representar análise consultiva de aplicações e materiais.",
       },
     },
   ],
   proofCarousel: [
     {
-      title: "Leitura técnica em linha",
-      note: "Base industrial em Joinville",
+      title: "Amplitude de linhas",
+      note: "One-stop-shop para embalagens",
       description:
-        "A operação parte de uma base fabril preparada para decisões técnicas próximas do processo e da produção.",
+        "Plásticos flexíveis, materiais de proteção e soluções rígidas entram no portfólio para simplificar a compra e reduzir a fragmentação entre fornecedores.",
       image: {
-        src: "/site-images/carousel-technical-inspection.webp",
-        alt: "Técnico medindo componentes em PVC rígido ao lado de uma injetora industrial.",
+        src: "/site-images/carousel-technical-inspection.webp?v=2",
+        alt: "Técnico em ambiente industrial representando análise e amplitude de soluções.",
       },
     },
     {
-      title: "Controle de ciclo",
-      note: "Repetitividade para cada lote",
+      title: "Proteção para a cadeia",
+      note: "Logística com fechamento seguro",
       description:
-        "A disciplina de processo acompanha material, molde e repetição para manter estabilidade entre o primeiro teste e a produção em escala.",
+        "Stretch, shrink, PVC, plástico bolha, papelão ondulado e fitas adesivas compõem uma frente voltada a proteção, fechamento e estabilidade no transporte.",
       image: {
-        src: "/site-images/carousel-cycle-control.webp",
-        alt: "Molde industrial com peças termoplásticas recém-injetadas em destaque.",
+        src: "/site-images/carousel-cycle-control.webp?v=2",
+        alt: "Detalhe industrial representando soluções para fechamento, proteção e logística.",
       },
     },
     {
-      title: "Projeto ao lote",
-      note: "Full service com continuidade",
+      title: "Robustez de alta exigência",
+      note: "Embalagens rígidas com barreira",
       description:
-        "Desenvolvimento, prototipagem e fabricação avançam com apoio técnico e integração de parceiros quando o projeto exige correção ou manutenção de molde.",
+        "Galões plásticos e embalagens fluoretadas ampliam a resposta para aplicações que exigem resistência físico-química, ergonomia e proteção avançada.",
       image: {
-        src: "/site-images/carousel-project-to-lot.webp",
-        alt: "Mesa técnica com molde, peças plásticas e desenho de engenharia em revisão.",
+        src: "/site-images/carousel-project-to-lot.webp?v=2",
+        alt: "Linha de produtos com bobinas, embalagens flexíveis e sacaria organizada em progressão de portfólio.",
       },
     },
   ],
   hero: {
     intro: {
-      eyebrow: "Injeção de termoplásticos",
-      title: "Referência nacional em injeção de termoplásticos",
+      eyebrow: "Soluções integradas de embalagens",
+      title: "Excelência e solidez em soluções integradas de embalagens.",
       description:
-        "Desde 2005, em Joinville — polo industrial do Brasil — a Plasmaster une precisão técnica, qualidade certificada e capacidade produtiva para entregar exatamente o que sua operação exige.",
+        "Atendemos às exigências da indústria e do comércio com um portfólio completo de plásticos flexíveis, materiais de proteção e embalagens rígidas. Estrutura, tecnologia e compromisso para sustentar a operação do seu negócio.",
       primaryAction: {
-        label: "Conheça nossa estrutura",
-        href: "#sobre",
-      },
-      secondaryAction: {
-        label: "Solicite um orçamento",
+        label: "Falar com um consultor",
         href: "#contato",
       },
+      secondaryAction: {
+        label: "Conhecer nossas linhas",
+        href: "#servicos",
+      },
       metrics: [
-        { label: "Desde", value: "2005" },
-        { label: "Capacidade", value: "+2.800 h/mês" },
-        { label: "Máquinas", value: "6 injetoras" },
-        { label: "Moinhos", value: "3 unidades" },
+        { label: "Portfólio", value: "integrado" },
+        { label: "Plásticos", value: "flexíveis" },
+        { label: "Proteção", value: "logística" },
+        { label: "Atendimento", value: "consultivo" },
       ],
     },
     sequence: {
-      badge: "Sequência industrial em scroll",
+      badge: "Portfólio em foco",
       note:
-        "A animação acompanha a montagem industrial quadro a quadro, com scrub por scroll e textos em parallax sincronizados ao progresso da seção.",
+        "A narrativa apresenta amplitude de portfólio, centralização comercial e apoio consultivo sincronizados ao avanço do scroll.",
       beats: [
         {
-          id: "referencia",
-          eyebrow: "Desde 2005",
-          title: "Referência nacional em injeção de termoplásticos",
+          id: "portfolio",
+          eyebrow: "Fornecimento estratégico",
+          title: "Portfólio completo para operações que exigem escala, regularidade e resposta.",
           body:
-            "Joinville concentra a base industrial da operação e o primeiro bloco da narrativa posiciona a Plasmaster como parceira de execução técnica.",
+            "A Plasmaster se posiciona como parceira de abastecimento para empresas que não querem pulverizar compras entre vários fornecedores.",
           start: 0.04,
           end: 0.28,
           depth: 42,
         },
         {
-          id: "qualidade",
-          eyebrow: "Qualidade e dedicação",
-          title: "Precisão em cada detalhe. Qualidade em cada peça.",
+          id: "centralizacao",
+          eyebrow: "Centralização com critério",
+          title: "Embalagem, proteção e fechamento em um único parceiro.",
           body:
-            "A segunda passagem reforça repetitividade dimensional, acabamento e conformidade total com as especificações do cliente.",
+            "A segunda passagem reforça menos ruído operacional, melhor leitura da demanda e mais consistência na rotina de compra.",
           start: 0.3,
           end: 0.6,
           depth: 54,
         },
         {
-          id: "capacidade",
-          eyebrow: "Capacidade técnica",
-          title: "Estrutura preparada para volume, material e complexidade.",
+          id: "eficiencia",
+          eyebrow: "Eficiência comercial",
+          title: "Mais previsibilidade para a cadeia. Menos fricção para o time.",
           body:
-            "O fechamento conecta equipamentos, equipe especializada e escala produtiva para levar o visitante ao contato comercial.",
+            "O fechamento direciona o visitante ao contato consultivo para enquadrar aplicação, material e custo-benefício.",
           start: 0.62,
           end: 0.94,
           depth: 48,
@@ -319,14 +322,15 @@ export const siteContent: SiteContent = {
       ],
     },
     form: {
-      title: "Solicite seu orçamento",
-      subtitle: "Fale com nosso time agora mesmo.",
-      buttonLabel: "Enviar solicitação",
+      eyebrow: "Atendimento consultivo",
+      title: "Solicite atendimento consultivo",
+      subtitle: "Envie sua demanda e nosso time indica a linha mais adequada para a sua operação.",
+      buttonLabel: "Quero falar com um especialista",
       fields: {
         name: {
           label: "Seu nome",
           placeholder: "Seu nome",
-          helperText: "Informe o responsável pelo contato.",
+          helperText: "Informe quem conduz a demanda comercial.",
           autoComplete: "name",
         },
         email: {
@@ -337,128 +341,128 @@ export const siteContent: SiteContent = {
           inputMode: "email",
         },
         message: {
-          label: "Como podemos ajudar?",
-          placeholder: "Descreva volume, material ou necessidade técnica.",
-          helperText: "Inclua contexto suficiente para orientar o próximo passo.",
+          label: "Qual é a sua demanda?",
+          placeholder: "Descreva aplicação, volume, material ou necessidade logística.",
+          helperText: "Quanto mais contexto, mais assertiva será a recomendação.",
           name: "message",
         },
       },
     },
   },
   about: {
-    eyebrow: "Processo industrial",
-    title: "Quando a repetitividade importa, o processo precisa responder antes do acabamento.",
+    eyebrow: "Quem somos",
+    title: "Autoridade comercial com visão técnica de operação.",
     description:
-      "Combinamos tecnologia de produção de última geração com técnicas consolidadas de moldagem para entregar peças em termoplástico com alta consistência dimensional, acabamento estável e conformidade com a especificação definida pelo cliente.",
+      "Com sólida presença no mercado de embalagens, a Plasmaster atua como elo estratégico entre clientes e soluções industriais. Nosso modelo combina amplitude de portfólio, qualidade consistente e atendimento consultivo para demandas de diferentes portes e segmentos.",
     highlights: [
-      { label: "Base industrial", value: "Joinville, SC" },
-      { label: "Especialidade", value: "PVC rígido" },
-      { label: "Capacidade", value: "+2.800 h/mês" },
+      { label: "Modelo", value: "One-stop-shop" },
+      { label: "Mercado", value: "Indústria e comércio" },
+      { label: "Abordagem", value: "Consultiva" },
     ],
     capacity: {
-      eyebrow: "Capacidade técnica",
-      title: "Estrutura montada para volume, material e complexidade sem desviar do processo.",
+      eyebrow: "Modelo de atendimento",
+      title: "Uma operação desenhada para indicar a solução certa, sem dispersar a compra.",
       description:
-        "Com equipamentos modernos e equipe especializada, a operação é dimensionada para acomodar diferentes demandas de projeto sem perder leitura técnica, continuidade de produção e previsibilidade de lote.",
+        "Em vez de empurrar catálogo, a Plasmaster organiza linhas complementares para orientar aplicação, fechamento, proteção e acondicionamento com mais coerência técnica e comercial.",
       metrics: [
-        { label: "Horas produtivas", value: "+2.800 h/mês" },
-        { label: "Máquinas injetoras", value: "6" },
-        { label: "Moinhos", value: "3" },
+        { label: "Portfólio", value: "integrado" },
+        { label: "Apoio", value: "consultivo" },
+        { label: "Foco", value: "continuidade" },
       ],
       cta: {
-        label: "Saiba mais sobre nossa estrutura",
+        label: "Fale com a equipe",
         href: "#contato",
       },
     },
     principles: {
-      eyebrow: "Missão, visão e valores",
+      eyebrow: "Base de atuação",
       intro:
-        "Atuamos com responsabilidade, pontualidade e respeito às pessoas, ao prazo e ao meio ambiente.",
+        "Nosso papel é simplificar a decisão de compra com portfólio amplo, qualidade homologada e recomendação técnica orientada ao melhor encaixe para cada operação.",
       mission:
-        "Atender nossos clientes com responsabilidade, qualidade e pontualidade, entregando soluções que respeitem as pessoas, o prazo e o meio ambiente.",
+        "Conectar indústria e comércio a soluções de embalagem que combinem desempenho, continuidade de fornecimento e segurança operacional.",
       vision:
-        "Ser referência nacional no segmento de injeção de termoplásticos, reconhecidos pela excelência técnica e pela confiança dos nossos parceiros.",
+        "Ser reconhecida como parceira estratégica em soluções integradas de embalagens, unindo amplitude de portfólio e atendimento consultivo.",
       values: [
-        "Gratidão",
-        "Comprometimento",
-        "Responsabilidade",
-        "Excelência",
-        "Valorização humana",
+        "Portfólio integrado",
+        "Qualidade homologada",
+        "Atendimento consultivo",
+        "Confiabilidade operacional",
+        "Compromisso comercial",
       ],
     },
   },
   services: {
-    eyebrow: "Serviços",
-    title: "Duas frentes de atendimento, a mesma disciplina de processo.",
+    eyebrow: "Linhas de atuação",
+    title: "Soluções para embalar, proteger e sustentar a operação.",
     description:
-      "Terceirização e full service se organizam sob a mesma lógica: leitura técnica, repetitividade de ciclo e continuidade operacional do primeiro teste até a produção em escala.",
+      "Nosso portfólio combina amplitude comercial e leitura técnica para atender compra recorrente, proteção logística e aplicações de maior exigência.",
     items: [
       {
         id: "01",
-        eyebrow: "Terceirização industrial",
-        title: "Terceirização de injeção de termoplásticos",
+        eyebrow: "Plásticos flexíveis",
+        title: "Flexibilidade para rotinas industriais e comerciais",
         description:
-          "Especializada na injeção de peças termoplásticas para diferentes segmentos industriais, a Plasmaster opera com sólida experiência em PVC rígido e processos rigorosos orientados à repetitividade de ciclos para que cada lote atenda com exatidão às especificações definidas pelo cliente.",
-        cta: { label: "Entre em contato", href: "#contato" },
+          "Bobinas industriais e comerciais, sacarias de alta densidade, filmes lisos e impressos, materiais reciclados e envelopes de segurança com fita permanente para operações que pedem resistência e versatilidade.",
+        cta: { label: "Falar sobre essa linha", href: "#contato" },
       },
       {
         id: "02",
-        eyebrow: "Projeto ao lote",
-        title: "Full service em injeção de termoplásticos",
+        eyebrow: "Proteção, logística e rígidos",
+        title: "Fechamento seguro, proteção de carga e robustez de alta exigência",
         description:
-          "A operação cobre conceito, desenvolvimento, prototipagem e fabricação sob um único parceiro, com apoio de ferramentarias para correções e manutenções de moldes que preservam continuidade e eficiência na sua linha de produção.",
-        cta: { label: "Entre em contato", href: "#contato" },
+          "Stretch, shrink, PVC, plástico bolha, papelão ondulado e fitas adesivas cobrem fechamento e proteção no transporte, enquanto galões plásticos e embalagens fluoretadas atendem aplicações com maior exigência físico-química.",
+        cta: { label: "Falar sobre essa linha", href: "#contato" },
       },
     ],
   },
   differentials: {
     eyebrow: "Por que a Plasmaster",
-    title: "Qualidade não entra no fim. Ela aparece em cada decisão do processo.",
+    title: "O mercado escolhe quem simplifica a compra sem perder critério.",
     description:
-      "Da seleção criteriosa da matéria-prima ao acabamento final, cada decisão operacional é tomada para sustentar consistência técnica, previsibilidade de lote e confiança industrial.",
+      "Sem promessas vazias: a superioridade vem da capacidade de centralizar soluções, manter padrão de qualidade e responder com leitura técnica à demanda de cada operação.",
     items: [
       {
-        title: "Qualidade",
+        title: "Portfólio integrado",
         description:
-          "Processos rigorosos do início ao fim para garantir peças com precisão e acabamento de excelência.",
+          "Soluções de embalagem, fechamento e proteção centralizadas em um único parceiro de negócios.",
       },
       {
-        title: "Suporte",
+        title: "Qualidade homologada",
         description:
-          "Equipe dedicada, onde cada profissional sustenta leitura técnica e acompanhamento direto do projeto.",
+          "Linhas pensadas para sustentar padrões rigorosos de resistência, conformidade e desempenho.",
       },
       {
-        title: "Tecnologia",
+        title: "Atendimento consultivo",
         description:
-          "Equipamentos modernos e processos atualizados para transformar demanda industrial em produto real com continuidade.",
+          "Um time preparado para entender a demanda técnica e indicar o melhor encaixe entre aplicação, custo e continuidade.",
       },
     ],
   },
   actionCta: {
     eyebrow: "Contato comercial",
-    titleLead: "Quando o seu projeto pede",
-    titleTrail: "continuidade real.",
+    titleLead: "Centralize suas soluções",
+    titleTrail: "com mais critério.",
     description:
-      "O próximo passo começa com leitura técnica, prazo claro e um canal direto com a operação em Joinville para alinhar volume, material, ferramental e ritmo de produção.",
+      "Se a sua operação precisa de regularidade de fornecimento, apoio técnico e amplitude de portfólio, a conversa começa com aplicação, volume e rotina de consumo.",
     primaryAction: {
-      label: "Enviar briefing do projeto",
+      label: "Enviar demanda",
       href: "#contato-form",
     },
     secondaryAction: {
-      label: "Falar com a Plasmaster",
+      label: "Falar com a equipe",
       href: "mailto:adm@plasmaster.ind.br",
     },
     signals: [
-      { label: "Base industrial", value: "Joinville, SC" },
-      { label: "Canal direto", value: "(47) 3440-0683" },
-      { label: "Especialidade", value: "PVC rígido" },
+      { label: "Modelo", value: "portfólio integrado" },
+      { label: "Atendimento", value: "consultivo" },
+      { label: "Foco", value: "continuidade" },
     ],
   },
   contact: {
-    eyebrow: "Descreva sua demanda",
-    title: "Abra a conversa com o contexto técnico certo.",
+    eyebrow: "Conte o que sua operação precisa",
+    title: "Abra a conversa com o contexto comercial certo.",
     subtitle:
-      "Compartilhe volume, material, etapa do projeto e restrições de prazo para orientar o retorno comercial.",
+      "Descreva aplicação, volume, tipo de material ou necessidade logística para direcionarmos o atendimento.",
     addressLines: [
       "Rodovia SC 108 nº 18201, Galpão 9",
       "CEP 89215-210 — Morro do Meio, Joinville/SC",
@@ -466,10 +470,10 @@ export const siteContent: SiteContent = {
     email: "adm@plasmaster.ind.br",
     phone: "(47) 3440-0683",
     form: {
-      title: "Envie os dados principais",
+      title: "Envie seu briefing",
       subtitle:
-        "Sem automação vazia: o objetivo aqui é dar contexto suficiente para o próximo passo comercial.",
-      buttonLabel: "Enviar mensagem",
+        "Quanto mais contexto sobre uso, volume e restrições, mais assertiva será a indicação da linha.",
+      buttonLabel: "Solicitar contato",
       fields: {
         name: {
           label: "Nome",
@@ -486,8 +490,8 @@ export const siteContent: SiteContent = {
         },
         message: {
           label: "Mensagem",
-          placeholder: "Descreva sua necessidade.",
-          helperText: "Inclua volume, material ou prazo quando possível.",
+          placeholder: "Descreva aplicação, volume, material ou necessidade logística.",
+          helperText: "Inclua contexto suficiente para direcionar a recomendação.",
           name: "message",
         },
       },
@@ -495,7 +499,7 @@ export const siteContent: SiteContent = {
   },
   footer: {
     tagline:
-      "Da matéria-prima ao produto final, cada etapa reflete nosso compromisso com qualidade e responsabilidade.",
+      "Soluções integradas de embalagem com foco em continuidade, qualidade e confiança comercial.",
     socialLinks: ["Facebook", "Twitter / X", "Instagram", "Google", "LinkedIn"],
     copyright:
       "Copyright © 2026 Plasmaster. Todos os direitos reservados. — Desenvolvido por OrkaBr",

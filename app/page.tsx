@@ -15,9 +15,9 @@ import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
 const telHref = "tel:+554734400683";
 const mailHref = "mailto:adm@plasmaster.ind.br";
 const heroQuoteSideImage = {
-  src: "/site-images/hero-quote-side-industrial.webp",
-  alt: "Operador caminhando entre injetoras e bandejas de componentes em PVC rígido.",
-  label: "Linha em operação",
+  src: "/site-images/hero-quote-side-industrial.webp?v=2",
+  alt: "Conjunto premium de bobinas transparentes da linha de embalagens Plasmaster em fundo neutro.",
+  label: "Portfólio em destaque",
 };
 
 async function readHeroManifest(): Promise<HeroSequenceManifest> {
@@ -72,6 +72,7 @@ export default async function HomePage() {
   const manifest = await readHeroManifest();
   const {
     navItems,
+    headerCtaLabel,
     marqueeItems,
     interestIntro,
     manifestParagraph,
@@ -89,7 +90,7 @@ export default async function HomePage() {
   return (
     <>
       <HeaderVisibilityController />
-      <SiteHeader items={navItems} />
+      <SiteHeader items={navItems} ctaLabel={headerCtaLabel} />
 
       <main className="relative w-full max-w-full overflow-x-clip">
         <section id="home" className="scroll-mt-28 pt-5 sm:pt-6 lg:pt-4">
@@ -108,13 +109,12 @@ export default async function HomePage() {
                   secondaryAction: hero.intro.secondaryAction,
                 }}
               />
-
             </div>
           </div>
 
           <div className="site-shell mt-8 lg:hidden">
             <article className="glass-panel relative overflow-hidden p-6 sm:p-8">
-              <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(127,183,219,0.16),transparent_46%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.16),transparent_46%)]" />
               <div className="relative space-y-7">
                 <div className="flex items-center gap-4">
                   <span className="section-kicker">{hero.intro.eyebrow}</span>
@@ -128,8 +128,7 @@ export default async function HomePage() {
                 <div className="flex flex-wrap items-center gap-3">
                   <a
                     href={hero.intro.primaryAction.href}
-                    className="solid-button !text-white"
-                    style={{ color: "#ffffff", WebkitTextFillColor: "#ffffff" }}
+                    className="solid-button"
                   >
                     {hero.intro.primaryAction.label}
                   </a>
@@ -138,7 +137,7 @@ export default async function HomePage() {
                   </a>
                 </div>
 
-                <div className="grid gap-1 rounded-[1.8rem] border border-[var(--line)] bg-white/70 p-5 shadow-[0_18px_58px_-42px_rgba(19,32,44,0.22)]">
+                <div className="grid gap-1 rounded-[1.8rem] border border-[var(--line)] bg-white/70 p-5 shadow-[0_18px_58px_-42px_rgba(18,21,31,0.22)]">
                   {hero.intro.metrics.map((metric) => (
                     <div
                       key={metric.label}
@@ -157,7 +156,7 @@ export default async function HomePage() {
 
           <div className="site-shell mt-8 lg:mt-10">
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:gap-6">
-              <article className="relative hidden min-h-[42rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[var(--surface-solid)] shadow-[0_28px_88px_-52px_rgba(19,32,44,0.32)] lg:block">
+              <article className="relative hidden min-h-[42rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[var(--surface-solid)] shadow-[0_28px_88px_-52px_rgba(18,21,31,0.32)] lg:block">
                 <Image
                   src={heroQuoteSideImage.src}
                   alt={heroQuoteSideImage.alt}
@@ -167,12 +166,13 @@ export default async function HomePage() {
                   placeholder="blur"
                   blurDataURL={imageBlurData[heroQuoteSideImage.src]?.blurDataURL}
                 />
-                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(19,32,44,0.02)_0%,rgba(19,32,44,0.08)_48%,rgba(19,32,44,0.28)_100%)]" />
-                <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-[rgba(255,255,255,0.84)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-deep)] shadow-[0_10px_30px_-18px_rgba(19,32,44,0.4)]">
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,21,31,0.02)_0%,rgba(18,21,31,0.08)_48%,rgba(18,21,31,0.28)_100%)]" />
+                <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-[rgba(244,243,238,0.84)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-deep)] shadow-[0_10px_30px_-18px_rgba(18,21,31,0.4)]">
                   {heroQuoteSideImage.label}
                 </div>
               </article>
               <HeroQuoteForm
+                eyebrow={hero.form.eyebrow}
                 title={hero.form.title}
                 subtitle={hero.form.subtitle}
                 buttonLabel={hero.form.buttonLabel}

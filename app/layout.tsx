@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Outfit } from "next/font/google";
 import type { ReactNode } from "react";
-import SmoothScroll from "../components/smooth-scroll";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -28,11 +27,10 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className="scroll-smooth">
       <body
         className={`${outfit.variable} ${jetBrainsMono.variable} min-h-[100dvh] overflow-x-clip bg-[var(--surface)] text-[var(--ink)] antialiased`}
       >
-        <SmoothScroll />
         <a href="#home" className="skip-link">
           Ir para o conteudo
         </a>

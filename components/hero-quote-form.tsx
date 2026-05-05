@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+
 type HeroQuoteField = {
   label: string;
   placeholder: string;
@@ -19,10 +23,15 @@ export type HeroQuoteFormProps = {
     message: HeroQuoteField;
   };
   idPrefix?: string;
-  action?: string;
-  method?: "get" | "post";
+  source?: string;
   className?: string;
 };
+
+type SubmitStatus =
+  | { kind: "idle" }
+  | { kind: "submitting" }
+  | { kind: "success" }
+  | { kind: "error"; message: string };
 
 function fieldId(prefix: string, key: keyof HeroQuoteFormProps["fields"]) {
   return `${prefix}-${key}`;
@@ -35,14 +44,61 @@ export function HeroQuoteForm({
   buttonLabel,
   fields,
   idPrefix = "hero-quote-form",
-  action = "#",
-  method = "post",
+  source = "hero",
   className = "",
 }: HeroQuoteFormProps) {
+  const [status, setStatus] = useState<SubmitStatus>({ kind: "idle" });
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status.kind === "submitting") return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get(fields.name.name ?? "name") ?? ""),
+      email: String(data.get(fields.email.name ?? "email") ?? ""),
+      message: String(data.get(fields.message.name ?? "message") ?? ""),
+      source,
+    };
+
+    setStatus({ kind: "submitting" });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !json.ok) {
+        const map: Record<string, string> = {
+          missing_fields: "Preencha todos os campos.",
+          invalid_email: "E-mail inválido.",
+          upstream_error: "Falha no envio. Tente novamente em instantes.",
+          invalid_json: "Erro ao processar a solicitação.",
+        };
+        setStatus({
+          kind: "error",
+          message: map[json.error ?? ""] ?? "Não foi possível enviar agora. Tente novamente.",
+        });
+        return;
+      }
+      setStatus({ kind: "success" });
+      form.reset();
+    } catch {
+      setStatus({
+        kind: "error",
+        message: "Sem conexão. Tente novamente em instantes.",
+      });
+    }
+  }
+
+  const submitting = status.kind === "submitting";
+
   return (
     <form
-      action={action}
-      method={method}
+      onSubmit={handleSubmit}
+      noValidate
       className={`glass-panel relative overflow-hidden p-6 sm:p-8 ${className}`.trim()}
     >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,201,167,0.12),transparent_44%)]" />
@@ -71,6 +127,8 @@ export function HeroQuoteForm({
               inputMode={fields.name.inputMode}
               className="field-control"
               placeholder={fields.name.placeholder}
+              required
+              disabled={submitting}
             />
             <span className="field-helper">{fields.name.helperText}</span>
           </label>
@@ -85,6 +143,8 @@ export function HeroQuoteForm({
               inputMode={fields.email.inputMode}
               className="field-control"
               placeholder={fields.email.placeholder}
+              required
+              disabled={submitting}
             />
             <span className="field-helper">{fields.email.helperText}</span>
           </label>
@@ -97,14 +157,30 @@ export function HeroQuoteForm({
               rows={5}
               className="field-control resize-none"
               placeholder={fields.message.placeholder}
+              required
+              disabled={submitting}
             />
             <span className="field-helper">{fields.message.helperText}</span>
           </label>
         </div>
 
-        <button type="submit" className="solid-button w-full">
-          {buttonLabel}
+        <button type="submit" className="solid-button w-full" disabled={submitting}>
+          {submitting ? "Enviando..." : buttonLabel}
         </button>
+
+        {status.kind === "success" && (
+          <p
+            role="status"
+            className="text-sm leading-6 text-[var(--accent-deep)]"
+          >
+            Mensagem enviada. Em breve entraremos em contato.
+          </p>
+        )}
+        {status.kind === "error" && (
+          <p role="alert" className="text-sm leading-6 text-red-600">
+            {status.message}
+          </p>
+        )}
       </div>
     </form>
   );

@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
-const EASE = 0.085;
-const WHEEL_MULTIPLIER = 1;
-const SETTLE_THRESHOLD = 0.12;
+const EASE = 0.25;
+const WHEEL_MULTIPLIER = 1.5;
+const SETTLE_THRESHOLD = 0.30;
 
 export default function SmoothScroll() {
   useEffect(() => {

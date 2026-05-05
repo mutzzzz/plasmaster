@@ -84,11 +84,13 @@ export default function HomeScrollAnimations() {
 
           parallaxTargets.forEach((target) => {
             const strength = Number(target.dataset.parallaxStrength ?? "14");
+            const scaleBuffer = 1 + (strength * 2 + 6) / 100;
             gsap.fromTo(
               target,
-              { yPercent: -strength },
+              { yPercent: -strength, scale: scaleBuffer },
               {
                 yPercent: strength,
+                scale: scaleBuffer,
                 ease: "none",
                 scrollTrigger: {
                   trigger: target.closest("[data-interest-card]") ?? target,
@@ -119,11 +121,13 @@ export default function HomeScrollAnimations() {
 
           parallaxTargets.forEach((target) => {
             const strength = Number(target.dataset.parallaxStrength ?? "12");
+            const scaleBuffer = 1 + (strength * 2 + 6) / 100;
             gsap.fromTo(
               target,
-              { yPercent: -strength },
+              { yPercent: -strength, scale: scaleBuffer },
               {
                 yPercent: strength,
+                scale: scaleBuffer,
                 ease: "none",
                 scrollTrigger: {
                   trigger: target,
@@ -288,11 +292,13 @@ export default function HomeScrollAnimations() {
 
           parallaxTargets.forEach((target) => {
             const strength = Number(target.dataset.parallaxStrength ?? "10");
+            const scaleBuffer = 1 + (strength * 2 + 6) / 100;
             gsap.fromTo(
               target,
-              { yPercent: -strength },
+              { yPercent: -strength, scale: scaleBuffer },
               {
                 yPercent: strength,
+                scale: scaleBuffer,
                 ease: "none",
                 scrollTrigger: {
                   trigger: target.closest("[data-action-parallax-scope]") ?? target,

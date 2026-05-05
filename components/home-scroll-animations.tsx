@@ -102,6 +102,195 @@ export default function HomeScrollAnimations() {
               },
             );
           });
+
+          const heading = interestSection.querySelector<HTMLElement>(
+            "[data-interest-header] h2",
+          );
+          const rollAnchor = interestSection.querySelector<HTMLElement>(
+            "[data-interest-roll-anchor]",
+          );
+          const rollInline = interestSection.querySelector<HTMLElement>(
+            "[data-interest-roll-inline]",
+          );
+          const rollSource = interestSection.querySelector<HTMLElement>(
+            "[data-interest-roll-source]",
+          );
+          const rollOverlay = interestSection.querySelector<HTMLElement>(
+            "[data-interest-roll-overlay]",
+          );
+          const rollOverlayBox = interestSection.querySelector<HTMLElement>(
+            "[data-interest-roll-overlay-box]",
+          );
+          const sideLeft = interestSection.querySelector<HTMLElement>(
+            '[data-interest-side-card="left"]',
+          );
+          const sideRight = interestSection.querySelector<HTMLElement>(
+            '[data-interest-side-card="right"]',
+          );
+
+          if (
+            heading &&
+            rollAnchor &&
+            rollInline &&
+            rollSource &&
+            rollOverlay &&
+            rollOverlayBox
+          ) {
+            gsap.set(rollInline, { autoAlpha: 0 });
+            gsap.set(rollSource, { autoAlpha: 1 });
+            gsap.set(rollOverlay, { autoAlpha: 0 });
+            gsap.set(rollOverlayBox, { force3D: true });
+
+            const midProgress = 0.68;
+            const clampProgress = (value: number) =>
+              Math.min(1, Math.max(0, value));
+            const rangeProgress = (progress: number, start: number, end: number) =>
+              clampProgress((progress - start) / (end - start));
+
+            const computeStartFrame = () => {
+              const r = rollSource.getBoundingClientRect();
+
+              return {
+                w: r.width,
+                h: r.height,
+                cx: window.innerWidth * 0.5,
+                cy: window.innerHeight * (isDesktop ? 0.56 : 0.52),
+                radius: isDesktop ? 32 : 24,
+              };
+            };
+
+            const computeMidFrame = () => {
+              const size = Math.min(
+                window.innerWidth * (isDesktop ? 0.28 : 0.68),
+                window.innerHeight * (isDesktop ? 0.48 : 0.36),
+                isDesktop ? 520 : 292,
+              );
+
+              return {
+                w: size,
+                h: size,
+                cx: window.innerWidth * 0.5,
+                cy: window.innerHeight * (isDesktop ? 0.6 : 0.46),
+                radius: size / 2,
+              };
+            };
+
+            const computeEndFrame = () => {
+              const r = rollAnchor.getBoundingClientRect();
+              return {
+                w: r.width,
+                h: r.height,
+                cx: r.left + r.width / 2,
+                pageCy: window.scrollY + r.top + r.height / 2,
+                radius: Math.max(r.width, r.height),
+              };
+            };
+
+            let startFrame = computeStartFrame();
+            let midFrame = computeMidFrame();
+            let endFrame = computeEndFrame();
+            const refreshFrames = () => {
+              startFrame = computeStartFrame();
+              midFrame = computeMidFrame();
+              endFrame = computeEndFrame();
+            };
+
+            const interp = gsap.utils.interpolate;
+            const applyFrame = (progress: number) => {
+              const e = {
+                ...endFrame,
+                cy: endFrame.pageCy - window.scrollY,
+              };
+              const from = progress <= midProgress ? startFrame : midFrame;
+              const to = progress <= midProgress ? midFrame : e;
+              const p =
+                progress <= midProgress
+                  ? rangeProgress(progress, 0, midProgress)
+                  : rangeProgress(progress, midProgress, 1);
+              const w = interp(from.w, to.w, p);
+              const h = interp(from.h, to.h, p);
+              const cx = interp(from.cx, to.cx, p);
+              const cy = interp(from.cy, to.cy, p);
+              const radius = interp(from.radius, to.radius, p);
+              rollOverlayBox.style.width = `${w}px`;
+              rollOverlayBox.style.height = `${h}px`;
+              rollOverlayBox.style.borderRadius = `${radius}px`;
+              rollOverlayBox.style.transform = `translate(${cx - w / 2}px, ${cy - h / 2}px)`;
+            };
+
+            const applySideCard = (
+              card: HTMLElement | null,
+              progress: number,
+              fromX: number,
+              enterStart: number,
+              enterEnd: number,
+              exitStart: number,
+              exitEnd: number,
+            ) => {
+              if (!card) {
+                return;
+              }
+
+              const enter = rangeProgress(progress, enterStart, enterEnd);
+              const exit = rangeProgress(progress, exitStart, exitEnd);
+              const visible = clampProgress(enter - exit);
+              gsap.set(card, {
+                autoAlpha: visible,
+                x: interp(fromX, 0, enter) + fromX * 0.45 * exit,
+                y: interp(24, 0, enter) - 18 * exit,
+              });
+            };
+
+            const applySideCards = (progress: number) => {
+              if (isDesktop) {
+                applySideCard(sideLeft, progress, -90, 0.16, 0.28, 0.5, 0.64);
+                applySideCard(sideRight, progress, 90, 0.28, 0.4, 0.56, 0.7);
+              } else {
+                applySideCard(sideLeft, progress, -32, 0.1, 0.22, 0.26, 0.36);
+                applySideCard(sideRight, progress, 32, 0.2, 0.32, 0.3, 0.4);
+              }
+            };
+
+            const updateVisibility = (progress: number, isActive: boolean) => {
+              if (progress >= 0.995) {
+                gsap.set(rollOverlay, { autoAlpha: 0 });
+                gsap.set(rollInline, { autoAlpha: 1 });
+                gsap.set(rollSource, { autoAlpha: 0 });
+              } else if (isActive || progress > 0) {
+                gsap.set(rollOverlay, { autoAlpha: 1 });
+                gsap.set(rollInline, { autoAlpha: 0 });
+                gsap.set(rollSource, { autoAlpha: 0 });
+              } else {
+                gsap.set(rollOverlay, { autoAlpha: 0 });
+                gsap.set(rollInline, { autoAlpha: 0 });
+                gsap.set(rollSource, { autoAlpha: 1 });
+              }
+            };
+
+            ScrollTrigger.create({
+              trigger: rollSource,
+              start: isDesktop ? "center 56%" : "center 52%",
+              endTrigger: heading,
+              end: isDesktop ? "top 28%" : "top 34%",
+              scrub: 0.25,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                applyFrame(self.progress);
+                applySideCards(self.progress);
+                updateVisibility(self.progress, self.isActive);
+              },
+              onRefresh: (self) => {
+                refreshFrames();
+                applyFrame(self.progress);
+                applySideCards(self.progress);
+                updateVisibility(self.progress, self.isActive);
+              },
+              onToggle: (self) => {
+                applySideCards(self.progress);
+                updateVisibility(self.progress, self.isActive);
+              },
+            });
+          }
         }, interestSection);
 
         ctxCleanups.push(() => interestCtx.revert());

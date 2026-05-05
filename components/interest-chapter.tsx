@@ -54,6 +54,80 @@ export default function InterestChapter({
       data-animate-interest
       className="section-shell scroll-mt-32"
     >
+      <div
+        data-interest-roll-overlay
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[35] opacity-0"
+        style={{ width: "100vw", height: "100vh" }}
+      >
+        <div
+          data-interest-roll-overlay-box
+          className="absolute left-0 top-0 overflow-hidden border border-white/80 bg-white/70 shadow-[0_40px_120px_-40px_rgba(18,21,31,0.55)] will-change-transform"
+          style={{
+            width: 0,
+            height: 0,
+            borderRadius: 28,
+            transform: "translate(0px,0px)",
+          }}
+        >
+          <Image
+            src={inlineImage.src}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 46vw, 70vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+      </div>
+
+      <aside
+        data-interest-side-card="left"
+        className="pointer-events-none fixed left-4 top-[16%] z-[45] flex w-[min(17rem,calc(100vw-2rem))] flex-col rounded-[1.2rem] border border-[var(--line)] bg-white/90 p-3 opacity-0 shadow-[0_24px_60px_-30px_rgba(18,21,31,0.4)] backdrop-blur-md sm:p-4 lg:left-5 lg:top-[36%] lg:max-w-[16rem] lg:rounded-[1.4rem]"
+      >
+        <span className="text-[0.62rem] font-medium uppercase tracking-[0.28em] text-[var(--accent-strong)]">
+          Volume sem ruptura
+        </span>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink)]">
+          Bobinas e filmes alinhados ao giro da operação, com reposição pensada para manter a
+          linha abastecida.
+        </p>
+      </aside>
+
+      <aside
+        data-interest-side-card="right"
+        className="pointer-events-none fixed right-4 top-[32%] z-[45] flex w-[min(17rem,calc(100vw-2rem))] flex-col rounded-[1.2rem] border border-[var(--line)] bg-white/90 p-3 opacity-0 shadow-[0_24px_60px_-30px_rgba(18,21,31,0.4)] backdrop-blur-md sm:p-4 lg:right-5 lg:top-[60%] lg:max-w-[16rem] lg:rounded-[1.4rem]"
+      >
+        <span className="text-[0.62rem] font-medium uppercase tracking-[0.28em] text-[var(--accent-strong)]">
+          Encaixe técnico
+        </span>
+        <p className="mt-2 text-sm leading-6 text-[var(--ink)]">
+          Aplicação, resistência e logística entram na análise antes da recomendação comercial.
+        </p>
+      </aside>
+
+      <div
+        data-interest-roll-stage
+        aria-hidden="true"
+        className="site-shell pointer-events-none mb-10 block sm:mb-12 lg:mb-14"
+      >
+        <div className="flex min-h-[22rem] items-center justify-center sm:min-h-[28rem] lg:min-h-[34rem]">
+          <div
+            data-interest-roll-source
+            className="relative aspect-[3/2] w-full max-w-[28rem] overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/70 shadow-[0_40px_120px_-54px_rgba(18,21,31,0.48)] sm:max-w-[34rem] lg:w-[min(76vw,58rem)] lg:max-w-none lg:rounded-[2rem]"
+          >
+            <Image
+              src={inlineImage.src}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 58rem, 90vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="site-shell space-y-12 sm:space-y-16 lg:space-y-20">
         <div className="space-y-8 lg:space-y-10">
           <div data-interest-header className="max-w-6xl space-y-6">
@@ -68,8 +142,11 @@ export default function InterestChapter({
                   {word}
                 </span>
               ))}
-              <span className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(18,21,31,0.45)]">
-                <span className="relative block h-full w-full">
+              <span
+                data-interest-roll-anchor
+                className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(18,21,31,0.45)]"
+              >
+                <span className="relative block h-full w-full" data-interest-roll-inline>
                   <Image
                     src={inlineImage.src}
                     alt={inlineImage.alt}

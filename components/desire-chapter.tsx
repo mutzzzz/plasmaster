@@ -140,18 +140,16 @@ export default function DesireChapter({
                     </div>
 
                     <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white">
-                      <div data-desire-parallax data-parallax-strength="8" className="h-full w-full">
-                        <Image
-                          src={item.image.src}
-                          alt={item.image.alt}
-                          width={1152}
-                          height={864}
-                          sizes="(min-width: 1024px) 44vw, 100vw"
-                          className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                          placeholder="blur"
-                          blurDataURL={imageBlurData[item.image.src]?.blurDataURL}
-                        />
-                      </div>
+                      <Image
+                        src={item.image.src}
+                        alt={item.image.alt}
+                        width={1152}
+                        height={864}
+                        sizes="(min-width: 1024px) 44vw, 100vw"
+                        className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        placeholder="blur"
+                        blurDataURL={imageBlurData[item.image.src]?.blurDataURL}
+                      />
                     </div>
                   </div>
                 </article>

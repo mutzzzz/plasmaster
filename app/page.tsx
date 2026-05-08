@@ -14,6 +14,11 @@ import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
 
 const telHref = "tel:+554734400683";
 const mailHref = "mailto:adm@plasmaster.ind.br";
+const primaryHeroImage = {
+  desktop: "/site-images/hero-section.webp",
+  mobile: "/site-images/hero-section-mobile.webp",
+  alt: "Extrusora industrial produzindo filme plástico azul em ambiente fabril.",
+};
 const heroQuoteSideImage = {
   src: "/site-images/hero-quote-side-industrial.webp?v=2",
   alt: "Conjunto premium de bobinas transparentes da linha de embalagens Plasmaster em fundo neutro.",
@@ -93,7 +98,85 @@ export default async function HomePage() {
       <SiteHeader items={navItems} ctaLabel={headerCtaLabel} />
 
       <main className="relative w-full max-w-full overflow-x-clip">
-        <section id="home" className="scroll-mt-28 pt-5 sm:pt-6 lg:pt-4">
+        <section id="home" className="scroll-mt-28">
+          <div className="relative left-1/2 min-h-[100svh] w-screen -translate-x-1/2 overflow-hidden bg-[var(--accent-deep)] text-white lg:min-h-[100dvh]">
+            <Image
+              src={primaryHeroImage.desktop}
+              alt={primaryHeroImage.alt}
+              fill
+              priority
+              sizes="(min-width: 1024px) 100vw, 0px"
+              className="hidden object-cover object-center lg:block"
+            />
+            <Image
+              src={primaryHeroImage.mobile}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1023px) 100vw, 0px"
+              className="object-cover object-center lg:hidden"
+            />
+
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(7,11,18,0.9)_0%,rgba(7,11,18,0.68)_30%,rgba(7,11,18,0.2)_58%,rgba(7,11,18,0.42)_100%),linear-gradient(180deg,rgba(7,11,18,0.74)_0%,rgba(7,11,18,0.18)_38%,rgba(7,11,18,0.82)_100%)] lg:bg-[linear-gradient(90deg,rgba(7,11,18,0.92)_0%,rgba(7,11,18,0.7)_28%,rgba(7,11,18,0.18)_58%,rgba(7,11,18,0.34)_100%),linear-gradient(180deg,rgba(7,11,18,0.62)_0%,rgba(7,11,18,0.12)_40%,rgba(7,11,18,0.76)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(244,243,238,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(244,243,238,0.08)_1px,transparent_1px)] bg-[length:96px_96px] opacity-35" />
+
+            <div className="site-shell relative z-10 flex min-h-[100svh] flex-col justify-between py-6 sm:py-7 lg:min-h-[100dvh] lg:py-9">
+              <div className="flex items-center justify-between gap-5">
+                <Image
+                  src="/plasmaster-logo-hero.png"
+                  alt="Plasmaster"
+                  width={494}
+                  height={119}
+                  priority
+                  className="h-auto w-[174px] brightness-0 invert sm:w-[208px]"
+                />
+                <span className="hidden border border-white/16 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-white/68 sm:inline-flex">
+                  Joinville/SC desde 2005
+                </span>
+              </div>
+
+              <div className="grid gap-8 pb-16 pt-20 sm:pt-24 lg:grid-cols-[minmax(0,0.92fr)_minmax(18rem,0.38fr)] lg:items-end lg:gap-10 lg:pb-16 lg:pt-24">
+                <div className="max-w-[48rem]">
+                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-[rgba(0,201,167,0.9)]">
+                    Soluções integradas de embalagens
+                  </p>
+                  <h1 className="mt-5 max-w-[13ch] text-5xl leading-[0.92] text-balance sm:text-6xl md:text-7xl lg:text-7xl xl:text-[5.75rem] 2xl:text-8xl">
+                    Embalagens plásticas para indústria e comércio.
+                  </h1>
+                  <p className="mt-6 max-w-[40rem] text-base leading-8 text-white/78 sm:text-lg lg:text-xl lg:leading-9">
+                    Plásticos flexíveis, proteção logística e embalagens rígidas em um único parceiro, com atendimento consultivo para indicar a linha certa para sua operação.
+                  </p>
+
+                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                    <a
+                      href={hero.intro.primaryAction.href}
+                      className="solid-button min-w-[12.5rem] border border-[rgba(244,243,238,0.2)]"
+                    >
+                      {hero.intro.primaryAction.label}
+                    </a>
+                    <a
+                      href={hero.intro.secondaryAction.href}
+                      className="inline-flex min-h-[3.25rem] items-center justify-center rounded-full border border-white/34 px-5 py-3 text-sm font-medium text-white transition duration-500 ease-out hover:-translate-y-px hover:border-white/62 hover:bg-white/10 active:translate-y-px active:scale-[0.99]"
+                    >
+                      {hero.intro.secondaryAction.label}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="hidden max-w-[28rem] border-t border-white/20 pt-5 lg:block lg:justify-self-end">
+                  <p className="text-sm uppercase tracking-[0.22em] text-white/52">
+                    O que entregamos
+                  </p>
+                  <ul className="mt-4 grid gap-3 text-[0.98rem] leading-7 text-white/82">
+                    <li>Plásticos flexíveis para rotinas industriais e comerciais.</li>
+                    <li>Materiais de proteção, fechamento e estabilidade logística.</li>
+                    <li>Embalagens rígidas para aplicações de maior exigência.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div>
             <div className="relative lg:left-1/2 lg:right-1/2 lg:-mx-[50vw] lg:w-screen">
               <ScrollSequenceHero
@@ -121,7 +204,7 @@ export default async function HomePage() {
                 </div>
 
                 <div className="space-y-5">
-                  <h1 className="section-heading max-w-[12ch] text-balance">{hero.intro.title}</h1>
+                  <h2 className="section-heading max-w-[12ch] text-balance">{hero.intro.title}</h2>
                   <p className="section-copy">{hero.intro.description}</p>
                 </div>
 

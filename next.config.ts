@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/plasmaster-logo.png",
       },
+      {
+        pathname: "/plasmaster-logo-hero.png",
+      },
     ],
   },
   async headers() {

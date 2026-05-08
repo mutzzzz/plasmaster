@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { renderBrandText } from "../lib/brand-format";
 import type { SiteContent } from "../lib/site-content";
 import { imageBlurData } from "../lib/image-blur-data";
 
@@ -168,7 +169,7 @@ export default function InterestChapter({
                 </span>
               ))}
             </h2>
-            <p className="section-copy max-w-[64ch]">{intro.description}</p>
+            <p className="section-copy max-w-[64ch]">{renderBrandText(intro.description)}</p>
           </div>
 
           <div className="overflow-hidden rounded-full border border-[rgba(244,243,238,0.9)] bg-[rgba(244,243,238,0.62)] p-2 shadow-[0_24px_80px_-48px_rgba(18,21,31,0.34)]">
@@ -203,7 +204,7 @@ export default function InterestChapter({
                 <h3 className="max-w-[17ch] text-[clamp(2.4rem,4vw,4.8rem)] leading-[0.92] tracking-[-0.065em] text-[var(--ink)] text-balance">
                   {about.title}
                 </h3>
-                <p className="section-copy max-w-[58ch]">{about.description}</p>
+                <p className="section-copy max-w-[58ch]">{renderBrandText(about.description)}</p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3">
@@ -257,7 +258,7 @@ export default function InterestChapter({
                   {about.capacity.title}
                 </h3>
                 <p className="max-w-[36ch] text-sm leading-7 text-white/74">
-                  {about.capacity.description}
+                  {renderBrandText(about.capacity.description)}
                 </p>
               </div>
 
@@ -345,7 +346,7 @@ export default function InterestChapter({
             />
             <div className="relative space-y-6">
               <div className="space-y-3">
-                <span className="section-kicker">{differentials.eyebrow}</span>
+                <span className="section-kicker">{renderBrandText(differentials.eyebrow)}</span>
                 <h3 className="max-w-[15ch] text-[clamp(1.9rem,2.7vw,2.9rem)] leading-[0.96] tracking-[-0.05em] text-[var(--ink)] text-balance">
                   {differentials.title}
                 </h3>

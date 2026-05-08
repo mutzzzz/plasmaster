@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { renderBrandText } from "../lib/brand-format";
 import type { SiteContent } from "../lib/site-content";
 import { imageBlurData } from "../lib/image-blur-data";
 import { ContactForm } from "./contact-form";
@@ -236,7 +237,7 @@ export default function ActionChapter({
         </div>
 
         <div className="site-shell border-t border-[var(--line)] py-5 text-xs text-[var(--ink-soft)]">
-          {footer.copyright}
+          {renderBrandText(footer.copyright)}
         </div>
       </footer>
     </>

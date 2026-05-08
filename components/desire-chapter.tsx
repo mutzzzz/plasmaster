@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { renderBrandText } from "../lib/brand-format";
 import type { SiteContent } from "../lib/site-content";
 import { imageBlurData } from "../lib/image-blur-data";
 
@@ -111,7 +112,7 @@ export default function DesireChapter({
         <div className="relative">
           <div data-desire-stack-pin className="space-y-8 lg:space-y-10">
             <div className="max-w-3xl space-y-4">
-              <span className="section-kicker">{differentials.eyebrow}</span>
+              <span className="section-kicker">{renderBrandText(differentials.eyebrow)}</span>
               <p className="max-w-[58ch] text-base leading-8 text-[var(--ink-muted)]">
                 {differentials.description}
               </p>

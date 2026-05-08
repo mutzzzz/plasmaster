@@ -1,6 +1,7 @@
 "use client";
 
 import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { renderBrandText } from "../lib/brand-format";
 import type {
   HeroAction,
   HeroBeat,
@@ -38,6 +39,8 @@ const MOBILE_SCROLL_VH = 320;
 const DESKTOP_FRAME_PREFETCH_RADIUS = 22;
 const MOBILE_FRAME_PREFETCH_RADIUS = 14;
 const FRAME_EVICT_BUFFER = 10;
+const CENTER_FRAME_ALIGNMENT = 0.5;
+const DESKTOP_FRAME_VERTICAL_ALIGNMENT = 0.35;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -52,6 +55,7 @@ function drawCoverFrame(
   image: HTMLImageElement,
   targetWidth: number,
   targetHeight: number,
+  verticalAlignment = CENTER_FRAME_ALIGNMENT,
 ) {
   const imageWidth = image.naturalWidth || image.width;
   const imageHeight = image.naturalHeight || image.height;
@@ -64,7 +68,7 @@ function drawCoverFrame(
   const drawWidth = imageWidth * scale;
   const drawHeight = imageHeight * scale;
   const offsetX = (targetWidth - drawWidth) / 2;
-  const offsetY = (targetHeight - drawHeight) / 2;
+  const offsetY = -Math.max(0, drawHeight - targetHeight) * clamp(verticalAlignment, 0, 1);
 
   ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
 }
@@ -207,6 +211,9 @@ export default function ScrollSequenceHero({
       ? DESKTOP_FRAME_PREFETCH_RADIUS
       : MOBILE_FRAME_PREFETCH_RADIUS;
     const frameEvictRadius = framePrefetchRadius + FRAME_EVICT_BUFFER;
+    const frameVerticalAlignment = isDesktop
+      ? DESKTOP_FRAME_VERTICAL_ALIGNMENT
+      : CENTER_FRAME_ALIGNMENT;
 
     cacheRef.current = cache;
     currentFrameRef.current = -1;
@@ -265,7 +272,13 @@ export default function ScrollSequenceHero({
       currentFrameRef.current = index;
       const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawCoverFrame(context, image, canvas.width / pixelRatio, canvas.height / pixelRatio);
+      drawCoverFrame(
+        context,
+        image,
+        canvas.width / pixelRatio,
+        canvas.height / pixelRatio,
+        frameVerticalAlignment,
+      );
     };
 
     const renderFrameAtIndex = (index: number, force = false) => {
@@ -499,7 +512,8 @@ export default function ScrollSequenceHero({
           height: "100dvh",
         }
       : {
-          aspectRatio: `${activeVariant.width} / ${activeVariant.height}`,
+          minHeight: "100dvh",
+          height: "100dvh",
         }
   ) as CSSProperties;
 
@@ -524,8 +538,8 @@ export default function ScrollSequenceHero({
     : "block h-full w-full";
 
   const overlayClassName = isDesktop
-    ? "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(0,201,167,0.08),transparent_24%),radial-gradient(circle_at_16%_22%,rgba(245,166,35,0.14),transparent_28%),linear-gradient(90deg,rgba(18,21,31,0.58)_0%,rgba(18,21,31,0.22)_30%,rgba(18,21,31,0.08)_54%,rgba(18,21,31,0.48)_100%),linear-gradient(180deg,rgba(18,21,31,0.18)_0%,rgba(18,21,31,0.1)_22%,rgba(18,21,31,0.12)_58%,rgba(18,21,31,0.64)_100%)]"
-    : "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(0,201,167,0.18),transparent_26%),linear-gradient(180deg,rgba(18,21,31,0.04),rgba(18,21,31,0.48))]";
+    ? "pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(18,21,31,0)_36%,rgba(18,21,31,0.28)_68%,rgba(18,21,31,0.78)_100%),radial-gradient(circle_at_50%_52%,rgba(0,201,167,0.08),transparent_24%),radial-gradient(circle_at_16%_22%,rgba(245,166,35,0.14),transparent_28%),linear-gradient(90deg,rgba(18,21,31,0.58)_0%,rgba(18,21,31,0.22)_30%,rgba(18,21,31,0.08)_54%,rgba(18,21,31,0.48)_100%),linear-gradient(180deg,rgba(18,21,31,0.18)_0%,rgba(18,21,31,0.1)_22%,rgba(18,21,31,0.12)_58%,rgba(18,21,31,0.64)_100%)]"
+    : "pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(18,21,31,0)_34%,rgba(18,21,31,0.24)_68%,rgba(18,21,31,0.7)_100%),radial-gradient(circle_at_18%_18%,rgba(0,201,167,0.18),transparent_26%),linear-gradient(180deg,rgba(18,21,31,0.04),rgba(18,21,31,0.48))]";
 
   const beatCardClassName = isDesktop
     ? "pointer-events-none rounded-[1.85rem] border border-white/10 bg-[rgba(18,21,31,0.28)] p-5 text-white shadow-[inset_0_1px_0_rgba(244,243,238,0.12),0_28px_64px_-42px_rgba(18,21,31,0.75)] backdrop-blur-[18px] md:p-6"
@@ -555,7 +569,7 @@ export default function ScrollSequenceHero({
 
               <div className="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between gap-3 md:inset-x-8 md:top-7 xl:inset-x-[max(2rem,4vw)]">
                 <span className="rounded-full border border-white/12 bg-[rgba(18,21,31,0.18)] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.24em] text-white/72 backdrop-blur-[12px]">
-                  {badge}
+                  {renderBrandText(badge)}
                 </span>
               </div>
 
@@ -567,16 +581,16 @@ export default function ScrollSequenceHero({
                 >
                   <div className="flex items-center gap-4">
                     <span className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-white/72">
-                      {finalCard.eyebrow}
+                      {renderBrandText(finalCard.eyebrow)}
                     </span>
                   </div>
 
                   <div className="mt-6 space-y-4">
                     <h2 className="max-w-[13ch] text-[2.8rem] leading-[0.95] tracking-[-0.055em] text-white text-balance xl:text-[3.6rem]">
-                      {finalCard.title}
+                      {renderBrandText(finalCard.title)}
                     </h2>
                     <p className="max-w-[36ch] text-[0.98rem] leading-7 text-white/76 xl:text-[1.02rem]">
-                      {finalCard.body}
+                      {renderBrandText(finalCard.body)}
                     </p>
                   </div>
 
@@ -611,9 +625,9 @@ export default function ScrollSequenceHero({
                   className={`${beatPositions[index] ?? beatPositions[0]} ${beatCardClassName}`}
                   style={beatMotion(0, beat)}
                 >
-                  <p className={beatEyebrowClassName}>{beat.eyebrow}</p>
-                  <h2 className={beatTitleClassName}>{beat.title}</h2>
-                  <p className={beatBodyClassName}>{beat.body}</p>
+                  <p className={beatEyebrowClassName}>{renderBrandText(beat.eyebrow)}</p>
+                  <h2 className={beatTitleClassName}>{renderBrandText(beat.title)}</h2>
+                  <p className={beatBodyClassName}>{renderBrandText(beat.body)}</p>
                 </div>
               ))}
             </div>

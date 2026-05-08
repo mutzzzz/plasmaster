@@ -48,6 +48,14 @@ export default function HomeScrollAnimations() {
           const titleWords = gsap.utils.toArray<HTMLElement>("[data-interest-word]");
           const bentoCards = gsap.utils.toArray<HTMLElement>("[data-interest-card]");
           const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-interest-parallax]");
+          const marqueePills = gsap.utils.toArray<HTMLElement>("[data-interest-marquee-pill]");
+          const highlightTiles = gsap.utils.toArray<HTMLElement>("[data-interest-highlight]");
+          const criteriaRows = gsap.utils.toArray<HTMLElement>("[data-interest-criteria-row]");
+          const capacityMetrics = gsap.utils.toArray<HTMLElement>("[data-interest-capacity-metric]");
+          const serviceCards = gsap.utils.toArray<HTMLElement>("[data-interest-service-card]");
+          const differentialItems = gsap.utils.toArray<HTMLElement>(
+            "[data-interest-differential-item]",
+          );
 
           gsap.set(titleWords, { opacity: 0.18, y: 24 });
           gsap.to(titleWords, {
@@ -102,6 +110,220 @@ export default function HomeScrollAnimations() {
               },
             );
           });
+
+          if (marqueePills.length > 0) {
+            gsap.set(marqueePills, {
+              autoAlpha: 0,
+              y: 20,
+              scale: 0.96,
+              willChange: "transform, opacity",
+            });
+            gsap.to(marqueePills, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.72,
+              ease: "power3.out",
+              stagger: { each: 0.025, from: "center" },
+              scrollTrigger: {
+                trigger: interestHeader ?? interestSection,
+                start: "top 82%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+            });
+          }
+
+          if (highlightTiles.length > 0) {
+            gsap.set(highlightTiles, {
+              autoAlpha: 0,
+              y: 32,
+              scale: 0.94,
+              willChange: "transform, opacity",
+            });
+            ScrollTrigger.batch(highlightTiles, {
+              interval: 0.08,
+              batchMax: isDesktop ? 3 : 2,
+              start: "top 90%",
+              onEnter: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.74,
+                  ease: "power3.out",
+                  stagger: 0.07,
+                  overwrite: "auto",
+                });
+              },
+              onLeaveBack: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 0,
+                  y: 26,
+                  scale: 0.96,
+                  duration: 0.34,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                });
+              },
+            });
+          }
+
+          if (criteriaRows.length > 0) {
+            const criteriaPanel = interestSection.querySelector<HTMLElement>(
+              "[data-interest-criteria-panel]",
+            );
+
+            gsap.set(criteriaRows, {
+              autoAlpha: 0.22,
+              x: isDesktop ? -34 : 0,
+              y: 18,
+              willChange: "transform, opacity",
+            });
+
+            gsap.timeline({
+              scrollTrigger: {
+                trigger: criteriaPanel ?? criteriaRows[0],
+                start: isDesktop ? "top 84%" : "top 88%",
+                end: isDesktop ? "bottom 62%" : "bottom 72%",
+                scrub: 0.6,
+                invalidateOnRefresh: true,
+              },
+            }).to(criteriaRows, {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              ease: "none",
+              stagger: 0.18,
+            });
+          }
+
+          if (capacityMetrics.length > 0) {
+            gsap.set(capacityMetrics, {
+              autoAlpha: 0,
+              x: isDesktop ? 42 : 0,
+              y: isDesktop ? 0 : 22,
+              scale: 0.98,
+              willChange: "transform, opacity",
+            });
+            ScrollTrigger.batch(capacityMetrics, {
+              interval: 0.08,
+              batchMax: 3,
+              start: "top 88%",
+              onEnter: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.68,
+                  ease: "power3.out",
+                  stagger: 0.065,
+                  overwrite: "auto",
+                });
+              },
+              onLeaveBack: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 0,
+                  x: isDesktop ? 32 : 0,
+                  y: isDesktop ? 0 : 18,
+                  scale: 0.98,
+                  duration: 0.32,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                });
+              },
+            });
+          }
+
+          serviceCards.forEach((card) => {
+            const visual = card.querySelector<HTMLElement>("[data-interest-service-visual]");
+            const copy = card.querySelector<HTMLElement>("[data-interest-service-copy]");
+            const action = card.querySelector<HTMLElement>("[data-interest-service-action]");
+            const nestedTargets = [visual, copy, action].filter(
+              (element): element is HTMLElement => element != null,
+            );
+
+            if (nestedTargets.length === 0) {
+              return;
+            }
+
+            gsap.set(nestedTargets, {
+              autoAlpha: 0,
+              y: 28,
+              willChange: "transform, opacity",
+            });
+            if (visual) {
+              gsap.set(visual, {
+                xPercent: isDesktop ? -5 : 0,
+                scale: 0.96,
+                transformOrigin: "50% 50%",
+              });
+            }
+
+            const serviceTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: card,
+                start: isDesktop ? "top 84%" : "top 90%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+              defaults: { duration: 0.72, ease: "power3.out" },
+            });
+
+            if (visual) {
+              serviceTimeline.to(
+                visual,
+                { autoAlpha: 1, xPercent: 0, y: 0, scale: 1 },
+                0,
+              );
+            }
+            if (copy) {
+              serviceTimeline.to(copy, { autoAlpha: 1, y: 0 }, 0.12);
+            }
+            if (action) {
+              serviceTimeline.to(
+                action,
+                { autoAlpha: 1, y: 0, duration: 0.54 },
+                0.24,
+              );
+            }
+          });
+
+          if (differentialItems.length > 0) {
+            gsap.set(differentialItems, {
+              autoAlpha: 0,
+              y: 24,
+              scale: 0.965,
+              willChange: "transform, opacity",
+            });
+            ScrollTrigger.batch(differentialItems, {
+              interval: 0.08,
+              batchMax: 3,
+              start: "top 90%",
+              onEnter: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.64,
+                  ease: "power3.out",
+                  stagger: 0.065,
+                  overwrite: "auto",
+                });
+              },
+              onLeaveBack: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 0,
+                  y: 22,
+                  scale: 0.97,
+                  duration: 0.32,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                });
+              },
+            });
+          }
 
           const heading = interestSection.querySelector<HTMLElement>(
             "[data-interest-header] h2",
@@ -304,8 +526,16 @@ export default function HomeScrollAnimations() {
         const stackPin = desireSection.querySelector<HTMLElement>("[data-desire-stack-pin]");
 
         const desireCtx = gsap.context(() => {
+          const supportCopy = desireSection.querySelector<HTMLElement>(
+            "[data-desire-support-copy]",
+          );
+          const valuePills = gsap.utils.toArray<HTMLElement>("[data-desire-pill]");
+          const carouselShell = desireSection.querySelector<HTMLElement>(
+            "[data-desire-carousel-shell]",
+          );
           const carouselCards = gsap.utils.toArray<HTMLElement>("[data-desire-carousel-card]");
           const proofCards = gsap.utils.toArray<HTMLElement>("[data-proof-card]");
+          const proofIntroDetails = gsap.utils.toArray<HTMLElement>("[data-proof-intro-detail]");
           const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-desire-parallax]");
 
           parallaxTargets.forEach((target) => {
@@ -360,12 +590,77 @@ export default function HomeScrollAnimations() {
             });
           }
 
+          const introDetails = [supportCopy, ...valuePills].filter(
+            (element): element is HTMLElement => element != null,
+          );
+          if (introDetails.length > 0) {
+            gsap.set(introDetails, {
+              autoAlpha: 0,
+              y: 26,
+              willChange: "transform, opacity",
+            });
+            gsap.to(introDetails, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.68,
+              ease: "power3.out",
+              stagger: 0.055,
+              overwrite: "auto",
+              scrollTrigger: {
+                trigger: textReveal ?? desireSection,
+                start: isDesktop ? "top 74%" : "top 82%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+            });
+          }
+
+          if (carouselShell) {
+            gsap.fromTo(
+              carouselShell,
+              {
+                autoAlpha: 0,
+                x: isDesktop ? 60 : 0,
+                y: isDesktop ? 0 : 36,
+                scale: 0.985,
+              },
+              {
+                autoAlpha: 1,
+                x: 0,
+                y: 0,
+                scale: 1,
+                duration: 0.9,
+                ease: "power3.out",
+                scrollTrigger: {
+                  trigger: carouselShell,
+                  start: isDesktop ? "top 88%" : "top 92%",
+                  toggleActions: "play none none reverse",
+                  invalidateOnRefresh: true,
+                },
+              },
+            );
+          }
+
           if (carouselCards.length > 0) {
-            gsap.set(carouselCards, { opacity: 0, y: 72, scale: 0.965 });
+            gsap.set(carouselCards, {
+              autoAlpha: 0,
+              y: 72,
+              scale: 0.965,
+              willChange: "transform, opacity",
+            });
 
             carouselCards.forEach((card) => {
               const imageShell = card.querySelector<HTMLElement>("[data-desire-card-image]");
               const bodyShell = card.querySelector<HTMLElement>("[data-desire-card-body]");
+              const cardDetails = gsap.utils.toArray<HTMLElement>(
+                card.querySelectorAll("[data-desire-card-detail]"),
+              );
+
+              gsap.set(cardDetails, {
+                autoAlpha: 0,
+                y: 18,
+                willChange: "transform, opacity",
+              });
 
               const timeline = gsap.timeline({
                 scrollTrigger: {
@@ -380,7 +675,7 @@ export default function HomeScrollAnimations() {
               timeline.to(
                 card,
                 {
-                  opacity: 1,
+                  autoAlpha: 1,
                   y: 0,
                   scale: 1,
                   ease: "none",
@@ -405,6 +700,42 @@ export default function HomeScrollAnimations() {
                   0,
                 );
               }
+
+              if (cardDetails.length > 0) {
+                timeline.to(
+                  cardDetails,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.58,
+                    ease: "none",
+                    stagger: 0.06,
+                  },
+                  0.22,
+                );
+              }
+            });
+          }
+
+          if (proofIntroDetails.length > 0) {
+            gsap.set(proofIntroDetails, {
+              autoAlpha: 0,
+              y: 28,
+              willChange: "transform, opacity",
+            });
+            gsap.to(proofIntroDetails, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.72,
+              ease: "power3.out",
+              stagger: 0.08,
+              overwrite: "auto",
+              scrollTrigger: {
+                trigger: proofIntroDetails[0],
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
             });
           }
 
@@ -412,15 +743,37 @@ export default function HomeScrollAnimations() {
             const stackLeadIn = isDesktop ? 0.8 : 0.6;
             const stackStepDuration = 1;
             const stackScrollLength = (proofCards.length - 1) * stackStepDuration + stackLeadIn;
+            const getProofDetails = (card: HTMLElement) =>
+              gsap.utils.toArray<HTMLElement>(card.querySelectorAll("[data-proof-card-detail]"));
+            const getProofVisual = (card: HTMLElement) =>
+              card.querySelector<HTMLElement>("[data-proof-card-visual]");
+            const allProofDetails = proofCards.flatMap((card) => getProofDetails(card));
+            const proofVisuals = proofCards
+              .map((card) => getProofVisual(card))
+              .filter((element): element is HTMLElement => element != null);
 
             gsap.set(proofCards, {
               zIndex: (index) => index + 1,
               yPercent: (index) => (index === 0 ? 0 : 100),
               rotate: (index) => (index === 0 ? 0 : index % 2 === 0 ? -3 : 3),
               xPercent: (index) => (index === 0 ? 0 : index % 2 === 0 ? -4 : 4),
+              scale: (index) => (index === 0 ? 1 : 0.98),
               opacity: 1,
               transformOrigin: "center top",
               force3D: true,
+            });
+            gsap.set(allProofDetails, {
+              autoAlpha: 0,
+              y: 30,
+              willChange: "transform, opacity",
+            });
+            gsap.set(proofVisuals, {
+              autoAlpha: 0,
+              xPercent: isDesktop ? 5 : 0,
+              y: isDesktop ? 0 : 22,
+              scale: 0.96,
+              transformOrigin: "50% 50%",
+              willChange: "transform, opacity",
             });
 
             const stackTimeline = gsap.timeline({
@@ -434,19 +787,96 @@ export default function HomeScrollAnimations() {
                 anticipatePin: 1,
               },
             });
+            const revealProofCard = (card: HTMLElement, position: number) => {
+              const details = getProofDetails(card);
+              const visual = getProofVisual(card);
+
+              if (details.length > 0) {
+                stackTimeline.to(
+                  details,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.24,
+                    ease: "power2.out",
+                    stagger: 0.035,
+                  },
+                  position,
+                );
+              }
+
+              if (visual) {
+                stackTimeline.to(
+                  visual,
+                  {
+                    autoAlpha: 1,
+                    xPercent: 0,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out",
+                  },
+                  position + 0.04,
+                );
+              }
+            };
+
+            revealProofCard(proofCards[0], 0.12);
 
             for (let index = 1; index < proofCards.length; index += 1) {
+              const cardStart = stackLeadIn + (index - 1) * stackStepDuration;
+              const previousCard = proofCards[index - 1];
+              const previousDetails = getProofDetails(previousCard);
+              const previousVisual = getProofVisual(previousCard);
+
               stackTimeline.to(
                 proofCards[index],
                 {
                   yPercent: 0,
                   xPercent: 0,
                   rotate: 0,
+                  scale: 1,
                   ease: "power2.out",
                   duration: stackStepDuration,
                 },
-                stackLeadIn + (index - 1) * stackStepDuration,
+                cardStart,
               );
+              if (previousDetails.length > 0) {
+                stackTimeline.to(
+                  previousDetails,
+                  {
+                    autoAlpha: 0,
+                    y: -18,
+                    duration: 0.36,
+                    ease: "power2.out",
+                  },
+                  cardStart + stackStepDuration * 0.1,
+                );
+              }
+              if (previousVisual) {
+                stackTimeline.to(
+                  previousVisual,
+                  {
+                    autoAlpha: isDesktop ? 0.22 : 0.08,
+                    scale: 0.985,
+                    duration: 0.42,
+                    ease: "power2.out",
+                  },
+                  cardStart + stackStepDuration * 0.12,
+                );
+              }
+              stackTimeline.to(
+                previousCard,
+                {
+                  yPercent: -5,
+                  scale: 0.94,
+                  opacity: isDesktop ? 0.72 : 0.36,
+                  ease: "power2.out",
+                  duration: 0.55,
+                },
+                cardStart + stackStepDuration * 0.42,
+              );
+              revealProofCard(proofCards[index], cardStart + stackStepDuration * 0.02);
             }
           }
         }, desireSection);
@@ -455,16 +885,53 @@ export default function HomeScrollAnimations() {
       }
 
       const actionSection = document.querySelector<HTMLElement>(ACTION_SELECTOR);
+      const actionFooter = document.querySelector<HTMLElement>("[data-action-footer]");
       if (actionSection) {
         const ctaPanel = actionSection.querySelector<HTMLElement>("[data-action-cta-panel]");
         const formElement = actionSection.querySelector<HTMLElement>("[data-action-form]");
 
         const actionCtx = gsap.context(() => {
           const ctaWords = gsap.utils.toArray<HTMLElement>("[data-action-word]");
-          const revealCards = gsap.utils.toArray<HTMLElement>("[data-action-reveal]");
+          const ctaDetails = gsap.utils.toArray<HTMLElement>("[data-action-cta-detail]");
+          const ctaActions = gsap.utils.toArray<HTMLElement>("[data-action-cta-action]");
+          const actionSignals = gsap.utils.toArray<HTMLElement>("[data-action-signal]");
+          const revealCards = gsap.utils.toArray<HTMLElement>(
+            "[data-action-reveal]:not([data-action-signal]):not([data-action-form])",
+          );
           const parallaxTargets = gsap.utils.toArray<HTMLElement>("[data-action-parallax]");
+          const contactMedia = gsap.utils.toArray<HTMLElement>("[data-action-contact-media]");
+          const contactDetails = gsap.utils.toArray<HTMLElement>("[data-action-contact-detail]");
+          const formHeader =
+            formElement?.querySelector<HTMLElement>("[data-action-form-header]") ?? null;
+          const formFields = formElement
+            ? gsap.utils.toArray<HTMLElement>(
+                formElement.querySelectorAll("[data-action-form-field]"),
+              )
+            : [];
+          const formSubmit =
+            formElement?.querySelector<HTMLElement>("[data-action-form-submit]") ?? null;
+          const formNote =
+            formElement?.querySelector<HTMLElement>("[data-action-form-note]") ?? null;
+          const formSignals = formElement
+            ? gsap.utils.toArray<HTMLElement>(
+                formElement.querySelectorAll("[data-action-form-signal]"),
+              )
+            : [];
+          const formSequence = [formHeader, ...formFields, formSubmit, formNote].filter(
+            (element): element is HTMLElement => element != null,
+          );
+          const footerColumns = actionFooter
+            ? gsap.utils.toArray<HTMLElement>(
+                actionFooter.querySelectorAll("[data-action-footer-column]"),
+              )
+            : [];
+          const footerLinks = actionFooter
+            ? gsap.utils.toArray<HTMLElement>(
+                actionFooter.querySelectorAll("[data-action-footer-link]"),
+              )
+            : [];
 
-          gsap.set(ctaWords, { opacity: 0.2, y: 32 });
+          gsap.set(ctaWords, { opacity: 0.2, y: 32, willChange: "transform, opacity" });
           gsap.to(ctaWords, {
             opacity: 1,
             y: 0,
@@ -478,6 +945,69 @@ export default function HomeScrollAnimations() {
               invalidateOnRefresh: true,
             },
           });
+
+          if (ctaDetails.length > 0 || ctaActions.length > 0) {
+            gsap.set(ctaDetails, {
+              autoAlpha: 0,
+              y: 28,
+              willChange: "transform, opacity",
+            });
+            gsap.set(ctaActions, {
+              y: 18,
+              scale: 0.96,
+              transformOrigin: "50% 50%",
+              willChange: "transform",
+            });
+
+            const ctaDetailTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: ctaPanel ?? actionSection,
+                start: isDesktop ? "top 80%" : "top 86%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+              defaults: { duration: 0.68, ease: "power3.out" },
+            });
+
+            if (ctaDetails.length > 0) {
+              ctaDetailTimeline.to(
+                ctaDetails,
+                { autoAlpha: 1, y: 0, stagger: 0.075, overwrite: "auto" },
+                0,
+              );
+            }
+            if (ctaActions.length > 0) {
+              ctaDetailTimeline.to(
+                ctaActions,
+                { y: 0, scale: 1, stagger: 0.06, overwrite: "auto" },
+                0.24,
+              );
+            }
+          }
+
+          if (actionSignals.length > 0) {
+            gsap.set(actionSignals, {
+              autoAlpha: 0,
+              y: 36,
+              scale: 0.96,
+              willChange: "transform, opacity",
+            });
+            gsap.to(actionSignals, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.72,
+              ease: "power3.out",
+              stagger: 0.085,
+              overwrite: "auto",
+              scrollTrigger: {
+                trigger: ctaPanel ?? actionSignals[0],
+                start: isDesktop ? "top 82%" : "top 88%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+            });
+          }
 
           parallaxTargets.forEach((target) => {
             const strength = Number(target.dataset.parallaxStrength ?? "10");
@@ -500,25 +1030,80 @@ export default function HomeScrollAnimations() {
             );
           });
 
-          revealCards.forEach((card, index) => {
-            gsap.fromTo(
-              card,
-              { opacity: 0, y: 72 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power3.out",
-                delay: (index % 3) * 0.08,
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 92%",
-                  toggleActions: "play none none reverse",
-                  invalidateOnRefresh: true,
-                },
+          if (revealCards.length > 0) {
+            gsap.set(revealCards, {
+              autoAlpha: 0,
+              y: 72,
+              scale: 0.985,
+              willChange: "transform, opacity",
+            });
+            ScrollTrigger.batch(revealCards, {
+              interval: 0.08,
+              batchMax: isDesktop ? 3 : 2,
+              start: "top 92%",
+              onEnter: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.9,
+                  ease: "power3.out",
+                  stagger: 0.075,
+                  overwrite: "auto",
+                });
               },
-            );
-          });
+              onLeaveBack: (batch) => {
+                gsap.to(batch, {
+                  autoAlpha: 0,
+                  y: 42,
+                  scale: 0.99,
+                  duration: 0.34,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                });
+              },
+            });
+          }
+
+          if (contactMedia.length > 0 || contactDetails.length > 0) {
+            gsap.set(contactMedia, {
+              autoAlpha: 0,
+              y: 38,
+              scale: 0.96,
+              transformOrigin: "50% 50%",
+              willChange: "transform, opacity",
+            });
+            gsap.set(contactDetails, {
+              autoAlpha: 0,
+              y: 26,
+              scale: 0.98,
+              willChange: "transform, opacity",
+            });
+
+            const contactTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger:
+                  contactMedia[0]?.closest("[data-action-reveal]") ??
+                  contactDetails[0] ??
+                  actionSection,
+                start: isDesktop ? "top 82%" : "top 90%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+              defaults: { duration: 0.68, ease: "power3.out" },
+            });
+
+            if (contactMedia.length > 0) {
+              contactTimeline.to(contactMedia, { autoAlpha: 1, y: 0, scale: 1 }, 0);
+            }
+            if (contactDetails.length > 0) {
+              contactTimeline.to(
+                contactDetails,
+                { autoAlpha: 1, y: 0, scale: 1, stagger: 0.07, overwrite: "auto" },
+                0.18,
+              );
+            }
+          }
 
           if (isDesktop && formElement) {
             gsap.fromTo(
@@ -538,6 +1123,95 @@ export default function HomeScrollAnimations() {
               },
             );
           }
+
+          if (formSequence.length > 0) {
+            gsap.set(formSequence, {
+              autoAlpha: 0,
+              y: 30,
+              willChange: "transform, opacity",
+            });
+            gsap.set(formSignals, {
+              autoAlpha: 0,
+              y: 10,
+              scale: 0.94,
+              willChange: "transform, opacity",
+            });
+
+            const formTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: formElement ?? formSequence[0],
+                start: isDesktop ? "top 86%" : "top 92%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+              defaults: { duration: 0.62, ease: "power3.out" },
+            });
+
+            formTimeline.to(
+              formSequence,
+              { autoAlpha: 1, y: 0, stagger: 0.07, overwrite: "auto" },
+              isDesktop ? 0.28 : 0,
+            );
+
+            if (formSignals.length > 0) {
+              formTimeline.to(
+                formSignals,
+                {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.42,
+                  stagger: 0.045,
+                  overwrite: "auto",
+                },
+                "-=0.16",
+              );
+            }
+          }
+
+          if (actionFooter && footerColumns.length > 0) {
+            gsap.set(footerColumns, {
+              autoAlpha: 0,
+              y: 40,
+              willChange: "transform, opacity",
+            });
+            gsap.set(footerLinks, {
+              autoAlpha: 0,
+              x: isDesktop ? -12 : 0,
+              y: isDesktop ? 0 : 8,
+              willChange: "transform, opacity",
+            });
+
+            const footerTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: actionFooter,
+                start: "top 96%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
+              defaults: { duration: 0.62, ease: "power3.out" },
+            });
+
+            footerTimeline.to(
+              footerColumns,
+              { autoAlpha: 1, y: 0, stagger: 0.09, overwrite: "auto" },
+              0,
+            );
+            if (footerLinks.length > 0) {
+              footerTimeline.to(
+                footerLinks,
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  duration: 0.46,
+                  stagger: 0.035,
+                  overwrite: "auto",
+                },
+                0.18,
+              );
+            }
+          }
         }, actionSection);
 
         ctxCleanups.push(() => actionCtx.revert());
@@ -547,7 +1221,7 @@ export default function HomeScrollAnimations() {
       const timers = [120, 600, 1500].map((delay) => window.setTimeout(refresh, delay));
       window.addEventListener("load", refresh);
 
-      const roots = [interestSection, desireSection, actionSection].filter(
+      const roots = [interestSection, desireSection, actionSection, actionFooter].filter(
         (root): root is HTMLElement => root != null,
       );
 

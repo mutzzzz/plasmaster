@@ -44,7 +44,10 @@ export default function DesireChapter({
               </h2>
             </div>
 
-            <p className="max-w-[58ch] text-sm leading-7 text-[var(--ink-muted)]">
+            <p
+              data-desire-support-copy
+              className="max-w-[58ch] text-sm leading-7 text-[var(--ink-muted)]"
+            >
               {principles.intro}
             </p>
 
@@ -52,6 +55,7 @@ export default function DesireChapter({
               {principles.values.map((value) => (
                 <span
                   key={value}
+                  data-desire-pill
                   className="rounded-full border border-[var(--line)] bg-white/82 px-4 py-2 text-[0.72rem] uppercase tracking-[0.18em] text-[var(--ink-muted)]"
                 >
                   {value}
@@ -60,7 +64,10 @@ export default function DesireChapter({
             </div>
           </div>
 
-          <div className="glass-panel overflow-hidden p-5 sm:p-6 lg:self-start lg:p-7">
+          <div
+            data-desire-carousel-shell
+            className="glass-panel overflow-hidden p-5 sm:p-6 lg:self-start lg:p-7"
+          >
             <div className="space-y-5 sm:space-y-6">
               {proofCarousel.map((slide, index) => (
                 <article
@@ -88,18 +95,30 @@ export default function DesireChapter({
 
                   <div data-desire-card-body className="flex flex-col gap-6">
                     <div className="space-y-4">
-                      <span className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+                      <span
+                        data-desire-card-detail
+                        className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]"
+                      >
                         {slide.note}
                       </span>
-                      <h3 className="max-w-[14ch] text-[clamp(1.9rem,2.8vw,3rem)] leading-[0.96] tracking-[-0.05em] text-[var(--ink)] text-balance">
+                      <h3
+                        data-desire-card-detail
+                        className="max-w-[14ch] text-[clamp(1.9rem,2.8vw,3rem)] leading-[0.96] tracking-[-0.05em] text-[var(--ink)] text-balance"
+                      >
                         {slide.title}
                       </h3>
-                      <p className="text-sm leading-7 text-[var(--ink-muted)]">
+                      <p
+                        data-desire-card-detail
+                        className="text-sm leading-7 text-[var(--ink-muted)]"
+                      >
                         {slide.description}
                       </p>
                     </div>
 
-                    <span className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
+                    <span
+                      data-desire-card-detail
+                      className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]"
+                    >
                       {String(index + 1).padStart(2, "0")} / {String(proofCarousel.length).padStart(2, "0")}
                     </span>
                   </div>
@@ -111,9 +130,14 @@ export default function DesireChapter({
 
         <div className="relative">
           <div data-desire-stack-pin className="space-y-8 lg:space-y-10">
-            <div className="max-w-3xl space-y-4">
-              <span className="section-kicker">{renderBrandText(differentials.eyebrow)}</span>
-              <p className="max-w-[58ch] text-base leading-8 text-[var(--ink-muted)]">
+            <div data-proof-intro className="max-w-3xl space-y-4">
+              <span data-proof-intro-detail className="section-kicker">
+                {renderBrandText(differentials.eyebrow)}
+              </span>
+              <p
+                data-proof-intro-detail
+                className="max-w-[58ch] text-base leading-8 text-[var(--ink-muted)]"
+              >
                 {differentials.description}
               </p>
             </div>
@@ -126,21 +150,33 @@ export default function DesireChapter({
                   className="group absolute inset-0 overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,#f4f3ee_0%,rgba(244,243,238,0.82)_100%)] shadow-[0_28px_88px_-48px_rgba(18,21,31,0.32)]"
                 >
                   <div className="grid h-full gap-6 p-6 sm:p-7 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:p-8">
-                    <div className="flex flex-col justify-between gap-6">
+                    <div data-proof-card-copy className="flex flex-col justify-between gap-6">
                       <div className="space-y-4">
-                        <span className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+                        <span
+                          data-proof-card-detail
+                          className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]"
+                        >
                           {String(index + 1).padStart(2, "0")}
                         </span>
-                        <h3 className="max-w-[13ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.96] tracking-[-0.06em] text-[var(--ink)] text-balance">
+                        <h3
+                          data-proof-card-detail
+                          className="max-w-[13ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.96] tracking-[-0.06em] text-[var(--ink)] text-balance"
+                        >
                           {item.title}
                         </h3>
-                        <p className="max-w-[34ch] text-sm leading-7 text-[var(--ink-muted)]">
+                        <p
+                          data-proof-card-detail
+                          className="max-w-[34ch] text-sm leading-7 text-[var(--ink-muted)]"
+                        >
                           {item.description}
                         </p>
                       </div>
                     </div>
 
-                    <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white">
+                    <div
+                      data-proof-card-visual
+                      className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white"
+                    >
                       <Image
                         src={item.image.src}
                         alt={item.image.alt}

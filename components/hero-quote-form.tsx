@@ -97,6 +97,7 @@ export function HeroQuoteForm({
 
   return (
     <form
+      data-home-quote-form
       onSubmit={handleSubmit}
       noValidate
       className={`glass-panel relative overflow-hidden p-6 sm:p-8 ${className}`.trim()}
@@ -104,7 +105,10 @@ export function HeroQuoteForm({
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,201,167,0.12),transparent_44%)]" />
 
       <div className="relative space-y-6">
-        <div className="space-y-3 border-b border-[var(--line)] pb-4">
+        <div
+          data-home-quote-item
+          className="space-y-3 border-b border-[var(--line)] pb-4"
+        >
           <span className="section-kicker">{eyebrow}</span>
           <div className="space-y-2">
             <h2 className="text-2xl leading-tight tracking-[-0.04em] text-[var(--ink)] sm:text-[2.05rem]">
@@ -117,7 +121,11 @@ export function HeroQuoteForm({
         </div>
 
         <div className="grid gap-5">
-          <label className="field-shell" htmlFor={fieldId(idPrefix, "name")}>
+          <label
+            data-home-quote-item
+            className="field-shell"
+            htmlFor={fieldId(idPrefix, "name")}
+          >
             <span className="field-label">{fields.name.label}</span>
             <input
               id={fieldId(idPrefix, "name")}
@@ -133,7 +141,11 @@ export function HeroQuoteForm({
             <span className="field-helper">{fields.name.helperText}</span>
           </label>
 
-          <label className="field-shell" htmlFor={fieldId(idPrefix, "email")}>
+          <label
+            data-home-quote-item
+            className="field-shell"
+            htmlFor={fieldId(idPrefix, "email")}
+          >
             <span className="field-label">{fields.email.label}</span>
             <input
               id={fieldId(idPrefix, "email")}
@@ -149,7 +161,11 @@ export function HeroQuoteForm({
             <span className="field-helper">{fields.email.helperText}</span>
           </label>
 
-          <label className="field-shell" htmlFor={fieldId(idPrefix, "message")}>
+          <label
+            data-home-quote-item
+            className="field-shell"
+            htmlFor={fieldId(idPrefix, "message")}
+          >
             <span className="field-label">{fields.message.label}</span>
             <textarea
               id={fieldId(idPrefix, "message")}
@@ -164,7 +180,12 @@ export function HeroQuoteForm({
           </label>
         </div>
 
-        <button type="submit" className="solid-button w-full" disabled={submitting}>
+        <button
+          data-home-quote-item
+          type="submit"
+          className="solid-button w-full"
+          disabled={submitting}
+        >
           {submitting ? "Enviando..." : buttonLabel}
         </button>
 

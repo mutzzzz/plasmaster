@@ -5,6 +5,7 @@ import { imageBlurData } from "../lib/image-blur-data";
 import ActionChapter from "../components/action-chapter";
 import DesireChapter from "../components/desire-chapter";
 import HeaderVisibilityController from "../components/header-visibility-controller";
+import HomeHeroAnimations from "../components/home-hero-animations";
 import { HeroQuoteForm } from "../components/hero-quote-form";
 import HomeScrollAnimations from "../components/home-scroll-animations";
 import InterestChapter from "../components/interest-chapter";
@@ -99,8 +100,12 @@ export default async function HomePage() {
 
       <main className="relative w-full max-w-full overflow-x-clip">
         <section id="home" className="scroll-mt-28">
-          <div className="relative left-1/2 min-h-[100svh] w-screen -translate-x-1/2 overflow-hidden bg-[var(--accent-deep)] text-white lg:min-h-[100dvh]">
+          <div
+            data-home-hero-stage
+            className="relative left-1/2 min-h-[100svh] w-screen -translate-x-1/2 overflow-hidden bg-[var(--accent-deep)] text-white lg:min-h-[100dvh]"
+          >
             <Image
+              data-home-hero-media
               src={primaryHeroImage.desktop}
               alt={primaryHeroImage.alt}
               fill
@@ -109,6 +114,7 @@ export default async function HomePage() {
               className="hidden object-cover object-center lg:block"
             />
             <Image
+              data-home-hero-media
               src={primaryHeroImage.mobile}
               alt=""
               fill
@@ -118,11 +124,15 @@ export default async function HomePage() {
             />
 
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(7,11,18,0.9)_0%,rgba(7,11,18,0.68)_30%,rgba(7,11,18,0.2)_58%,rgba(7,11,18,0.42)_100%),linear-gradient(180deg,rgba(7,11,18,0.74)_0%,rgba(7,11,18,0.18)_38%,rgba(7,11,18,0.82)_100%)] lg:bg-[linear-gradient(90deg,rgba(7,11,18,0.92)_0%,rgba(7,11,18,0.7)_28%,rgba(7,11,18,0.18)_58%,rgba(7,11,18,0.34)_100%),linear-gradient(180deg,rgba(7,11,18,0.62)_0%,rgba(7,11,18,0.12)_40%,rgba(7,11,18,0.76)_100%)]" />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(244,243,238,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(244,243,238,0.08)_1px,transparent_1px)] bg-[length:96px_96px] opacity-35" />
+            <div
+              data-home-hero-grid
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(244,243,238,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(244,243,238,0.08)_1px,transparent_1px)] bg-[length:96px_96px] opacity-35"
+            />
 
             <div className="site-shell relative z-10 flex min-h-[100svh] flex-col justify-between py-6 sm:py-7 lg:min-h-[100dvh] lg:py-9">
               <div className="flex items-center justify-between gap-5">
                 <Image
+                  data-home-hero-logo
                   src="/plasmaster-logo-hero.png"
                   alt="Plasmaster"
                   width={494}
@@ -130,24 +140,50 @@ export default async function HomePage() {
                   priority
                   className="h-auto w-[174px] brightness-0 invert sm:w-[208px]"
                 />
-                <span className="hidden border border-white/16 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-white/68 sm:inline-flex">
+                <span
+                  data-home-hero-meta
+                  className="hidden border border-white/16 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-white/68 sm:inline-flex"
+                >
                   Joinville/SC desde 2005
                 </span>
               </div>
 
               <div className="grid gap-8 pb-16 pt-20 sm:pt-24 lg:grid-cols-[minmax(0,0.92fr)_minmax(18rem,0.38fr)] lg:items-end lg:gap-10 lg:pb-16 lg:pt-24">
                 <div className="max-w-[48rem]">
-                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-[rgba(0,201,167,0.9)]">
+                  <p
+                    data-home-hero-kicker
+                    className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-[rgba(0,201,167,0.9)]"
+                  >
                     Soluções integradas de embalagens
                   </p>
-                  <h1 className="mt-5 max-w-[13ch] text-5xl leading-[0.92] text-balance sm:text-6xl md:text-7xl lg:text-7xl xl:text-[5.75rem] 2xl:text-8xl">
-                    Embalagens plásticas para indústria e comércio.
+                  <h1 className="mt-5 max-w-[13ch] text-5xl leading-[0.92] sm:text-6xl md:text-7xl lg:text-7xl xl:text-[5.75rem] 2xl:text-8xl">
+                    <span className="block overflow-hidden pb-[0.04em]">
+                      <span data-home-hero-line className="block">
+                        Embalagens plásticas
+                      </span>
+                    </span>
+                    <span className="block overflow-hidden pb-[0.04em]">
+                      <span data-home-hero-line className="block">
+                        para indústria
+                      </span>
+                    </span>
+                    <span className="block overflow-hidden pb-[0.04em]">
+                      <span data-home-hero-line className="block">
+                        e comércio.
+                      </span>
+                    </span>
                   </h1>
-                  <p className="mt-6 max-w-[40rem] text-base leading-8 text-white/78 sm:text-lg lg:text-xl lg:leading-9">
+                  <p
+                    data-home-hero-copy
+                    className="mt-6 max-w-[40rem] text-base leading-8 text-white/78 sm:text-lg lg:text-xl lg:leading-9"
+                  >
                     Plásticos flexíveis, proteção logística e embalagens rígidas em um único parceiro, com atendimento consultivo para indicar a linha certa para sua operação.
                   </p>
 
-                  <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <div
+                    data-home-hero-actions
+                    className="mt-8 flex flex-wrap items-center gap-3"
+                  >
                     <a
                       href={hero.intro.primaryAction.href}
                       className="solid-button min-w-[12.5rem] border border-[rgba(244,243,238,0.2)]"
@@ -163,14 +199,17 @@ export default async function HomePage() {
                   </div>
                 </div>
 
-                <div className="hidden max-w-[28rem] border-t border-white/20 pt-5 lg:block lg:justify-self-end">
+                <div
+                  data-home-hero-proof
+                  className="hidden max-w-[28rem] border-t border-white/20 pt-5 lg:block lg:justify-self-end"
+                >
                   <p className="text-sm uppercase tracking-[0.22em] text-white/52">
                     O que entregamos
                   </p>
                   <ul className="mt-4 grid gap-3 text-[0.98rem] leading-7 text-white/82">
-                    <li>Plásticos flexíveis para rotinas industriais e comerciais.</li>
-                    <li>Materiais de proteção, fechamento e estabilidade logística.</li>
-                    <li>Embalagens rígidas para aplicações de maior exigência.</li>
+                    <li data-home-hero-proof-item>Plásticos flexíveis para rotinas industriais e comerciais.</li>
+                    <li data-home-hero-proof-item>Materiais de proteção, fechamento e estabilidade logística.</li>
+                    <li data-home-hero-proof-item>Embalagens rígidas para aplicações de maior exigência.</li>
                   </ul>
                 </div>
               </div>
@@ -237,10 +276,14 @@ export default async function HomePage() {
             </article>
           </div>
 
-          <div className="site-shell mt-8 lg:mt-10">
+          <div data-home-quote-cluster className="site-shell mt-8 lg:mt-10">
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] lg:gap-6">
-              <article className="relative hidden min-h-[42rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[var(--surface-solid)] shadow-[0_28px_88px_-52px_rgba(18,21,31,0.32)] lg:block">
+              <article
+                data-home-quote-visual
+                className="relative hidden min-h-[42rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[var(--surface-solid)] shadow-[0_28px_88px_-52px_rgba(18,21,31,0.32)] lg:block"
+              >
                 <Image
+                  data-home-quote-media
                   src={heroQuoteSideImage.src}
                   alt={heroQuoteSideImage.alt}
                   fill
@@ -250,7 +293,10 @@ export default async function HomePage() {
                   blurDataURL={imageBlurData[heroQuoteSideImage.src]?.blurDataURL}
                 />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,21,31,0.02)_0%,rgba(18,21,31,0.08)_48%,rgba(18,21,31,0.28)_100%)]" />
-                <div className="absolute left-5 top-5 rounded-full border border-white/70 bg-[rgba(244,243,238,0.84)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-deep)] shadow-[0_10px_30px_-18px_rgba(18,21,31,0.4)]">
+                <div
+                  data-home-quote-label
+                  className="absolute left-5 top-5 rounded-full border border-white/70 bg-[rgba(244,243,238,0.84)] px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--accent-deep)] shadow-[0_10px_30px_-18px_rgba(18,21,31,0.4)]"
+                >
                   {heroQuoteSideImage.label}
                 </div>
               </article>
@@ -267,6 +313,7 @@ export default async function HomePage() {
           </div>
         </section>
 
+        <HomeHeroAnimations />
         <HomeScrollAnimations />
 
         <InterestChapter

@@ -53,7 +53,10 @@ export default function ActionChapter({
             />
             <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
               <div className="space-y-6">
-                <span className="text-[0.72rem] uppercase tracking-[0.24em] text-white/62">
+                <span
+                  data-action-cta-detail
+                  className="text-[0.72rem] uppercase tracking-[0.24em] text-white/62"
+                >
                   {actionCta.eyebrow}
                 </span>
                 <h2 className="max-w-[12ch] text-[clamp(2.8rem,5vw,5.4rem)] leading-[0.92] tracking-[-0.07em] text-balance">
@@ -78,12 +81,13 @@ export default function ActionChapter({
                     ))}
                   </span>
                 </h2>
-                <p className="max-w-[40ch] text-base leading-8 text-white/74">
+                <p data-action-cta-detail className="max-w-[40ch] text-base leading-8 text-white/74">
                   {actionCta.description}
                 </p>
 
-                <div className="flex flex-wrap gap-3">
+                <div data-action-cta-detail className="flex flex-wrap gap-3">
                   <a
+                    data-action-cta-action
                     href={actionCta.primaryAction.href}
                     className="inline-flex min-h-[3.35rem] items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium transition duration-500 ease-out hover:-translate-y-px hover:bg-white/94"
                     style={{ color: "var(--ink)" }}
@@ -91,6 +95,7 @@ export default function ActionChapter({
                     {actionCta.primaryAction.label}
                   </a>
                   <a
+                    data-action-cta-action
                     href={actionCta.secondaryAction.href}
                     className="inline-flex min-h-[3.35rem] items-center justify-center rounded-full border border-white/18 bg-white/8 px-5 py-3 text-sm font-medium text-white transition duration-500 ease-out hover:-translate-y-px hover:bg-white/12"
                   >
@@ -103,6 +108,7 @@ export default function ActionChapter({
                 {actionCta.signals.map((signal) => (
                   <div
                     key={signal.label}
+                    data-action-signal
                     data-action-reveal
                     className="rounded-[1.45rem] border border-white/10 bg-white/6 px-4 py-4 shadow-[inset_0_1px_0_rgba(244,243,238,0.08)]"
                   >
@@ -140,7 +146,10 @@ export default function ActionChapter({
                   </p>
                 </div>
 
-                <div className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white/84">
+                <div
+                  data-action-contact-media
+                  className="overflow-hidden rounded-[1.8rem] border border-[var(--line)] bg-white/84"
+                >
                   <div data-action-parallax data-parallax-strength="12" className="h-full w-full">
                     <Image
                       src="/site-images/service-full-service-workflow.webp?v=2"
@@ -156,7 +165,10 @@ export default function ActionChapter({
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[1.4rem] border border-[var(--line)] bg-white/84 px-4 py-4">
+                  <div
+                    data-action-contact-detail
+                    className="rounded-[1.4rem] border border-[var(--line)] bg-white/84 px-4 py-4"
+                  >
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
                       E-mail
                     </p>
@@ -164,7 +176,10 @@ export default function ActionChapter({
                       {contact.email}
                     </a>
                   </div>
-                  <div className="rounded-[1.4rem] border border-[var(--line)] bg-white/84 px-4 py-4">
+                  <div
+                    data-action-contact-detail
+                    className="rounded-[1.4rem] border border-[var(--line)] bg-white/84 px-4 py-4"
+                  >
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
                       Telefone
                     </p>
@@ -174,7 +189,10 @@ export default function ActionChapter({
                   </div>
                 </div>
 
-                <div className="rounded-[1.6rem] border border-[var(--line)] bg-white/84 px-5 py-5">
+                <div
+                  data-action-contact-detail
+                  className="rounded-[1.6rem] border border-[var(--line)] bg-white/84 px-5 py-5"
+                >
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
                     Endereço
                   </p>
@@ -192,9 +210,9 @@ export default function ActionChapter({
         </div>
       </section>
 
-      <footer className="border-t border-[var(--line)] bg-white/72">
+      <footer data-action-footer className="border-t border-[var(--line)] bg-white/72">
         <div className="site-shell grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.8fr)]">
-          <div className="space-y-5">
+          <div data-action-footer-column className="space-y-5">
             <Image
               src="/plasmaster-logo.png"
               alt="Plasmaster"
@@ -207,28 +225,33 @@ export default function ActionChapter({
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div data-action-footer-column className="space-y-4">
             <h3 className="text-[0.72rem] uppercase tracking-[0.24em] text-[var(--ink-soft)]">
               Navegação
             </h3>
             <div className="grid gap-2 text-sm text-[var(--ink-muted)]">
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="w-fit hover:text-[var(--ink)]">
+                <a
+                  key={item.href}
+                  data-action-footer-link
+                  href={item.href}
+                  className="w-fit hover:text-[var(--ink)]"
+                >
                   {item.label}
                 </a>
               ))}
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div data-action-footer-column className="space-y-4">
             <h3 className="text-[0.72rem] uppercase tracking-[0.24em] text-[var(--ink-soft)]">
               Presença
             </h3>
             <div className="grid gap-2 text-sm text-[var(--ink-muted)]">
-              <a href={mailHref} className="w-fit hover:text-[var(--ink)]">
+              <a data-action-footer-link href={mailHref} className="w-fit hover:text-[var(--ink)]">
                 {contact.email}
               </a>
-              <a href={telHref} className="w-fit hover:text-[var(--ink)]">
+              <a data-action-footer-link href={telHref} className="w-fit hover:text-[var(--ink)]">
                 {contact.phone}
               </a>
               <span>{footer.socialLinks.join(" • ")}</span>

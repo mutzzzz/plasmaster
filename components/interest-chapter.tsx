@@ -93,9 +93,10 @@ export default function InterestChapter({
           <Image
             src={inlineImage.src}
             alt=""
-            fill
+            width={1152}
+            height={768}
             sizes="(min-width: 1024px) 46vw, 70vw"
-            className="object-cover"
+            className="h-full w-full object-cover"
             priority
           />
         </div>
@@ -139,9 +140,10 @@ export default function InterestChapter({
             <Image
               src={inlineImage.src}
               alt=""
-              fill
+              width={1152}
+              height={768}
               sizes="(min-width: 1024px) 58rem, 90vw"
-              className="object-cover"
+              className="h-full w-full object-cover"
               priority
             />
           </div>
@@ -166,13 +168,14 @@ export default function InterestChapter({
                 data-interest-roll-anchor
                 className="inline-flex h-[0.9em] w-[1.95em] translate-y-[-0.04em] overflow-hidden rounded-full align-middle border border-white/80 shadow-[0_18px_48px_-28px_rgba(18,21,31,0.45)]"
               >
-                <span className="relative block h-full w-full" data-interest-roll-inline>
+                <span className="relative block h-[0.9em] w-full" data-interest-roll-inline>
                   <Image
                     src={inlineImage.src}
                     alt={inlineImage.alt}
-                    fill
+                    width={1152}
+                    height={768}
                     sizes="160px"
-                    className="object-cover"
+                    className="h-full w-full object-cover"
                     placeholder="blur"
                     blurDataURL={imageBlurData[inlineImage.src]?.blurDataURL}
                   />
@@ -196,6 +199,7 @@ export default function InterestChapter({
               {marqueeLoop.map((item, index) => (
                 <span
                   key={`${item}-${index}`}
+                  data-interest-marquee-pill
                   className="inline-flex items-center gap-3 rounded-full border border-[var(--line)] bg-white/88 px-4 py-2 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[var(--ink-muted)]"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-strong)]" />
@@ -230,6 +234,7 @@ export default function InterestChapter({
                 {about.highlights.map((highlight) => (
                   <div
                     key={highlight.label}
+                    data-interest-highlight
                     className="rounded-[1.5rem] border border-[var(--line)] bg-white/82 px-4 py-5 shadow-[0_16px_44px_-30px_rgba(18,21,31,0.18)]"
                   >
                     <p className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
@@ -242,7 +247,10 @@ export default function InterestChapter({
                 ))}
               </div>
 
-              <div className="rounded-[1.7rem] border border-[var(--line)] bg-[rgba(244,243,238,0.68)] p-5 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-6">
+              <div
+                data-interest-criteria-panel
+                className="rounded-[1.7rem] border border-[var(--line)] bg-[rgba(244,243,238,0.68)] p-5 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-6"
+              >
                 <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--line)] pb-4">
                   <div>
                     <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent-strong)]">
@@ -262,6 +270,7 @@ export default function InterestChapter({
                   {recommendationCriteria.map((criterion) => (
                     <div
                       key={criterion.label}
+                      data-interest-criteria-row
                       className="grid gap-2 py-4 first:pt-5 last:pb-0 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-5"
                     >
                       <span className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
@@ -279,6 +288,7 @@ export default function InterestChapter({
 
           <article
             data-interest-card
+            data-interest-capacity-card
             className="group relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[rgba(18,21,31,0.96)] p-6 text-white shadow-[0_30px_90px_-46px_rgba(18,21,31,0.78)] sm:p-7 lg:col-span-5 lg:p-8"
           >
             <div
@@ -318,6 +328,7 @@ export default function InterestChapter({
                 {about.capacity.metrics.map((metric) => (
                   <div
                     key={metric.label}
+                    data-interest-capacity-metric
                     className="flex items-center justify-between gap-3 rounded-[1.2rem] border border-white/10 bg-white/6 px-4 py-3 text-sm uppercase tracking-[0.18em] text-white/72"
                   >
                     <span>{metric.label}</span>
@@ -343,6 +354,7 @@ export default function InterestChapter({
               <article
                 key={service.id}
                 data-interest-card
+                data-interest-service-card
                 id={service.id === services.items[0]?.id ? "servicos" : undefined}
                 className="glass-panel group relative scroll-mt-32 overflow-hidden p-6 sm:p-7 lg:col-span-4 lg:p-8"
               >
@@ -352,7 +364,10 @@ export default function InterestChapter({
                   className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.14),transparent_42%)]"
                 />
                 <div className="relative space-y-6">
-                  <div className="overflow-hidden rounded-[1.6rem] border border-[var(--line)] bg-white/85">
+                  <div
+                    data-interest-service-visual
+                    className="overflow-hidden rounded-[1.6rem] border border-[var(--line)] bg-white/85"
+                  >
                     <div data-interest-parallax data-parallax-strength="12" className="h-full w-full">
                       <Image
                         src={visual.src}
@@ -367,7 +382,7 @@ export default function InterestChapter({
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div data-interest-service-copy className="space-y-3">
                     <span className="text-[0.72rem] uppercase tracking-[0.22em] text-[var(--accent-strong)]">
                       {service.eyebrow}
                     </span>
@@ -379,7 +394,11 @@ export default function InterestChapter({
                     </p>
                   </div>
 
-                  <a href={service.cta.href} className="outline-button w-fit">
+                  <a
+                    data-interest-service-action
+                    href={service.cta.href}
+                    className="outline-button w-fit"
+                  >
                     {service.cta.label}
                   </a>
                 </div>
@@ -389,6 +408,7 @@ export default function InterestChapter({
 
           <article
             data-interest-card
+            data-interest-differentials-card
             className="relative overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(244,243,238,0.94),rgba(244,243,238,0.8))] p-6 shadow-[0_24px_80px_-50px_rgba(18,21,31,0.28)] sm:p-7 lg:col-span-4 lg:p-8"
           >
             <div
@@ -411,6 +431,7 @@ export default function InterestChapter({
                 {differentials.items.map((item) => (
                   <div
                     key={item.title}
+                    data-interest-differential-item
                     className="rounded-[1.35rem] border border-[var(--line)] bg-white/88 px-4 py-4 shadow-[0_14px_40px_-30px_rgba(18,21,31,0.16)]"
                   >
                     <h4 className="text-sm font-medium tracking-[0.06em] text-[var(--ink)]">

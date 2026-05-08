@@ -87,7 +87,7 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
         className="absolute inset-0 bg-[linear-gradient(145deg,rgba(0,201,167,0.12),transparent_42%)]"
       />
       <div className="relative grid gap-5">
-        <div className="space-y-3 border-b border-[var(--line)] pb-5">
+        <div data-action-form-header className="space-y-3 border-b border-[var(--line)] pb-5">
           <span className="section-kicker">{form.title}</span>
           <p className="max-w-[56ch] text-sm leading-7 text-[var(--ink-muted)]">
             {form.subtitle}
@@ -97,7 +97,12 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
         {(["name", "email"] as const).map((fieldName) => {
           const field = form.fields[fieldName];
           return (
-            <label key={fieldName} className="field-shell" htmlFor={`contact-${fieldName}`}>
+            <label
+              key={fieldName}
+              data-action-form-field
+              className="field-shell"
+              htmlFor={`contact-${fieldName}`}
+            >
               <span className="field-label">{field.label}</span>
               <input
                 id={`contact-${fieldName}`}
@@ -115,7 +120,7 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
           );
         })}
 
-        <label className="field-shell" htmlFor="contact-message">
+        <label data-action-form-field className="field-shell" htmlFor="contact-message">
           <span className="field-label">{form.fields.message.label}</span>
           <textarea
             id="contact-message"
@@ -129,22 +134,34 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
           <span className="field-helper">{form.fields.message.helperText}</span>
         </label>
 
-        <button type="submit" className="solid-button w-full" disabled={submitting}>
+        <button
+          data-action-form-submit
+          type="submit"
+          className="solid-button w-full"
+          disabled={submitting}
+        >
           {submitting ? "Enviando..." : form.buttonLabel}
         </button>
 
         {status.kind === "success" && (
-          <p role="status" className="text-sm leading-6 text-[var(--accent-deep)]">
+          <p
+            data-action-form-status
+            role="status"
+            className="text-sm leading-6 text-[var(--accent-deep)]"
+          >
             Mensagem enviada. Em breve entraremos em contato.
           </p>
         )}
         {status.kind === "error" && (
-          <p role="alert" className="text-sm leading-6 text-red-600">
+          <p data-action-form-status role="alert" className="text-sm leading-6 text-red-600">
             {status.message}
           </p>
         )}
 
-        <div className="rounded-[1.6rem] border border-[var(--line)] bg-white/62 p-4 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-5">
+        <div
+          data-action-form-note
+          className="rounded-[1.6rem] border border-[var(--line)] bg-white/62 p-4 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-5"
+        >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent-strong)]">
               Depois do envio
@@ -161,6 +178,7 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
             {briefingSignals.map((signal) => (
               <span
                 key={signal}
+                data-action-form-signal
                 className="rounded-full border border-[var(--line)] bg-[rgba(244,243,238,0.72)] px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-[var(--ink-soft)]"
               >
                 {signal}

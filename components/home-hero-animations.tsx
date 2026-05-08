@@ -168,6 +168,7 @@ export default function HomeHeroAnimations() {
               });
 
               const heroExit = gsap.timeline({
+                defaults: { ease: "none" },
                 scrollTrigger: {
                   trigger: heroStage,
                   start: "top top",
@@ -178,19 +179,63 @@ export default function HomeHeroAnimations() {
               });
 
               heroExit
-                .to(
+                .fromTo(
                   heroLines,
+                  {
+                    autoAlpha: 1,
+                    yPercent: 0,
+                  },
                   {
                     yPercent: isDesktop ? -28 : -18,
                     autoAlpha: 0.22,
+                    duration: 0.24,
                     stagger: { each: 0.025, from: "end" },
-                    ease: "none",
+                    immediateRender: false,
                   },
-                  0,
+                  0.76,
                 )
-                .to(copyBlock, { y: isDesktop ? -56 : -32, autoAlpha: 0, ease: "none" }, 0)
-                .to(heroProof, { y: -36, autoAlpha: 0, ease: "none" }, 0)
-                .to(heroGrid, { y: -46, autoAlpha: 0.3, ease: "none" }, 0);
+                .fromTo(
+                  copyBlock,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                  },
+                  {
+                    y: isDesktop ? -56 : -32,
+                    autoAlpha: 0,
+                    duration: 0.18,
+                    immediateRender: false,
+                  },
+                  0.82,
+                )
+                .fromTo(
+                  heroProof,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                  },
+                  {
+                    y: -36,
+                    autoAlpha: 0,
+                    duration: 0.18,
+                    immediateRender: false,
+                  },
+                  0.82,
+                )
+                .fromTo(
+                  heroGrid,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                  },
+                  {
+                    y: -46,
+                    autoAlpha: 0.3,
+                    duration: 0.24,
+                    immediateRender: false,
+                  },
+                  0.76,
+                );
             }
 
             if (quoteCluster) {

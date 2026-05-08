@@ -271,7 +271,7 @@ export const siteContent: SiteContent = {
         "Atendemos às exigências da indústria e do comércio com um portfólio completo de plásticos flexíveis, materiais de proteção e embalagens rígidas. Estrutura, tecnologia e compromisso para sustentar a operação do seu negócio.",
       primaryAction: {
         label: "Falar com um consultor",
-        href: "#contato",
+        href: "#contato-form",
       },
       secondaryAction: {
         label: "Conhecer nossas linhas",
@@ -371,7 +371,7 @@ export const siteContent: SiteContent = {
       ],
       cta: {
         label: "Fale com a equipe",
-        href: "#contato",
+        href: "#contato-form",
       },
     },
     principles: {
@@ -403,7 +403,7 @@ export const siteContent: SiteContent = {
         title: "Flexibilidade para rotinas industriais e comerciais",
         description:
           "Bobinas industriais e comerciais, sacarias de alta densidade, filmes lisos e impressos, materiais reciclados e envelopes de segurança com fita permanente para operações que pedem resistência e versatilidade.",
-        cta: { label: "Falar sobre essa linha", href: "#contato" },
+        cta: { label: "Falar sobre essa linha", href: "#contato-form" },
       },
       {
         id: "02",
@@ -411,7 +411,7 @@ export const siteContent: SiteContent = {
         title: "Fechamento seguro, proteção de carga e robustez de alta exigência",
         description:
           "Stretch, shrink, PVC, plástico bolha, papelão ondulado e fitas adesivas cobrem fechamento e proteção no transporte, enquanto galões plásticos e embalagens fluoretadas atendem aplicações com maior exigência físico-química.",
-        cta: { label: "Falar sobre essa linha", href: "#contato" },
+        cta: { label: "Falar sobre essa linha", href: "#contato-form" },
       },
     ],
   },
@@ -450,7 +450,7 @@ export const siteContent: SiteContent = {
     },
     secondaryAction: {
       label: "Falar com a equipe",
-      href: "mailto:adm@plasmaster.ind.br",
+      href: "#contato-form",
     },
     signals: [
       { label: "Modelo", value: "portfólio integrado" },

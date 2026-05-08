@@ -21,6 +21,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   invalid_json: "Erro ao processar a solicitação.",
 };
 
+const briefingSignals = ["Aplicação", "Volume", "Material", "Prazo"];
+
 export function ContactForm({ form, source = "contato" }: ContactFormProps) {
   const [status, setStatus] = useState<SubmitStatus>({ kind: "idle" });
 
@@ -77,7 +79,7 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
       noValidate
       data-action-reveal
       data-action-parallax-scope
-      className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(244,243,238,0.9)] bg-[linear-gradient(180deg,rgba(244,243,238,0.92),rgba(244,243,238,0.78))] p-6 shadow-[0_28px_90px_-54px_rgba(18,21,31,0.28)] sm:p-7 lg:p-8"
+      className="relative scroll-mt-32 overflow-hidden rounded-[2.2rem] border border-[rgba(244,243,238,0.9)] bg-[linear-gradient(180deg,rgba(244,243,238,0.92),rgba(244,243,238,0.78))] p-6 shadow-[0_28px_90px_-54px_rgba(18,21,31,0.28)] sm:p-7 lg:p-8"
     >
       <div
         data-action-parallax
@@ -141,6 +143,31 @@ export function ContactForm({ form, source = "contato" }: ContactFormProps) {
             {status.message}
           </p>
         )}
+
+        <div className="rounded-[1.6rem] border border-[var(--line)] bg-white/62 p-4 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent-strong)]">
+              Depois do envio
+            </span>
+            <span className="rounded-full border border-[var(--line)] px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
+              Triagem consultiva
+            </span>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-[var(--ink-muted)]">
+            O time usa seu briefing para enquadrar a linha mais adequada e retornar com
+            perguntas objetivas sobre aplicação, consumo e restrições da operação.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {briefingSignals.map((signal) => (
+              <span
+                key={signal}
+                className="rounded-full border border-[var(--line)] bg-[rgba(244,243,238,0.72)] px-3 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-[var(--ink-soft)]"
+              >
+                {signal}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </form>
   );

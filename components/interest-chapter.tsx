@@ -32,6 +32,25 @@ const serviceImages = {
   },
 } as const;
 
+const recommendationCriteria = [
+  {
+    label: "Aplicação",
+    text: "Uso final, contato com o produto, exposição e rotina de manuseio.",
+  },
+  {
+    label: "Volume",
+    text: "Giro, recorrência e necessidade de reposição sem ruptura.",
+  },
+  {
+    label: "Proteção",
+    text: "Fechamento, transporte, armazenamento e risco de avaria.",
+  },
+  {
+    label: "Restrição",
+    text: "Material, resistência e exigência físico-química da operação.",
+  },
+];
+
 export default function InterestChapter({
   intro,
   marqueeItems,
@@ -65,8 +84,8 @@ export default function InterestChapter({
           data-interest-roll-overlay-box
           className="absolute left-0 top-0 overflow-hidden border border-white/80 bg-white/70 shadow-[0_40px_120px_-40px_rgba(18,21,31,0.55)] will-change-transform"
           style={{
-            width: 0,
-            height: 0,
+            width: 1,
+            height: 1,
             borderRadius: 28,
             transform: "translate(0px,0px)",
           }}
@@ -197,7 +216,7 @@ export default function InterestChapter({
               data-parallax-strength="8"
               className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,201,167,0.2),transparent_38%),linear-gradient(135deg,rgba(244,243,238,0.22),transparent_56%)]"
             />
-            <div className="relative space-y-8">
+            <div className="relative flex h-full flex-col gap-8">
               <span className="section-kicker">{about.eyebrow}</span>
 
               <div className="space-y-5">
@@ -221,6 +240,39 @@ export default function InterestChapter({
                     </p>
                   </div>
                 ))}
+              </div>
+
+              <div className="rounded-[1.7rem] border border-[var(--line)] bg-[rgba(244,243,238,0.68)] p-5 shadow-[inset_0_1px_0_rgba(244,243,238,0.86)] sm:p-6">
+                <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--line)] pb-4">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent-strong)]">
+                      Leitura antes da linha
+                    </p>
+                    <p className="mt-2 max-w-[48ch] text-sm leading-6 text-[var(--ink-muted)]">
+                      O espaço comercial vira critério: antes da indicação, a equipe cruza
+                      aplicação, volume, proteção e restrições da operação.
+                    </p>
+                  </div>
+                  <span className="rounded-full border border-[var(--line)] bg-white/78 px-3 py-1 text-[0.66rem] uppercase tracking-[0.2em] text-[var(--ink-soft)]">
+                    04 pontos
+                  </span>
+                </div>
+
+                <div className="divide-y divide-[var(--line)]">
+                  {recommendationCriteria.map((criterion) => (
+                    <div
+                      key={criterion.label}
+                      className="grid gap-2 py-4 first:pt-5 last:pb-0 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-5"
+                    >
+                      <span className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
+                        {criterion.label}
+                      </span>
+                      <span className="text-sm leading-6 text-[var(--ink)]">
+                        {criterion.text}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </article>
@@ -292,7 +344,7 @@ export default function InterestChapter({
                 key={service.id}
                 data-interest-card
                 id={service.id === services.items[0]?.id ? "servicos" : undefined}
-                className="glass-panel group relative overflow-hidden p-6 sm:p-7 lg:col-span-4 lg:p-8"
+                className="glass-panel group relative scroll-mt-32 overflow-hidden p-6 sm:p-7 lg:col-span-4 lg:p-8"
               >
                 <div
                   data-interest-parallax

@@ -11,9 +11,9 @@ import HomeScrollAnimations from "../components/home-scroll-animations";
 import InterestChapter from "../components/interest-chapter";
 import SiteHeader from "../components/site-header";
 import ScrollSequenceHero from "../components/scroll-sequence-hero";
-import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
+import { siteContent, WHATSAPP_URL, type HeroSequenceManifest } from "../lib/site-content";
 
-const telHref = "tel:+554734400683";
+const telHref = WHATSAPP_URL;
 const mailHref = "mailto:plasmaster.embalagem@gmail.com";
 const primaryHeroImage = {
   desktop: "/site-images/hero-section.webp",
@@ -79,6 +79,7 @@ export default async function HomePage() {
   const {
     navItems,
     headerCtaLabel,
+    headerCtaHref,
     marqueeItems,
     interestIntro,
     manifestParagraph,
@@ -96,7 +97,7 @@ export default async function HomePage() {
   return (
     <>
       <HeaderVisibilityController />
-      <SiteHeader items={navItems} ctaLabel={headerCtaLabel} />
+      <SiteHeader items={navItems} ctaLabel={headerCtaLabel} ctaHref={headerCtaHref} />
 
       <main className="relative w-full max-w-full overflow-x-clip">
         <section id="home" className="scroll-mt-28">

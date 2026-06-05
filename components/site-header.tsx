@@ -4,9 +4,10 @@ import type { NavItem } from "../lib/site-content";
 type SiteHeaderProps = {
   items: NavItem[];
   ctaLabel: string;
+  ctaHref: string;
 };
 
-export default function SiteHeader({ items, ctaLabel }: SiteHeaderProps) {
+export default function SiteHeader({ items, ctaLabel, ctaHref }: SiteHeaderProps) {
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50 py-4 sm:py-5">
       <div className="site-shell flex items-end justify-between gap-3 sm:items-center">
@@ -38,7 +39,9 @@ export default function SiteHeader({ items, ctaLabel }: SiteHeaderProps) {
           </nav>
 
           <a
-            href="#contato-form"
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="solid-button shrink-0 min-h-[2.9rem] border border-[rgba(18,21,31,0.08)] px-3 py-2 text-[0.78rem] leading-[1.05] whitespace-nowrap sm:min-h-[3.25rem] sm:px-5 sm:py-3 sm:text-sm"
           >
             {ctaLabel}

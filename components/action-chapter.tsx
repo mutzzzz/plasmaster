@@ -181,9 +181,9 @@ export default function ActionChapter({
                     className="rounded-[1.4rem] border border-[var(--line)] bg-white/84 px-4 py-4"
                   >
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
-                      Telefone
+                      WhatsApp
                     </p>
-                    <a href={telHref} className="mt-3 block text-sm leading-7 text-[var(--ink)]">
+                    <a href={telHref} target="_blank" rel="noopener noreferrer" className="mt-3 block text-sm leading-7 text-[var(--ink)]">
                       {contact.phone}
                     </a>
                   </div>

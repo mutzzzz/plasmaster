@@ -1,3 +1,6 @@
+export const WHATSAPP_PHONE = "5511996411512";
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Olá! Gostaria de falar com um consultor da Plasmaster.")}`;
+
 export type NavItem = {
   href: "#home" | "#sobre" | "#servicos" | "#contato";
   label: string;
@@ -51,6 +54,7 @@ export type HeroSequenceManifest = {
 export type SiteContent = {
   navItems: NavItem[];
   headerCtaLabel: string;
+  headerCtaHref: string;
   marqueeItems: string[];
   interestIntro: {
     eyebrow: string;
@@ -185,6 +189,7 @@ export const siteContent: SiteContent = {
     { href: "#contato", label: "Contato" },
   ],
   headerCtaLabel: "Falar com um consultor",
+  headerCtaHref: WHATSAPP_URL,
   marqueeItems: [
     "Portfólio integrado",
     "Plásticos flexíveis",
@@ -271,7 +276,7 @@ export const siteContent: SiteContent = {
         "Atendemos às exigências da indústria e do comércio com um portfólio completo de plásticos flexíveis, materiais de proteção e embalagens rígidas. Estrutura, tecnologia e compromisso para sustentar a operação do seu negócio.",
       primaryAction: {
         label: "Falar com um consultor",
-        href: "#contato-form",
+        href: WHATSAPP_URL,
       },
       secondaryAction: {
         label: "Conhecer nossas linhas",
@@ -371,7 +376,7 @@ export const siteContent: SiteContent = {
       ],
       cta: {
         label: "Fale com a equipe",
-        href: "#contato-form",
+        href: WHATSAPP_URL,
       },
     },
     principles: {
@@ -403,7 +408,7 @@ export const siteContent: SiteContent = {
         title: "Flexibilidade para rotinas industriais e comerciais",
         description:
           "Bobinas industriais e comerciais, sacarias de alta densidade, filmes lisos e impressos, materiais reciclados e envelopes de segurança com fita permanente para operações que pedem resistência e versatilidade.",
-        cta: { label: "Falar sobre essa linha", href: "#contato-form" },
+        cta: { label: "Falar sobre essa linha", href: WHATSAPP_URL },
       },
       {
         id: "02",
@@ -411,7 +416,7 @@ export const siteContent: SiteContent = {
         title: "Fechamento seguro, proteção de carga e robustez de alta exigência",
         description:
           "Stretch, shrink, PVC, plástico bolha, papelão ondulado e fitas adesivas cobrem fechamento e proteção no transporte, enquanto galões plásticos e embalagens fluoretadas atendem aplicações com maior exigência físico-química.",
-        cta: { label: "Falar sobre essa linha", href: "#contato-form" },
+        cta: { label: "Falar sobre essa linha", href: WHATSAPP_URL },
       },
     ],
   },
@@ -446,11 +451,11 @@ export const siteContent: SiteContent = {
       "Se a sua operação precisa de regularidade de fornecimento, apoio técnico e amplitude de portfólio, a conversa começa com aplicação, volume e rotina de consumo.",
     primaryAction: {
       label: "Enviar demanda",
-      href: "#contato-form",
+      href: WHATSAPP_URL,
     },
     secondaryAction: {
       label: "Falar com a equipe",
-      href: "#contato-form",
+      href: WHATSAPP_URL,
     },
     signals: [
       { label: "Modelo", value: "portfólio integrado" },
@@ -465,7 +470,7 @@ export const siteContent: SiteContent = {
       "Descreva aplicação, volume, tipo de material ou necessidade logística para direcionarmos o atendimento.",
     addressLines: [],
     email: "plasmaster.embalagem@gmail.com",
-    phone: "(47) 3440-0683",
+    phone: "(11) 99641-1512",
     form: {
       title: "Envie seu briefing",
       subtitle:

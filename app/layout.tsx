@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Outfit } from "next/font/google";
 import type { ReactNode } from "react";
+import SiteLoadingScreen from "../components/site-loading-screen";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -18,7 +19,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Plasmaster | Injecao de termoplasticos",
   description:
-    "Desde 2005, em Joinville, a Plasmaster entrega injecao de termoplasticos com precisao tecnica, qualidade certificada e capacidade produtiva.",
+    "Desde 1997, a PlasMASTER entrega injecao de termoplasticos com precisao tecnica, qualidade certificada e capacidade produtiva.",
 };
 
 export default function RootLayout({
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${jetBrainsMono.variable} min-h-[100dvh] overflow-x-clip bg-[var(--surface)] text-[var(--ink)] antialiased`}
       >
+        <SiteLoadingScreen />
         <a href="#home" className="skip-link">
           Ir para o conteudo
         </a>

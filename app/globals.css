@@ -40,6 +40,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html[data-site-loading="true"],
+html[data-site-loading="true"] body {
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   min-height: 100%;

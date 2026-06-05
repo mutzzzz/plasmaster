@@ -70,7 +70,7 @@
 - Criar `components/site-header.tsx`, `components/proof-strip.tsx`,
   `components/quality-capacity-section.tsx`, `components/services-section.tsx` e
   atualizar `app/page.tsx`.
-- A faixa de prova traz `2005`, `Joinville`, `+2.800 horas/mês`, `6 máquinas` e
+- A faixa de prova traz `PlasMASTER desde 1997`, `+2.800 horas/mês`, `6 máquinas` e
   `3 moinhos` em linguagem técnica, não em cards genéricos.
 - `Qualidade e Dedicação` e `Capacidade Técnica` entram em composição editorial
   de duas colunas; `Serviços` entra em dois blocos grandes e assimétricos, sem

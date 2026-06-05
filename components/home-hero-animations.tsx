@@ -6,6 +6,8 @@ type CleanupFn = () => void;
 
 const HERO_STAGE_SELECTOR = "[data-home-hero-stage]";
 const QUOTE_CLUSTER_SELECTOR = "[data-home-quote-cluster]";
+const SITE_LOADER_SELECTOR = "[data-site-loader]";
+const SITE_LOADER_COMPLETE_EVENT = "plasmaster:loading-complete";
 
 function definedElements(elements: Array<HTMLElement | null>) {
   return elements.filter((element): element is HTMLElement => element !== null);
@@ -15,6 +17,7 @@ export default function HomeHeroAnimations() {
   useEffect(() => {
     let cancelled = false;
     let cleanup: CleanupFn | null = null;
+    let removeLoaderListener: CleanupFn | null = null;
 
     const startAnimations = async () => {
       const [{ default: gsap }, { ScrollTrigger }, { CustomEase }] = await Promise.all([
@@ -339,10 +342,26 @@ export default function HomeHeroAnimations() {
       cleanup = () => mm.revert();
     };
 
-    void startAnimations();
+    const runAnimations = () => {
+      if (!cancelled) {
+        void startAnimations();
+      }
+    };
+
+    const siteLoader = document.querySelector<HTMLElement>(SITE_LOADER_SELECTOR);
+
+    if (siteLoader && siteLoader.dataset.state !== "complete") {
+      window.addEventListener(SITE_LOADER_COMPLETE_EVENT, runAnimations, { once: true });
+      removeLoaderListener = () => {
+        window.removeEventListener(SITE_LOADER_COMPLETE_EVENT, runAnimations);
+      };
+    } else {
+      runAnimations();
+    }
 
     return () => {
       cancelled = true;
+      removeLoaderListener?.();
       cleanup?.();
     };
   }, []);

@@ -6,9 +6,9 @@ type ImageBlurEntry = {
 };
 
 export const imageBlurData: Record<string, ImageBlurEntry> = {
-  "/site-images/about-industrial-floor.webp?v=2": {
-    src: "/site-images/about-industrial-floor.webp?v=2",
-    blurDataURL: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAwABUB8JaQAAv1lgI2eYAAA/rGGsIH00dvEHYgjMv4YqdOCZtZtYOpUkMxPAAA=",
+  "/site-images/about-industrial-floor.webp?v=3": {
+    src: "/site-images/about-industrial-floor.webp?v=3",
+    blurDataURL: "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwAQCdASoQAAwABUB8JbACdH8AEJ0AAP6xbFjIk0uzyuOZcP2dQZgJe8N7w+uU4qIhyC/X3B3bnmZMQAqu62vgI+G5znYAAAA=",
   },
   "/site-images/about-inline-badge-industrial.webp?v=2": {
     src: "/site-images/about-inline-badge-industrial.webp?v=2",
@@ -18,21 +18,21 @@ export const imageBlurData: Record<string, ImageBlurEntry> = {
     src: "/site-images/carousel-cycle-control.webp?v=2",
     blurDataURL: "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoQAAwABUB8JQBdgBn7SuEQAADhwNFE42+rLLnea//rcDiWT7nM+T6+B3m+YAAA",
   },
-  "/site-images/carousel-project-to-lot.webp?v=2": {
-    src: "/site-images/carousel-project-to-lot.webp?v=2",
-    blurDataURL: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAwABUB8JaQAAqEiYFgAANnfvqclKh3MKobIQtj+z68wAAA=",
+  "/site-images/carousel-project-to-lot.webp?v=3": {
+    src: "/site-images/carousel-project-to-lot.webp?v=3",
+    blurDataURL: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAwABUB8JZgCdADiRAFuvQAA/NOkwQyKZ3PYFHcjllIcSh7jI4CoIl3KPnal8qLoawBhNU2+a6QAIeXuKYxjrAEgAA==",
   },
-  "/site-images/carousel-technical-inspection.webp?v=2": {
-    src: "/site-images/carousel-technical-inspection.webp?v=2",
-    blurDataURL: "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAABwAQCdASoQAAwABUB8JaQAARRIAADieR0g3bTR+WkRHjjwDhx0SWQ8BOAJ6tvEJQLPkpQBF84/4TIhQwOKMAAA",
+  "/site-images/carousel-technical-inspection.webp?v=3": {
+    src: "/site-images/carousel-technical-inspection.webp?v=3",
+    blurDataURL: "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAQCdASoQAAwABUB8JbACdADvHYAA+gR4d5WBDfIbBcTXQPTNcSVd8pt0SeJGln3er5MtaNlI2v/RXvLuqp4VNL3CNWffXmxst1/x2QAAAA==",
   },
   "/site-images/contact-form-industrial-line.webp": {
     src: "/site-images/contact-form-industrial-line.webp",
     blurDataURL: "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoQAAwABUB8JZQAAlLGDTLIAAD+SXA3PcixcvfHAOwVBbj0be2pUbIJL8nL7yKAfDPJmAYhEsWOLIaRfnJ2vqVAeAA=",
   },
-  "/site-images/hero-quote-side-industrial.webp?v=2": {
-    src: "/site-images/hero-quote-side-industrial.webp?v=2",
-    blurDataURL: "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAQCdASoQAAwABUB8JZwAArOvhE7kAAD+w94frvLdr5jZjQ7MNzwg+De8RdKWqTAiPdPm3ZfJNVVC2l5dYuodisVEIAAA",
+  "/site-images/hero-quote-side-industrial.webp?v=3": {
+    src: "/site-images/hero-quote-side-industrial.webp?v=3",
+    blurDataURL: "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAwAgCdASoQAAwABUB8JbACdAEDH/dMuKfiAAD+05q06JSHJ+Nn6f02nrwq5foqu+KnhwPxiJ2ij41KXAa9WDkKontzwQqPhgl//ombqQIYfFmgAAA=",
   },
   "/site-images/proof-quality-molding-detail.webp?v=3": {
     src: "/site-images/proof-quality-molding-detail.webp?v=3",
@@ -42,13 +42,13 @@ export const imageBlurData: Record<string, ImageBlurEntry> = {
     src: "/site-images/proof-support-operator-line.webp?v=3",
     blurDataURL: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoQAAwABUB8JaQAAuzTQJIrIAD80ye9f3mu1jbcp0+e6U3FzCNgGq8egAA=",
   },
-  "/site-images/proof-technology-workbench.webp?v=3": {
-    src: "/site-images/proof-technology-workbench.webp?v=3",
-    blurDataURL: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoQAAwABUB8JaQAAjc3oCLqwAD904AUVNQIZDoHhfvQqEySck6JQktnq6gC8tTYlJu/WAAA",
+  "/site-images/proof-technology-workbench.webp?v=4": {
+    src: "/site-images/proof-technology-workbench.webp?v=4",
+    blurDataURL: "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAQCdASoQAAwABUB8JbACdACM1wAAzgkMLPOKwoJWkSoiQsbaZUpCHiPiT7yZjaLZffN16rhul5M6wKKfW4E0ral7fNEdiiAErNb/IAAAAA==",
   },
-  "/site-images/service-full-service-workflow.webp?v=2": {
-    src: "/site-images/service-full-service-workflow.webp?v=2",
-    blurDataURL: "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoQAAwABUB8JaQAAt11REK8AAD87w0YM0sV9ERdvCe27was+HikEalLE/ImF/uDsAtSVAAA",
+  "/site-images/service-full-service-workflow.webp?v=3": {
+    src: "/site-images/service-full-service-workflow.webp?v=3",
+    blurDataURL: "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwAQCdASoQAAwABUB8JbACdADh28b4AMlQIPo7pHEY1AbjnI+8XrqmilkuI4TGAU2aYoph9/ogsrOLTpsFQ+ml0ImYlYJmYAA=",
   },
   "/site-images/service-outsourcing-detail.webp?v=2": {
     src: "/site-images/service-outsourcing-detail.webp?v=2",

@@ -2,8 +2,15 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const TARGET_EMAIL = process.env.CONTACT_EMAIL ?? "adm@plasmaster.ind.br";
-const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
+const SITE_CONTACT_EMAIL = "plasmaster.embalagem@gmail.com";
+
+function getTargetEmail(): string {
+  return process.env.CONTACT_EMAIL?.trim() || SITE_CONTACT_EMAIL;
+}
+
+function getFormSubmitEndpoint(email: string): string {
+  return `https://formsubmit.co/ajax/${encodeURIComponent(email)}`;
+}
 
 type ContactPayload = {
   name?: unknown;
@@ -48,6 +55,7 @@ export async function POST(request: Request) {
     name,
     email,
     message,
+    _replyto: email,
     _subject: `Novo contato pelo site (${source})`,
     _template: "table",
     _captcha: "false",
@@ -55,7 +63,7 @@ export async function POST(request: Request) {
   };
 
   try {
-    const res = await fetch(FORMSUBMIT_ENDPOINT, {
+    const res = await fetch(getFormSubmitEndpoint(getTargetEmail()), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

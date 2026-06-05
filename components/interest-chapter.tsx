@@ -17,8 +17,8 @@ const inlineImage = {
 };
 
 const capacityImage = {
-  src: "/site-images/about-industrial-floor.webp?v=2",
-  alt: "Assortimento de embalagens Plasmaster com bobinas, sacaria e pilhas de embalagens flexíveis.",
+  src: "/site-images/about-industrial-floor.webp?v=3",
+  alt: "Assortimento colorido de embalagens Plasmaster com bobinas, sacaria e pilhas de embalagens flexíveis.",
 };
 
 const serviceImages = {
@@ -27,8 +27,8 @@ const serviceImages = {
     alt: "Close-up de bobina parcialmente desenrolada ao lado de embalagens flexíveis empilhadas.",
   },
   "02": {
-    src: "/site-images/service-full-service-workflow.webp?v=2",
-    alt: "Família completa de soluções de embalagem com bobinas, sacaria e embalagens flexíveis organizadas em estúdio.",
+    src: "/site-images/service-full-service-workflow.webp?v=3",
+    alt: "Família colorida de soluções de embalagem com bobinas, sacaria e embalagens flexíveis organizadas em estúdio.",
   },
 } as const;
 

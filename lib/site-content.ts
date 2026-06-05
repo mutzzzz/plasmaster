@@ -226,8 +226,8 @@ export const siteContent: SiteContent = {
       description:
         "A recomendação parte da necessidade real da operação, equilibrando aplicação, custo-benefício e continuidade de abastecimento sem empurrar solução genérica.",
       image: {
-        src: "/site-images/proof-technology-workbench.webp?v=3",
-        alt: "Mesa técnica usada para representar análise consultiva de aplicações e materiais.",
+        src: "/site-images/proof-technology-workbench.webp?v=4",
+        alt: "Mesa técnica com bobinas e amostras coloridas usada para representar análise consultiva de materiais.",
       },
     },
   ],
@@ -238,8 +238,8 @@ export const siteContent: SiteContent = {
       description:
         "Plásticos flexíveis, materiais de proteção e soluções rígidas entram no portfólio para simplificar a compra e reduzir a fragmentação entre fornecedores.",
       image: {
-        src: "/site-images/carousel-technical-inspection.webp?v=2",
-        alt: "Técnico em ambiente industrial representando análise e amplitude de soluções.",
+        src: "/site-images/carousel-technical-inspection.webp?v=3",
+        alt: "Conjunto colorido de bobinas, sacaria e embalagens flexíveis representando amplitude de soluções.",
       },
     },
     {
@@ -258,8 +258,8 @@ export const siteContent: SiteContent = {
       description:
         "Galões plásticos e embalagens fluoretadas ampliam a resposta para aplicações que exigem resistência físico-química, ergonomia e proteção avançada.",
       image: {
-        src: "/site-images/carousel-project-to-lot.webp?v=2",
-        alt: "Linha de produtos com bobinas, embalagens flexíveis e sacaria organizada em progressão de portfólio.",
+        src: "/site-images/carousel-project-to-lot.webp?v=3",
+        alt: "Linha colorida de produtos com bobinas, embalagens flexíveis e sacaria organizada em progressão de portfólio.",
       },
     },
   ],
@@ -463,11 +463,8 @@ export const siteContent: SiteContent = {
     title: "Abra a conversa com o contexto comercial certo.",
     subtitle:
       "Descreva aplicação, volume, tipo de material ou necessidade logística para direcionarmos o atendimento.",
-    addressLines: [
-      "Rodovia SC 108 nº 18201, Galpão 9",
-      "CEP 89215-210 — Morro do Meio, Joinville/SC",
-    ],
-    email: "adm@plasmaster.ind.br",
+    addressLines: [],
+    email: "plasmaster.embalagem@gmail.com",
     phone: "(47) 3440-0683",
     form: {
       title: "Envie seu briefing",

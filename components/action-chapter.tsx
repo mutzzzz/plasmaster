@@ -152,14 +152,14 @@ export default function ActionChapter({
                 >
                   <div data-action-parallax data-parallax-strength="12" className="h-full w-full">
                     <Image
-                      src="/site-images/service-full-service-workflow.webp?v=2"
-                      alt="Portfólio Plasmaster com bobinas, sacaria e embalagens flexíveis em composição de catálogo."
+                      src="/site-images/service-full-service-workflow.webp?v=3"
+                      alt="Portfólio colorido Plasmaster com bobinas, sacaria e embalagens flexíveis em composição de catálogo."
                       width={1152}
                       height={864}
                       sizes="(min-width: 1024px) 38vw, 100vw"
                       className="block aspect-[4/3] h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                       placeholder="blur"
-                      blurDataURL={imageBlurData["/site-images/service-full-service-workflow.webp?v=2"]?.blurDataURL}
+                      blurDataURL={imageBlurData["/site-images/service-full-service-workflow.webp?v=3"]?.blurDataURL}
                     />
                   </div>
                 </div>
@@ -189,19 +189,21 @@ export default function ActionChapter({
                   </div>
                 </div>
 
-                <div
-                  data-action-contact-detail
-                  className="rounded-[1.6rem] border border-[var(--line)] bg-white/84 px-5 py-5"
-                >
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
-                    Endereço
-                  </p>
-                  <address className="mt-3 not-italic text-sm leading-7 text-[var(--ink-muted)]">
-                    {contact.addressLines.map((line) => (
-                      <div key={line}>{line}</div>
-                    ))}
-                  </address>
-                </div>
+                {contact.addressLines && contact.addressLines.length > 0 && (
+                  <div
+                    data-action-contact-detail
+                    className="rounded-[1.6rem] border border-[var(--line)] bg-white/84 px-5 py-5"
+                  >
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[var(--ink-soft)]">
+                      Endereço
+                    </p>
+                    <address className="mt-3 not-italic text-sm leading-7 text-[var(--ink-muted)]">
+                      {contact.addressLines.map((line) => (
+                        <div key={line}>{line}</div>
+                      ))}
+                    </address>
+                  </div>
+                )}
               </div>
             </article>
 

@@ -17,15 +17,11 @@ export default function SiteHeader({ items, ctaLabel }: SiteHeaderProps) {
           <Image
             src="/plasmaster-logo.png"
             alt="Plasmaster"
-            width={190}
-            height={40}
+            width={300}
+            height={100}
             priority
-            className="h-auto w-[148px] sm:w-[164px]"
+            className="h-8 w-auto object-contain sm:h-10"
           />
-          <span className="hidden h-8 w-px bg-[var(--line)] xl:block" />
-          <span className="hidden text-[0.66rem] font-medium uppercase tracking-[0.26em] text-[var(--ink-soft)] xl:block">
-            Joinville desde 2005
-          </span>
         </a>
 
         <div className="flex items-center justify-end gap-2">

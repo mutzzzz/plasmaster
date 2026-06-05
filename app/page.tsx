@@ -14,15 +14,15 @@ import ScrollSequenceHero from "../components/scroll-sequence-hero";
 import { siteContent, type HeroSequenceManifest } from "../lib/site-content";
 
 const telHref = "tel:+554734400683";
-const mailHref = "mailto:adm@plasmaster.ind.br";
+const mailHref = "mailto:plasmaster.embalagem@gmail.com";
 const primaryHeroImage = {
   desktop: "/site-images/hero-section.webp",
   mobile: "/site-images/hero-section-mobile.webp",
   alt: "Extrusora industrial produzindo filme plástico azul em ambiente fabril.",
 };
 const heroQuoteSideImage = {
-  src: "/site-images/hero-quote-side-industrial.webp?v=2",
-  alt: "Conjunto premium de bobinas transparentes da linha de embalagens Plasmaster em fundo neutro.",
+  src: "/site-images/hero-quote-side-industrial.webp?v=3",
+  alt: "Bobinas plásticas coloridas da linha de embalagens Plasmaster em composição vertical.",
   label: "Portfólio em destaque",
 };
 
@@ -144,7 +144,7 @@ export default async function HomePage() {
                   data-home-hero-meta
                   className="hidden border border-white/16 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.26em] text-white/68 sm:inline-flex"
                 >
-                  Joinville/SC desde 2005
+                  PlasMASTER desde 1997
                 </span>
               </div>
 
@@ -208,8 +208,8 @@ export default async function HomePage() {
                   </p>
                   <ul className="mt-4 grid gap-3 text-[0.98rem] leading-7 text-white/82">
                     <li data-home-hero-proof-item>Plásticos flexíveis para rotinas industriais e comerciais.</li>
-                    <li data-home-hero-proof-item>Materiais de proteção, fechamento e estabilidade logística.</li>
-                    <li data-home-hero-proof-item>Embalagens rígidas para aplicações de maior exigência.</li>
+                    <li data-home-hero-proof-item>Soluções para necessidades, não apenas produtos.</li>
+                    <li data-home-hero-proof-item>Ética, responsabilidade e respeito ao cliente/parceiro.</li>
                   </ul>
                 </div>
               </div>

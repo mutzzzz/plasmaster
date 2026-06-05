@@ -16,7 +16,7 @@
 Referência nacional em injeção de termoplásticos
 
 **Subtítulo / Descrição:**
-Desde 2005, em Joinville — polo industrial do Brasil — a Plasmaster une precisão técnica, qualidade certificada e capacidade produtiva para entregar exatamente o que sua operação exige.
+Desde 1997, a PlasMASTER une precisão técnica, qualidade certificada e capacidade produtiva para entregar exatamente o que sua operação exige.
 
 **CTA:**
 → Conheça nossa estrutura

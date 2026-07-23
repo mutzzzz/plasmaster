@@ -15,7 +15,7 @@ export function Header() {
       <div className="flex items-center justify-between">
         {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.jpg" alt="Plasmaster Logo" className="h-8 w-auto mix-blend-multiply" />
+          <img src="/cubo.png" alt="Plasmaster Logo" className="h-8 w-auto" />
           <span className="font-display text-lg sm:text-xl font-bold tracking-tight text-navy">
             Plasmaster
           </span>

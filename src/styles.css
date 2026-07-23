@@ -1,0 +1,152 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system: Navy Trust.
+ * Institutional packaging company landing page.
+ * Heading font: Libre Baskerville.
+ * Body font: IBM Plex Sans.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-display: "Libre Baskerville", serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-steel: var(--steel);
+  --color-sky: var(--sky);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.96 0.01 250);
+  --foreground: oklch(0.22 0.09 261);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.09 261);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.09 261);
+  --primary: #00A859;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.94 0.01 250);
+  --secondary-foreground: oklch(0.22 0.09 261);
+  --muted: oklch(0.92 0.01 250);
+  --muted-foreground: oklch(0.45 0.05 250);
+  --accent: oklch(0.54 0.11 245);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.85 0.02 250);
+  --input: oklch(0.85 0.02 250);
+  --ring: oklch(0.54 0.11 245);
+
+  --navy: oklch(0.22 0.09 261);
+  --navy-light: oklch(0.35 0.08 250);
+  --steel: oklch(0.54 0.11 245);
+  --sky: oklch(0.94 0.01 250);
+}
+
+.dark {
+  --background: oklch(0.16 0.06 250);
+  --foreground: oklch(0.94 0.01 250);
+  --card: oklch(0.22 0.09 261);
+  --card-foreground: oklch(0.94 0.01 250);
+  --popover: oklch(0.22 0.09 261);
+  --popover-foreground: oklch(0.94 0.01 250);
+  --primary: #00A859;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.22 0.09 261);
+  --secondary-foreground: oklch(0.94 0.01 250);
+  --muted: oklch(0.22 0.09 261);
+  --muted-foreground: oklch(0.72 0.04 250);
+  --accent: oklch(0.35 0.08 250);
+  --accent-foreground: oklch(0.94 0.01 250);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.54 0.11 245);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@utility container-landing {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1280px;
+}
+
+@media (min-width: 640px) {
+  .container-landing {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}

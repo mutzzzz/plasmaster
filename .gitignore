@@ -1,39 +1,32 @@
-# dependencies
-node_modules/
-
-# next.js
-.next/
-out/
-*.tsbuildinfo
-next-env.d.ts
-
-# env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# logs
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-*.log
+lerna-debug.log*
 
-# coverage and reports
-coverage/
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
 
-# editor and os files
-.vscode/
-.idea/
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-
-# local assistant metadata
-.claude/
-
-# ffmpeg binaries and generated assets
-tools/ffmpeg/
-tools/*.zip
-public/frames/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

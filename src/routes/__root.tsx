@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Plasmasters | Excelência em Soluções de Embalagens" },
+      { title: "PlasMASTER | Excelência em Soluções de Embalagens" },
       {
         name: "description",
         content:
@@ -88,7 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Lovable" },
       {
         property: "og:title",
-        content: "Plasmasters | Excelência em Soluções de Embalagens",
+        content: "PlasMASTER | Excelência em Soluções de Embalagens",
       },
       {
         property: "og:description",

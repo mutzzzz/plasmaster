@@ -15,9 +15,9 @@ export function Header() {
       <div className="flex items-center justify-between">
         {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <img src="/cubo.png" alt="Plasmaster Logo" className="h-8 w-auto" />
+          <img src="/cubo.png" alt="PlasMASTER Logo" className="h-8 w-auto" />
           <span className="font-display text-lg sm:text-xl font-bold tracking-tight text-navy">
-            Plasmaster
+            Plas<span style={{ color: '#00A859' }}>MASTER</span>
           </span>
         </Link>
 
@@ -41,7 +41,7 @@ export function Header() {
         {/* Right: CTA Button & Mobile Toggle */}
         <div className="flex items-center gap-3">
           <a
-            href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Plasmaster."
+            href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20PlasMASTER."
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-5 py-2.5 text-sm transition-all duration-300 hover:-translate-y-px"
@@ -87,7 +87,7 @@ export function Header() {
                 </Link>
               ))}
               <a
-                href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Plasmaster."
+                href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20PlasMASTER."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 text-center rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 text-sm transition-colors block whitespace-nowrap"

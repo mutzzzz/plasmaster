@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-3">
           {/* Coluna 1: Marca */}
           <div>
-            <h3 className="font-display text-xl font-bold text-navy">Plasmasters</h3>
+            <h3 className="font-display text-xl font-bold text-navy">Plas<span style={{ color: '#00a859' }}>MASTER</span></h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-500 max-w-sm">
               Soluções integradas de embalagem com foco em continuidade, qualidade e confiança
               comercial.
@@ -137,7 +137,7 @@ export function Footer() {
 
         {/* Linha separadora e Copyright */}
         <div className="mt-12 border-t border-slate-200/80 pt-8 text-center text-xs text-slate-400">
-          Copyright © 2026 PlasMASTER. Todos os direitos reservados. — Desenvolvido por OrkaBr
+          Copyright © 2026 Plas<span style={{ color: '#00a859' }}>MASTER</span>. Todos os direitos reservados. — Desenvolvido por OrkaBr
         </div>
       </div>
     </footer>

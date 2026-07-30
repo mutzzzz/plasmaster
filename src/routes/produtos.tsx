@@ -9,7 +9,7 @@ export const Route = createFileRoute("/produtos")({
   head: () => ({
     meta: [
       {
-        title: "Catálogo de Produtos | Plasmasters",
+        title: "Catálogo de Produtos | PlasMASTER",
       },
       {
         name: "description",
@@ -208,7 +208,7 @@ function ProductsPage() {
         {/* Header da Página */}
         <div className="mb-10 text-center md:text-left">
           <h1 className="font-display text-3xl font-bold tracking-tight text-navy sm:text-4xl md:text-5xl">
-            Catálogo Plasmaster
+            Catálogo Plas<span style={{ color: '#00a859' }}>MASTER</span>
           </h1>
           <p className="mt-3 text-base md:text-lg text-muted-foreground max-w-2xl">
             Gerenciamento e consulta de bobinas de etiquetas, rótulos e ribbons industriais
@@ -320,7 +320,7 @@ function ProductsPage() {
                       CÓD: {product.code}
                     </span>
                     <a
-                      href={`https://wa.me/5511996411512?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento%20para%20o%20produto%20da%20Plasmaster:%20${encodeURIComponent(product.name)}`}
+                      href={`https://wa.me/5511996411512?text=Olá,%20gostaria%20de%20solicitar%20um%20orçamento%20para%20o%20produto%20da%20PlasMASTER:%20${encodeURIComponent(product.name)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 px-4 text-xs font-semibold transition-colors duration-200"

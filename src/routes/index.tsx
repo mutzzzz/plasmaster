@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "PlasMASTER | Excelência em Soluções de Embalagens",
+        title: "Plasmasters | Excelência em Soluções de Embalagens",
       },
       {
         name: "description",

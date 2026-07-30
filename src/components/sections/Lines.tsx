@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Layers, Shield, Package } from "lucide-react";
+import { ArrowRight, Layers, Shield, Package, Barcode } from "lucide-react";
 import flexibleImage from "@/assets/flexible-plastics.jpg";
 import protectionImage from "@/assets/protection-logistics.jpg";
 import rigidImage from "@/assets/rigid-packaging.jpg";
@@ -9,8 +9,7 @@ const lines = [
     id: "flexiveis",
     title: "Plásticos Flexíveis",
     icon: Layers,
-    description:
-      "Desenvolvidos com alta tecnologia para garantir resistência e versatilidade.",
+    description: "Desenvolvidos com alta tecnologia para garantir resistência e versatilidade.",
     items: [
       "Bobinas industriais e comerciais",
       "Sacarias de alta densidade",
@@ -46,6 +45,21 @@ const lines = [
     image: rigidImage,
     alt: "Galões plásticos e embalagens rígidas industriais",
   },
+  {
+    id: "etiquetas",
+    title: "Etiquetas e Ribbons",
+    icon: Barcode,
+    description:
+      "Soluções de alta performance e durabilidade para identificação, código de barras e rastreabilidade da sua produção e logística.",
+    items: [
+      "Etiquetas adesivas (Couchê, BOPP, Térmico e Transtérmico)",
+      "Ribbons (Cera, Resina e Misto) para impressoras térmicas",
+      "Alta precisão de leitura e fixação segura",
+      "Rótulos e etiquetas personalizadas para diversos setores",
+    ],
+    image: "/products/etiquetas.jpeg",
+    alt: "Etiquetas e Ribbons para identificação e rastreabilidade",
+  },
 ];
 
 export function Lines() {
@@ -65,7 +79,7 @@ export function Lines() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
           {lines.map((line) => (
             <article
               key={line.id}

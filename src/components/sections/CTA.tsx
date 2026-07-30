@@ -16,7 +16,7 @@ export function CTA() {
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20PlasMASTER."
+              href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Plasmaster."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-background/90"
@@ -25,7 +25,8 @@ export function CTA() {
               Falar com um Consultor
             </a>
             <Link
-              to="/#linhas"
+              to="/"
+              hash="linhas"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-background/30 bg-transparent px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-background/10"
             >
               Conhecer Nossas Linhas
@@ -33,9 +34,7 @@ export function CTA() {
             </Link>
           </div>
 
-          <p className="mt-6 text-sm text-background/60">
-            Responderemos em até 24 horas úteis.
-          </p>
+          <p className="mt-6 text-sm text-background/60">Responderemos em até 24 horas úteis.</p>
         </div>
       </div>
     </section>

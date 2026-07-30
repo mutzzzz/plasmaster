@@ -19,8 +19,8 @@ export function About() {
               A Autoridade no Mercado de Embalagens
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-background/85">
-              Com sólida presença no mercado de embalagens, atuamos como o elo estratégico entre
-              as melhores indústrias. Nosso modelo de negócios é fundamentado em três pilares: amplo
+              Com sólida presença no mercado de embalagens, atuamos como o elo estratégico entre as
+              melhores indústrias. Nosso modelo de negócios é fundamentado em três pilares: amplo
               portfólio, garantia de qualidade e atendimento técnico consultivo.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-background/85">

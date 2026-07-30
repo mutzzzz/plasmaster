@@ -41,7 +41,7 @@ export function Differentials() {
           {differentials.map((diff) => (
             <div
               key={diff.title}
-              className="rounded-lg border border-border bg-card p-8 shadow-sm transition-shadow hover:shadow-md"
+              className="rounded-3xl border border-border bg-card p-8 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <diff.icon className="h-6 w-6" />

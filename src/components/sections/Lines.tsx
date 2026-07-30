@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Layers, Shield, Package } from "lucide-react";
+import { ArrowRight, Layers, Shield, Package, Barcode } from "lucide-react";
 import flexibleImage from "@/assets/flexible-plastics.jpg";
 import protectionImage from "@/assets/protection-logistics.jpg";
 import rigidImage from "@/assets/rigid-packaging.jpg";
@@ -46,6 +46,21 @@ const lines = [
     image: rigidImage,
     alt: "Galões plásticos e embalagens rígidas industriais",
   },
+  {
+    id: "etiquetas",
+    title: "Etiquetas e Ribbons",
+    icon: Barcode,
+    description:
+      "Soluções de alta performance e durabilidade para identificação, código de barras e rastreabilidade da sua produção e logística.",
+    items: [
+      "Etiquetas adesivas (Couchê, BOPP, Térmico e Transtérmico)",
+      "Ribbons (Cera, Resina e Misto) para impressoras térmicas",
+      "Alta precisão de leitura e fixação segura",
+      "Rótulos e etiquetas personalizadas para diversos setores",
+    ],
+    image: "/products/etiquetas.jpeg",
+    alt: "Etiquetas e Ribbons para identificação e rastreabilidade",
+  },
 ];
 
 export function Lines() {
@@ -65,11 +80,11 @@ export function Lines() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
           {lines.map((line) => (
             <article
               key={line.id}
-              className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-3xl border border-border/40 bg-card/70 backdrop-blur-md shadow-sm transition-all hover:shadow-lg hover:-translate-y-1"
             >
               <div className="relative aspect-[3/2] overflow-hidden">
                 <img
@@ -81,9 +96,9 @@ export function Lines() {
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="flex flex-1 flex-col p-6">
+              <div className="flex flex-1 flex-col p-8">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <line.icon className="h-5 w-5" />
                   </div>
                   <h3 className="font-display text-xl font-bold text-foreground">{line.title}</h3>
@@ -103,13 +118,15 @@ export function Lines() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <Link
-            to="/#contato"
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          <a
+            href="https://wa.me/5511996411512?text=Olá,%20gostaria%20de%20solicitar%20uma%20cotação."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition-colors"
           >
             Solicitar cotação
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

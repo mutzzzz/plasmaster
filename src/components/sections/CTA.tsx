@@ -15,16 +15,18 @@ export function CTA() {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              to="/#contato"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-background px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-background/90"
+            <a
+              href="https://wa.me/5511996411512?text=Olá!%20Gostaria%20de%20falar%20com%20um%20consultor%20da%20Plasmaster."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-background/90"
             >
               <MessageCircle className="h-4 w-4" />
               Falar com um Consultor
-            </Link>
+            </a>
             <Link
               to="/#linhas"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-background/30 bg-transparent px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-background/10"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-background/30 bg-transparent px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-background/10"
             >
               Conhecer Nossas Linhas
               <ArrowRight className="h-4 w-4" />

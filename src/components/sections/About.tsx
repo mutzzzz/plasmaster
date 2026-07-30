@@ -30,7 +30,7 @@ export function About() {
             </p>
           </div>
 
-          <div className="rounded-lg border border-background/10 bg-background/5 p-8 backdrop-blur-sm">
+          <div className="rounded-3xl border border-background/10 bg-background/5 p-8 backdrop-blur-sm">
             <h3 className="font-display text-xl font-bold">Três pilares que nos sustentam</h3>
             <ul className="mt-6 space-y-4">
               {pillars.map((pillar) => (

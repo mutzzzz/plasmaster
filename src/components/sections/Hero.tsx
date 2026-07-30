@@ -4,7 +4,10 @@ import heroImage from "@/assets/hero-packaging.jpg";
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden bg-background pt-20 pb-8 lg:pt-16 lg:pb-0">
+    <section
+      id="inicio"
+      className="relative overflow-hidden bg-background pt-20 pb-8 lg:pt-16 lg:pb-0"
+    >
       <div className="w-[92%] max-w-6xl mx-auto">
         <div className="grid h-auto lg:min-h-[calc(100vh-6.5rem)] lg:grid-cols-2 lg:items-center gap-6 lg:gap-12">
           {/* Left Column: Text Content */}
@@ -35,7 +38,8 @@ export function Hero() {
                   Falar com um Consultor
                 </a>
                 <Link
-                  to="/#linhas"
+                  to="/"
+                  hash="linhas"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-input bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-accent"
                 >
                   Conhecer Nossas Linhas

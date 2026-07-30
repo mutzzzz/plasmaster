@@ -11,7 +11,9 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl bg-white/60 backdrop-blur-md border border-white/20 shadow-lg px-6 flex flex-col transition-all duration-300 pointer-events-auto ${open ? 'rounded-[24px] py-4' : 'rounded-full py-2.5'}`}>
+    <header
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl bg-white/60 backdrop-blur-md border border-white/20 shadow-lg px-6 flex flex-col transition-all duration-300 pointer-events-auto ${open ? "rounded-[24px] py-4" : "rounded-full py-2.5"}`}
+    >
       <div className="flex items-center justify-between">
         {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-2">
@@ -29,7 +31,7 @@ export function Header() {
               activeOptions={{ exact: link.exact }}
               className="rounded-full px-4 py-1.5 font-medium transition-all duration-300 text-slate-600 hover:text-slate-900 hover:bg-white/40"
               activeProps={{
-                className: "bg-white/80 text-primary shadow-sm font-semibold hover:bg-white/80"
+                className: "bg-white/80 text-primary shadow-sm font-semibold hover:bg-white/80",
               }}
             >
               {link.label}
@@ -71,7 +73,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-full px-4 py-2 text-base font-medium text-slate-600 hover:bg-white/40 hover:text-slate-900 transition-colors"
                 activeProps={{
-                  className: "bg-white/80 text-primary font-semibold shadow-sm"
+                  className: "bg-white/80 text-primary font-semibold shadow-sm",
                 }}
               >
                 {link.label}
@@ -91,4 +93,3 @@ export function Header() {
     </header>
   );
 }
-

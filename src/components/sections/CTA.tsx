@@ -25,7 +25,8 @@ export function CTA() {
               Falar com um Consultor
             </a>
             <Link
-              to="/#linhas"
+              to="/"
+              hash="linhas"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-background/30 bg-transparent px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-background/10"
             >
               Conhecer Nossas Linhas
@@ -33,9 +34,7 @@ export function CTA() {
             </Link>
           </div>
 
-          <p className="mt-6 text-sm text-background/60">
-            Responderemos em até 24 horas úteis.
-          </p>
+          <p className="mt-6 text-sm text-background/60">Responderemos em até 24 horas úteis.</p>
         </div>
       </div>
     </section>

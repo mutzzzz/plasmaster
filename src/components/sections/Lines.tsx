@@ -9,8 +9,7 @@ const lines = [
     id: "flexiveis",
     title: "Plásticos Flexíveis",
     icon: Layers,
-    description:
-      "Desenvolvidos com alta tecnologia para garantir resistência e versatilidade.",
+    description: "Desenvolvidos com alta tecnologia para garantir resistência e versatilidade.",
     items: [
       "Bobinas industriais e comerciais",
       "Sacarias de alta densidade",

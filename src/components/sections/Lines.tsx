@@ -37,10 +37,13 @@ const lines = [
     id: "rigidas",
     title: "Embalagens Rígidas",
     icon: Package,
-    description: "Robustez e segurança físico-química para produtos de alta exigência.",
+    description:
+      "Robustez e segurança físico-química para produtos de alta exigência, ideal para a indústria química e para a linha agro.",
     items: [
       "Galões Plásticos com design ergonômico e resistente",
-      "Embalagens Fluoretadas (proteção de barreira avançada para produtos químicos e garantia de segurança ambiental)",
+      "Embalagens Fluoretadas com barreira avançada para produtos químicos",
+      "Linha Agro: Armazenamento seguro de óleos, fertilizantes e defensivos",
+      "Garantia de segurança ambiental e total prevenção de fugas",
     ],
     image: rigidImage,
     alt: "Galões plásticos e embalagens rígidas industriais",

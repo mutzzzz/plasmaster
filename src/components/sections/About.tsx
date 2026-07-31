@@ -16,7 +16,7 @@ export function About() {
               Quem Somos
             </span>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              A Autoridade no Mercado de Embalagens
+              Autoridade no Mercado de Embalagens
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-background/85">
               Com sólida presença no mercado de embalagens, atuamos como o elo estratégico entre as

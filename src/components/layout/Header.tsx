@@ -17,6 +17,7 @@ export function Header() {
       <div className="flex items-center justify-between">
         {/* Left: Logo */}
         <Link to="/" className="flex items-center gap-2">
+          <img src="/logo-master.png" alt="PlasMASTER Logo" className="h-8 w-auto" />
           <span className="font-display text-lg sm:text-xl font-bold tracking-tight text-navy">
             Plas<span style={{ color: '#00a859' }}>MASTER</span>
           </span>
